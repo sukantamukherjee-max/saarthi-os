@@ -6,6 +6,7 @@ import type { Assumptions } from '../financial/types';
 import { useAuth } from './useAuth';
 import { useCloudPlan } from './useCloudPlan';
 import { useNightMode } from './useNightMode';
+import { isDemoMode } from '../lib/demoMode';
 
 export function usePersonalWealthOS() {
   const modelRef = useRef<Model | null>(null);
@@ -13,7 +14,10 @@ export function usePersonalWealthOS() {
   const model = modelRef.current;
 
   const { user } = useAuth();
-  const cloud = useCloudPlan(user?.id ?? null, model);
+  // `?demo` forces local-only illustrative state even if this browser has a
+  // real signed-in session — a demo link must never be able to surface real
+  // holdings or assumptions.
+  const cloud = useCloudPlan(isDemoMode() ? null : (user?.id ?? null), model);
   const nightMode = useNightMode();
 
   const [ui, setUi] = useState<Omit<UIState, 'night'>>({
