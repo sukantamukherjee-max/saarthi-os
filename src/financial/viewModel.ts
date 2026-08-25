@@ -292,7 +292,7 @@ export function buildViewModel(
   };
 
   /* assumptions */
-  const mk = (key: keyof Assumptions, label: string, unit: string, step: number, source: string) => ({ key, label, unit, step, source, value: a[key], onChange: (e: ChangeEvent<HTMLInputElement>) => actions.setA({ [key]: parseFloat(e.target.value) || 0 } as Partial<Assumptions>) });
+  const mk = (key: keyof Assumptions, label: string, unit: string, step: number, source: string, live?: 'OMR_INR' | 'OMR_USD') => ({ key, label, unit, step, source, value: a[key], live, onChange: (e: ChangeEvent<HTMLInputElement>) => actions.setA({ [key]: parseFloat(e.target.value) || 0 } as Partial<Assumptions>) });
   const asGroups = { groups: [
     { name: 'Personal', items: [mk('currentAge', 'Current age', 'yrs', 1, 'FACT · stated'), mk('daughterAge', 'Daughter’s age', 'yrs', 1, 'FACT · stated'), mk('planAge', 'Planning age', 'yrs', 1, 'ASSUMPTION · 80–100 range')] },
     { name: 'Income', items: [mk('salary', 'Monthly salary', 'OMR', 50, 'FACT · stated'), mk('salaryGrowth', 'Salary growth', '%', .5, 'ASSUMPTION · below Oman CPI'), mk('contribution', 'Average monthly investment', 'OMR', 50, 'FACT · irregular lump sums, annual average used')] },
@@ -303,7 +303,11 @@ export function buildViewModel(
     { name: 'Education', items: [mk('eduStartAge', 'Undergraduate start age', 'yrs', 1, 'ASSUMPTION · 17–22'), mk('pgGap', 'Gap before postgraduate', 'yrs', 1, 'ASSUMPTION')] },
     { name: 'Marriage', items: [mk('marriageAge', 'Marriage age', 'yrs', 1, 'ASSUMPTION · 25–30')] },
     { name: 'Healthcare', items: [mk('healthBase', 'Out-of-pocket healthcare today', 'INR/yr', 5000, 'ESTIMATE · 2026, insured household')] },
-    { name: 'Currency', items: [mk('fxOMRINR', 'OMR / INR today', 'rate', .1, 'MANUAL OVERRIDE · no live feed connected'), mk('fxDrift', 'INR depreciation vs OMR', '%/yr', .25, 'ASSUMPTION · purchasing-power drift; without it, Indian inflation is counted twice')] },
+    { name: 'Currency', items: [
+      mk('fxOMRINR', 'OMR / INR today', 'rate', .1, 'MANUAL OVERRIDE · refresh from live rate, or type your own', 'OMR_INR'),
+      mk('fxOMRUSD', 'OMR / USD today', 'rate', .001, 'MANUAL OVERRIDE · used for USA education costs; refresh from live rate', 'OMR_USD'),
+      mk('fxDrift', 'INR depreciation vs OMR', '%/yr', .25, 'ASSUMPTION · purchasing-power drift; without it, Indian inflation is counted twice'),
+    ] },
     { name: 'Retirement', items: [mk('retireAge', 'Target retirement age', 'yrs', 1, 'ASSUMPTION · 50–60'), mk('returnAge', 'Return to India age', 'yrs', 1, 'ASSUMPTION · independent of retirement'), mk('jobRisk', 'Job-risk months added to reserve', 'mo', .5, 'ASSUMPTION')] },
     { name: 'Tax', items: [mk('taxOn', 'Tax modelling (1 = on)', '0/1', 1, 'ASSUMPTION · rules not hardcoded; effective dates required before use')] },
   ] };
@@ -378,6 +382,7 @@ export function buildViewModel(
     resetAll: actions.resetAll,
     resetWhatIf: actions.resetWhatIf,
     commitWhatIf: actions.commitWhatIf,
+    setAssumption: (key: keyof Assumptions, value: number) => actions.setA({ [key]: value } as Partial<Assumptions>),
   };
 
   return {

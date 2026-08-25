@@ -5,7 +5,7 @@ export interface Assumptions {
   travelMode: 'Fixed' | 'Percent' | 'Lifestyle'; travelBudget: number; travelPct: number;
   healthBase: number; medInflation: number; insurance: boolean;
   inflIndia: number; inflOman: number;
-  fxOMRINR: number; fxDrift: number;
+  fxOMRINR: number; fxOMRUSD: number; fxDrift: number;
   rIN: number; rUS: number; rCR: number; rLQ: number; rCA: number; rGO: number;
   vIN: number; vUS: number; vCR: number; vLQ: number; vCA: number; vGO: number;
   daughterAge: number; eduStartAge: number; eduCountry: string; eduTier: 'Budget' | 'Mainstream' | 'Premium'; eduPG: boolean; pgGap: number;

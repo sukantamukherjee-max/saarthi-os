@@ -34,7 +34,7 @@ export class Model {
       travelMode: 'Fixed', travelBudget: 100, travelPct: 12,
       healthBase: 60000, medInflation: 8, insurance: true,
       inflIndia: 6, inflOman: 2.5,
-      fxOMRINR: 228.4, fxDrift: 3.0,
+      fxOMRINR: 249.17, fxOMRUSD: 0.3845, fxDrift: 3.0, // fxOMRUSD is OMR per 1 USD (matches C.USA.fx's convention)
       rIN: 10, rUS: 7.5, rCR: 12, rLQ: 4, rCA: 0.5, rGO: 5,
       vIN: 18, vUS: 16, vCR: 65, vLQ: 1, vCA: 0.2, vGO: 14,
       daughterAge: 11, eduStartAge: 18, eduCountry: 'USA', eduTier: 'Mainstream', eduPG: false, pgGap: 1,
@@ -78,7 +78,9 @@ export class Model {
   }
 
   eduPlan(a: Assumptions) {
-    const c = this.C[a.eduCountry];
+    // USA's OMR conversion rate is user-editable/live-refreshable (see Assumptions),
+    // unlike the other countries' rates which stay fixed reference estimates.
+    const c = a.eduCountry === 'USA' ? { ...this.C.USA, fx: a.fxOMRUSD } : this.C[a.eduCountry];
     const flows: Record<number, number> = {};
     const lines: any[] = [];
     const startIn = a.eduStartAge - a.daughterAge;
