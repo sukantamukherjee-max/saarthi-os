@@ -1,15 +1,15 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 
-const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px';
-const RAIL_HOVER = 'background:color-mix(in srgb,var(--color-accent) 18%,transparent)';
+const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 20px;border:0;border-radius:16px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35)) drop-shadow(0 1px 12px rgba(0,0,0,.18))';
+const RAIL_HOVER = 'background:color-mix(in srgb,var(--color-accent) 20%,transparent)';
 const DOT = <span style={sx('width:4px;height:4px;border-radius:50%;background:var(--color-accent)')}></span>;
 
-/** The 9-destination dropdown, positioned by the caller (opens under the header's nav button). */
+/** The 9-destination dropdown, positioned by the caller (opens under the header's nav button). Deliberately chromeless — no card, no border — so the icons read as floating over the page rather than a boxed panel. */
 export default function NavMenu({ vm }: { vm: any }) {
   if (!vm.navOpen) return null;
   return (
-    <div style={sx('display:flex;flex-wrap:wrap;gap:2px;background:var(--color-surface);border:2px solid var(--color-text);border-radius:24px;padding:6px;box-shadow:var(--shadow-lg);animation:pwFade .2s ease both;max-width:min(94vw,420px);color:var(--color-text)')}>
+    <div style={sx('display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;animation:pwFade .2s ease both;color:var(--color-text)')}>
       <Hoverable onClick={vm.h.go.overview} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5z"></path></svg>Overview
         {vm.act.overview && DOT}
