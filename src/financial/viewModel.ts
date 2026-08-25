@@ -43,6 +43,7 @@ export function buildViewModel(
   const eff = m.m10 || m.mc;
   const simNote = (m.m10 ? '10,000' : m.mc.n.toLocaleString('en-US')) + ' simulations' + (m.m10 ? '' : ' · refining');
   const total = model.total(), invested = model.invested();
+  const gainPct = invested ? (total - invested) / invested : 0;
   const scr = st.screen;
 
   const go: Record<string, () => void> = {};
@@ -61,7 +62,7 @@ export function buildViewModel(
   const ov: any = {
     status: 'You are currently ' + statusWord + '. Retirement at ' + a.retireAge + ' carries a ' + model.pc(eff.succ) + ' success probability, but ' + (m.risk.drivers[0].v > 70 ? 'concentration risk and ' : '') + (m.emg.gap < 0 ? 'a thin emergency reserve' : 'the education funding spike') + ' are the binding constraints.',
     simNote,
-    wealth: model.omr(total), wealthINR: model.oi(total, a), gain: model.sign(total - invested) + ' OMR (' + model.pc((total - invested) / invested, 1) + ')',
+    wealth: model.omr(total), wealthINR: model.oi(total, a), gain: model.sign(total - invested) + ' OMR (' + model.pc(gainPct, 1) + ')',
     retProb: model.pc(eff.succ), retAge: a.retireAge, viable: m.viable[.9] || 'beyond 60',
     eduProb: model.pc(eff.edu), eduLine: a.eduCountry + ' · ' + a.eduTier + ' · starts age ' + a.eduStartAge, eduTotal: model.omrK(m.edu.tOMR),
     emgCur: model.omr(m.emg.cur), emgRec: model.omr(m.emg.rec), emgMonths: m.emg.months,
@@ -111,7 +112,7 @@ export function buildViewModel(
   const pf = {
     segs, classes, detail, rows, total: model.omr(total), totalINR: model.oi(total, a),
     perf: [
-      { label: 'Absolute return', note: 'Current value vs cost basis · FACT', value: model.pc((total - invested) / invested, 1), css: model.tone(true) },
+      { label: 'Absolute return', note: 'Current value vs cost basis · FACT', value: model.pc(gainPct, 1), css: model.tone(true) },
       { label: 'Unrealised gain', note: 'Across ' + model.HOLD.length + ' holdings', value: model.omr(total - invested), css: model.tone(true) },
       { label: 'XIRR', note: 'Transaction history missing for 6 holdings', value: 'Not calculated', css: 'opacity:.55;font-style:italic' },
       { label: 'Time-weighted return', note: 'Requires dated cash flows', value: 'Not calculated', css: 'opacity:.55;font-style:italic' },

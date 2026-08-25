@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { sx } from '../components/sx';
 import { useAuth } from '../hooks/useAuth';
+import { useNightMode } from '../hooks/useNightMode';
+import SaarthiMark from '../components/SaarthiMark';
 
 export default function LoginPage() {
   const { signIn, signUp } = useAuth();
+  const { night } = useNightMode();
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,8 +29,11 @@ export default function LoginPage() {
     <div style={sx('min-height:100vh;display:grid;place-items:center;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);padding:24px')}>
       <div className="card elev-md" style={sx('width:min(380px,100%);padding:28px;gap:18px')}>
         <div>
-          <div style={sx('font-family:var(--font-heading);font-weight:700;font-size:19px;letter-spacing:-.02em;text-transform:uppercase')}>Personal Wealth OS</div>
-          <div style={sx('font-size:12px;opacity:.6;margin-top:2px')}>{mode === 'signin' ? 'Sign in to your plan' : 'Create your account'}</div>
+          <div style={sx('display:flex;align-items:center;gap:9px')}>
+            <SaarthiMark variant={night ? 'light' : 'dark'} size={24} />
+            <div style={sx('font-family:var(--font-heading);font-weight:700;font-size:19px;letter-spacing:-.02em;text-transform:uppercase')}>Saarthi OS</div>
+          </div>
+          <div style={sx('font-size:12px;opacity:.6;margin-top:2px')}>{mode === 'signin' ? 'Clarity for today’s money. Confidence for tomorrow.' : 'Create your account'}</div>
         </div>
         <form onSubmit={submit} style={sx('display:flex;flex-direction:column;gap:12px')}>
           <div className="field">

@@ -7,14 +7,16 @@
   --color-text: #16181f;
   --color-divider: rgba(22,24,31,.18);
 
-  --color-accent: #1d3fbf;
-  --color-accent-100: #e9edfc; --color-accent-200: #c8d3f6; --color-accent-300: #9aaeea; --color-accent-400: #6a86dc;
-  --color-accent-500: #3f5fcd; --color-accent-600: #1d3fbf; --color-accent-700: #17309a; --color-accent-800: #102273; --color-accent-900: #0a164c;
+  /* Indigo — Krishna as Saarthi (guide), wisdom and trust. Primary brand accent. */
+  --color-accent: #4e37be;
+  --color-accent-100: #ecebfc; --color-accent-200: #d2cbf7; --color-accent-300: #afa1ef; --color-accent-400: #8874e3;
+  --color-accent-500: #6851d4; --color-accent-600: #4e37be; --color-accent-700: #3c2a93; --color-accent-800: #2b1e6c; --color-accent-900: #1c1347;
 
-  --color-accent-2-100: #fdeee0; --color-accent-2-200: #fbd3ab; --color-accent-2-300: #f7b273; --color-accent-2-400: #f4933f;
-  --color-accent-2-500: #f07316; --color-accent-2-600: #cf5c08; --color-accent-2-700: #a34706; --color-accent-2-800: #763305; --color-accent-2-900: #4b2104;
+  /* Saffron — guidance, warmth, auspicious beginnings. Secondary brand accent. */
+  --color-accent-2-100: #fff3e0; --color-accent-2-200: #ffe0b3; --color-accent-2-300: #ffc773; --color-accent-2-400: #ffab40;
+  --color-accent-2-500: #ff9933; --color-accent-2-600: #e8791a; --color-accent-2-700: #c25e0e; --color-accent-2-800: #8f4509; --color-accent-2-900: #5c2c05;
 
-  --pw-o: #d95e08; --pw-o-bright: #f07316; --pw-o-soft: #fdeee0;
+  --pw-o: #e8791a; --pw-o-bright: #ff9933; --pw-o-soft: #fff3e0;
   --pw-head: #101736; --pw-head-ink: #eef1fa; --pw-head-line: rgba(238,241,250,.26); --pw-head-dim: rgba(238,241,250,.5);
   --pw-pos: #15704a; --pw-neg: #c2410c; --pw-cell: #ffffff; --pw-track: rgba(22,24,31,.12);
 
@@ -36,12 +38,12 @@
 
 :root.pw-night {
   --color-bg: #0c1020; --color-surface: #151b30; --color-text: #e9ecf6; --color-divider: rgba(233,236,246,.2);
-  --color-accent: #7f9cff;
-  --color-accent-100: #1a2344; --color-accent-200: #22306080; --color-accent-300: #3f57a8; --color-accent-400: #5c78d2;
-  --color-accent-500: #7f9cff; --color-accent-600: #9db3ff; --color-accent-700: #c3d0ff; --color-accent-800: #dde4ff; --color-accent-900: #eef2ff;
-  --color-accent-2-100: #2a1b0e; --color-accent-2-200: #3d260f; --color-accent-2-300: #7a4310; --color-accent-2-400: #b8600f;
-  --color-accent-2-500: #ff9a45; --color-accent-2-600: #ffab63; --color-accent-2-700: #ffc49a; --color-accent-2-800: #ffd9b3; --color-accent-2-900: #ffe9d4;
-  --pw-o: #ff9a45; --pw-o-bright: #ffab63; --pw-o-soft: #2a1b0e;
+  --color-accent: #a78bfa;
+  --color-accent-100: #241b4d; --color-accent-200: #362a6b; --color-accent-300: #4f3d96; --color-accent-400: #6b54bc;
+  --color-accent-500: #8b72d6; --color-accent-600: #a78bfa; --color-accent-700: #c4b5fd; --color-accent-800: #ddd6fe; --color-accent-900: #ede9fe;
+  --color-accent-2-100: #3d2a12; --color-accent-2-200: #5c3d14; --color-accent-2-300: #8f5a12; --color-accent-2-400: #c67b12;
+  --color-accent-2-500: #ffa94d; --color-accent-2-600: #ffbe73; --color-accent-2-700: #ffd29b; --color-accent-2-800: #ffe2c0; --color-accent-2-900: #fff0de;
+  --pw-o: #ffa94d; --pw-o-bright: #ffbe73; --pw-o-soft: #3d2a12;
   --pw-head: #060915; --pw-head-ink: #eef1fa; --pw-head-line: rgba(238,241,250,.2); --pw-head-dim: rgba(238,241,250,.45);
   --pw-pos: #4ec98a; --pw-neg: #ff8a5c; --pw-cell: #101526; --pw-track: rgba(233,236,246,.14);
 }

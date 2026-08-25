@@ -1,5 +1,6 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
+import SaarthiMark from '../components/SaarthiMark';
 import { useAuth } from '../hooks/useAuth';
 import { supabaseConfigured } from '../lib/supabaseClient';
 
@@ -11,16 +12,16 @@ export default function Header({ vm }: { vm: any }) {
       <div style={sx('max-width:1280px;margin:0 auto;padding:0 26px')}>
         <div style={sx('display:flex;align-items:flex-end;gap:22px;padding:16px 0 13px;flex-wrap:wrap')}>
           <div style={sx('display:flex;align-items:baseline;gap:14px;flex-wrap:wrap')}>
-            <div style={sx('font-family:var(--font-heading);font-weight:700;font-size:21px;letter-spacing:-.025em;line-height:1;text-transform:uppercase')}>Personal Wealth OS</div>
-            <div style={sx('font-size:11.5px;color:var(--pw-head-dim)')}>Your complete financial picture.</div>
+            <div style={sx('display:flex;align-items:center;gap:10px')}>
+              <SaarthiMark variant="light" size={26} />
+              <div style={sx('font-family:var(--font-heading);font-weight:700;font-size:21px;letter-spacing:-.025em;line-height:1;text-transform:uppercase')}>Saarthi OS</div>
+            </div>
+            <div style={sx('font-size:11.5px;color:var(--pw-head-dim)')}>Navigate Wealth. Secure Your Family's Future.</div>
           </div>
           <div style={sx('margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap')}>
             <div style={sx('text-align:right;line-height:1.25')}>
               <div style={sx('font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim)')}>Valued</div>
               <div style={sx('font-size:12px;font-variant-numeric:tabular-nums')}>24 Aug 2026 · 18:40 GST</div>
-            </div>
-            <div style={sx('display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--pw-head-line);border-radius:999px;font-size:11px;white-space:nowrap;color:var(--pw-head-ink)')}>
-              <span style={sx('width:5px;height:5px;background:var(--pw-o);display:inline-block')}></span>Manual snapshot
             </div>
             <div style={sx('display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--pw-head-line);border-radius:999px;font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--pw-head-ink)')}>OMR · INR</div>
             <Hoverable

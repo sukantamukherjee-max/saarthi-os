@@ -3,6 +3,7 @@ import { usePersonalWealthOS } from './hooks/usePersonalWealthOS';
 import Header from './layouts/Header';
 import NavRail from './layouts/NavRail';
 import WhatIfDrawer from './layouts/WhatIfDrawer';
+import DemoBanner from './layouts/DemoBanner';
 import OverviewPage from './pages/OverviewPage';
 import PortfolioPage from './pages/PortfolioPage';
 import RetirementPage from './pages/RetirementPage';
@@ -30,12 +31,7 @@ export default function App() {
 
       <div style={vm.stageStyle}>
         <div style={sx('max-width:1280px;margin:0 auto;padding:26px 26px 40px')}>
-          {vm.demoBanner && (
-            <div style={sx('display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px dashed var(--color-accent);border-radius:var(--radius-md);margin-bottom:22px;font-size:12px;background:var(--color-accent-100)')}>
-              <span style={sx('font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-800);font-weight:600')}>Demo data</span>
-              <span style={sx('color:var(--color-accent-900);opacity:.85')}>Holdings below are illustrative placeholders. Upload your real portfolio to replace them — nothing here is a market quote.</span>
-            </div>
-          )}
+          {vm.demoBanner && <DemoBanner />}
 
           {vm.is.overview && <OverviewPage vm={vm} />}
           {vm.is.portfolio && <PortfolioPage vm={vm} />}

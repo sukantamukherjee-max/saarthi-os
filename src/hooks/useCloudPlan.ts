@@ -56,17 +56,23 @@ export function useCloudPlan(userId: string | null, model: Model) {
     (async () => {
       const { data: aRow } = await supabase.from('assumptions').select('data').eq('user_id', userId).maybeSingle();
       let a = aRow?.data as Assumptions | undefined;
+      const isFirstEverLogin = !a;
       if (!a) {
         a = model.defaults();
         await supabase.from('assumptions').insert({ user_id: userId, data: a });
       }
 
-      const { data: hRows } = await supabase.from('holdings').select('*').eq('user_id', userId);
-      let hs = (hRows || []).map(rowToHolding);
-      if (!hs.length) {
+      let hs: Holding[] = [];
+      if (isFirstEverLogin) {
+        // Seed demo holdings only on true first-time setup — not just whenever the
+        // table happens to be empty, since the user can deliberately clear demo
+        // data (or delete all holdings) and that must stay empty on reload.
         const seed = DEMO_HOLDINGS.map(h => holdingToRow(h, userId));
         const { data: inserted } = await supabase.from('holdings').insert(seed).select('*');
         hs = (inserted || []).map(rowToHolding);
+      } else {
+        const { data: hRows } = await supabase.from('holdings').select('*').eq('user_id', userId);
+        hs = (hRows || []).map(rowToHolding);
       }
 
       if (!cancelled) {

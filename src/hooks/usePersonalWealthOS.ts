@@ -5,6 +5,7 @@ import { buildViewModel, type UIState, type ViewModelActions, type Screen } from
 import type { Assumptions } from '../financial/types';
 import { useAuth } from './useAuth';
 import { useCloudPlan } from './useCloudPlan';
+import { useNightMode } from './useNightMode';
 
 export function usePersonalWealthOS() {
   const modelRef = useRef<Model | null>(null);
@@ -13,10 +14,11 @@ export function usePersonalWealthOS() {
 
   const { user } = useAuth();
   const cloud = useCloudPlan(user?.id ?? null, model);
+  const nightMode = useNightMode();
 
-  const [ui, setUi] = useState<UIState>({
+  const [ui, setUi] = useState<Omit<UIState, 'night'>>({
     screen: 'overview', navOpen: false, whatIf: false, viewport: 'desktop',
-    mode: 'Advisor', openClass: null, uploads: {}, night: false,
+    mode: 'Advisor', openClass: null, uploads: {},
   });
   const [aLocal, setALocal] = useState<Assumptions>(() => model.defaults());
   const [mc10k, setMc10k] = useState<any>(null);
@@ -24,7 +26,11 @@ export function usePersonalWealthOS() {
 
   const ready = cloud.enabled ? !cloud.loading : true;
   const a: Assumptions = cloud.enabled ? (cloud.assumptions ?? model.defaults()) : aLocal;
-  model.HOLD = cloud.enabled ? (cloud.holdings.length ? cloud.holdings : DEMO_HOLDINGS) : DEMO_HOLDINGS;
+  // Real holdings (even an intentionally empty list) once cloud data is loaded — App
+  // shows a loading screen instead of this vm until `ready`, so no fallback is needed
+  // here; falling back to DEMO_HOLDINGS whenever the list was merely empty previously
+  // masked the user's own "clear demo data" action.
+  model.HOLD = cloud.enabled ? cloud.holdings : DEMO_HOLDINGS;
   const demoBanner = model.HOLD.some(h => h.isDemo);
 
   // What-if baseline: a local snapshot of `a`, only captured once real data is ready.
@@ -33,14 +39,6 @@ export function usePersonalWealthOS() {
     if (ready && base === null) setBaseState({ ...a });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready]);
-
-  // Night mode: restore from localStorage on mount.
-  useEffect(() => {
-    let n = false;
-    try { n = localStorage.getItem('pwos-night') === '1'; } catch { /* noop */ }
-    document.documentElement.classList.toggle('pw-night', n);
-    if (n) setUi(s => ({ ...s, night: true }));
-  }, []);
 
   // Debounced full-precision (10k path) Monte Carlo refinement whenever assumptions change.
   useEffect(() => {
@@ -65,25 +63,20 @@ export function usePersonalWealthOS() {
       setA: (patch) => applyA({ ...a, ...patch }),
       replaceA: (obj) => applyA(obj),
       setBase: (obj) => setBaseState(obj),
-      toggleNight: () => setUi(prev => {
-        const n = !prev.night;
-        try {
-          document.documentElement.classList.toggle('pw-night', n);
-          localStorage.setItem('pwos-night', n ? '1' : '0');
-        } catch { /* noop */ }
-        return { ...prev, night: n };
-      }),
+      toggleNight: nightMode.toggle,
       resetAll: () => { const d = model.defaults(); applyA(d); setBaseState(d); },
       resetWhatIf: () => applyA({ ...(base ?? a) }),
       commitWhatIf: () => setBaseState({ ...a }),
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [a, base, model, cloud.enabled]);
+  }, [a, base, model, cloud.enabled, nightMode.toggle]);
+
+  const uiForVm: UIState = { ...ui, night: nightMode.night };
 
   const vm = useMemo(
-    () => buildViewModel(model, ui, a, base ?? a, mc10k, mc10kKey, actions, demoBanner),
+    () => buildViewModel(model, uiForVm, a, base ?? a, mc10k, mc10kKey, actions, demoBanner),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [model, ui, a, base, mc10k, mc10kKey, actions, demoBanner]
+    [model, ui, nightMode.night, a, base, mc10k, mc10kKey, actions, demoBanner]
   );
 
   return { vm, loading: cloud.enabled && cloud.loading };

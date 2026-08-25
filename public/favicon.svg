@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-6 -6 112 112">
+  <style>
+    .for-dark-bg { display: none; }
+    @media (prefers-color-scheme: dark) {
+      .for-light-bg { display: none; }
+      .for-dark-bg { display: inline; }
+    }
+  </style>
+  <defs>
+    <radialGradient id="domeDark" cx="35%" cy="26%" r="80%">
+      <stop offset="0%" stop-color="#a795ef"/><stop offset="38%" stop-color="#6a4fd6"/>
+      <stop offset="72%" stop-color="#432f9e"/><stop offset="100%" stop-color="#1e1550"/>
+    </radialGradient>
+    <radialGradient id="domeDeepDark" cx="35%" cy="26%" r="80%">
+      <stop offset="0%" stop-color="#8570dd"/><stop offset="45%" stop-color="#5138b8"/><stop offset="100%" stop-color="#180f3f"/>
+    </radialGradient>
+    <radialGradient id="domeLight" cx="35%" cy="26%" r="80%">
+      <stop offset="0%" stop-color="#faf9ff"/><stop offset="35%" stop-color="#c9bdf8"/>
+      <stop offset="68%" stop-color="#9583ea"/><stop offset="100%" stop-color="#6a55cf"/>
+    </radialGradient>
+    <radialGradient id="domeDeepLight" cx="35%" cy="26%" r="80%">
+      <stop offset="0%" stop-color="#e4dbfc"/><stop offset="55%" stop-color="#af9df2"/><stop offset="100%" stop-color="#7a64d8"/>
+    </radialGradient>
+    <radialGradient id="saffron" cx="35%" cy="28%" r="80%">
+      <stop offset="0%" stop-color="#ffe1b0"/><stop offset="40%" stop-color="#ff9933"/><stop offset="100%" stop-color="#8a4409"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Light OS theme: deeper indigo mark for good contrast in a light tab bar -->
+  <g class="for-light-bg">
+    <circle cx="50" cy="50" r="44" fill="url(#domeDark)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(45 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(90 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(135 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(180 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(225 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepDark)" transform="rotate(270 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#saffron)" transform="rotate(315 50 50)"/>
+    <circle cx="50" cy="50" r="9" fill="url(#domeDeepDark)"/>
+  </g>
+
+  <!-- Dark OS theme: brighter periwinkle mark for good contrast in a dark tab bar -->
+  <g class="for-dark-bg">
+    <circle cx="50" cy="50" r="44" fill="url(#domeLight)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(45 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(90 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(135 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(180 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(225 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#domeDeepLight)" transform="rotate(270 50 50)"/>
+    <path d="M50 7 L56 39 L44 39 Z" fill="url(#saffron)" transform="rotate(315 50 50)"/>
+    <circle cx="50" cy="50" r="9" fill="url(#domeDeepLight)"/>
+  </g>
+</svg>

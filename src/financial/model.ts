@@ -65,7 +65,7 @@ export class Model {
   total() { return this.HOLD.reduce((s, x) => s + x.cur, 0); }
   invested() { return this.HOLD.reduce((s, x) => s + x.inv, 0); }
   byClass(c: AssetClass) { return this.HOLD.filter(x => x.c === c).reduce((s, x) => s + x.cur, 0); }
-  weights() { const t = this.total(); return this.KEYS.map(k => this.byClass(k) / t); }
+  weights() { const t = this.total(); if (!t) return this.KEYS.map(() => 0); return this.KEYS.map(k => this.byClass(k) / t); }
 
   muSigma(a: Assumptions) {
     const w = this.weights();
@@ -225,9 +225,9 @@ export class Model {
   }
   risk(a: Assumptions, ms: { mu: number; sig: number }) {
     const w = this.weights(), t = this.total();
-    const maxHold = Math.max(...this.HOLD.map(x => x.cur)) / t;
-    const inr = (this.byClass('Indian Equity') + this.byClass('Gold')) / t;
-    const liq = (this.byClass('Cash') + this.byClass('Liquid Fund')) / t;
+    const maxHold = t ? Math.max(...this.HOLD.map(x => x.cur)) / t : 0;
+    const inr = t ? (this.byClass('Indian Equity') + this.byClass('Gold')) / t : 0;
+    const liq = t ? (this.byClass('Cash') + this.byClass('Liquid Fund')) / t : 0;
     const emg = this.emergency(a);
     const d = [
       { label: 'Crypto exposure', v: Math.min(100, w[2] / 0.25 * 100), note: (w[2] * 100).toFixed(1) + '%' },
