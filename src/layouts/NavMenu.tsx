@@ -1,15 +1,30 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 
-const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 20px;border:0;border-radius:16px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px;filter:drop-shadow(0 1px 3px rgba(0,0,0,.35)) drop-shadow(0 1px 12px rgba(0,0,0,.18))';
-const RAIL_HOVER = 'background:color-mix(in srgb,var(--color-accent) 20%,transparent)';
+const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 14px;border:0;border-radius:16px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px';
+const RAIL_HOVER = 'background:color-mix(in srgb,var(--color-accent) 18%,transparent)';
 const DOT = <span style={sx('width:4px;height:4px;border-radius:50%;background:var(--color-accent)')}></span>;
 
-/** The 9-destination dropdown, positioned by the caller (opens under the header's nav button). Deliberately chromeless — no card, no border — so the icons read as floating over the page rather than a boxed panel. */
+/**
+ * The 9-destination menu, positioned by the caller (opens under the header's
+ * nav button). A frosted-glass panel rather than a hard card — enough
+ * separation to stay legible over any page content, but lighter than an
+ * opaque box.
+ */
 export default function NavMenu({ vm }: { vm: any }) {
   if (!vm.navOpen) return null;
   return (
-    <div style={sx('display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;animation:pwFade .2s ease both;color:var(--color-text)')}>
+    <div
+      style={{
+        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 2,
+        background: 'color-mix(in srgb, var(--color-surface) 78%, transparent)',
+        backdropFilter: 'blur(16px) saturate(1.4)',
+        WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
+        border: '1px solid color-mix(in srgb, var(--color-text) 10%, transparent)',
+        borderRadius: 26, padding: 6, boxShadow: 'var(--shadow-lg)',
+        animation: 'pwFade .2s ease both', width: 'min(94vw, 460px)', color: 'var(--color-text)',
+      }}
+    >
       <Hoverable onClick={vm.h.go.overview} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5z"></path></svg>Overview
         {vm.act.overview && DOT}
