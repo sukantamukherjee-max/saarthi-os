@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/modernist-265295bc-be3d-47e4-afdd-022eb136943e/styles.css">
+<script src="_ds/modernist-265295bc-be3d-47e4-afdd-022eb136943e/_ds_bundle.js"></script>
+<style>
+:root{
+--color-bg:#f4f5f8;--color-surface:#ffffff;--color-text:#16181f;--color-divider:rgba(22,24,31,.18);
+--color-accent:#1d3fbf;--color-accent-100:#e9edfc;--color-accent-200:#c8d3f6;--color-accent-300:#9aaeea;--color-accent-400:#6a86dc;--color-accent-500:#3f5fcd;--color-accent-600:#1d3fbf;--color-accent-700:#17309a;--color-accent-800:#102273;--color-accent-900:#0a164c;
+--color-accent-2-100:#fdeee0;--color-accent-2-200:#fbd3ab;--color-accent-2-300:#f7b273;--color-accent-2-400:#f4933f;--color-accent-2-500:#f07316;--color-accent-2-600:#cf5c08;--color-accent-2-700:#a34706;--color-accent-2-800:#763305;--color-accent-2-900:#4b2104;
+--pw-o:#d95e08;--pw-o-bright:#f07316;--pw-o-soft:#fdeee0;
+--pw-head:#101736;--pw-head-ink:#eef1fa;--pw-head-line:rgba(238,241,250,.26);--pw-head-dim:rgba(238,241,250,.5);
+--pw-pos:#15704a;--pw-neg:#c2410c;--pw-cell:#ffffff;--pw-track:rgba(22,24,31,.12);
+}
+:root.pw-night{
+--color-bg:#0c1020;--color-surface:#151b30;--color-text:#e9ecf6;--color-divider:rgba(233,236,246,.2);
+--color-accent:#7f9cff;--color-accent-100:#1a2344;--color-accent-200:#22306080;--color-accent-300:#3f57a8;--color-accent-400:#5c78d2;--color-accent-500:#7f9cff;--color-accent-600:#9db3ff;--color-accent-700:#c3d0ff;--color-accent-800:#dde4ff;--color-accent-900:#eef2ff;
+--color-accent-2-100:#2a1b0e;--color-accent-2-200:#3d260f;--color-accent-2-300:#7a4310;--color-accent-2-400:#b8600f;--color-accent-2-500:#ff9a45;--color-accent-2-600:#ffab63;--color-accent-2-700:#ffc49a;--color-accent-2-800:#ffd9b3;--color-accent-2-900:#ffe9d4;
+--pw-o:#ff9a45;--pw-o-bright:#ffab63;--pw-o-soft:#2a1b0e;
+--pw-head:#060915;--pw-head-ink:#eef1fa;--pw-head-line:rgba(238,241,250,.2);--pw-head-dim:rgba(238,241,250,.45);
+--pw-pos:#4ec98a;--pw-neg:#ff8a5c;--pw-cell:#101526;--pw-track:rgba(233,236,246,.14);
+}
+:root{--radius-sm:999px;--radius-md:18px;--radius-lg:26px}
+.card,.input,.dialog,table.table{border-radius:18px}
+.btn,.tag,.seg,.seg-opt{border-radius:999px}
+.seg{overflow:hidden}
+html,body{background:var(--color-bg);color:var(--color-text)}
+body{margin:0}
+a{color:var(--color-accent);text-decoration:none}
+a:hover{color:var(--color-accent-700);text-decoration:underline}
+@keyframes pwRail{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes pwSlide{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes pwFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:26px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:var(--pw-track)}
+input[type=range]::-moz-range-track{height:2px;background:var(--pw-track)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-7px;background:var(--pw-o);border:2px solid var(--color-text);transition:transform .15s}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:0;background:var(--pw-o);border:2px solid var(--color-text)}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]:focus-visible::-webkit-slider-thumb{outline:2px solid var(--color-accent);outline-offset:2px}
+*::-webkit-scrollbar{width:9px;height:9px}
+*::-webkit-scrollbar-thumb{background:var(--color-neutral-300);border-radius:9px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="min-height:100vh;font-family:var(--font-body);color:var(--color-text);background:var(--color-bg);padding-bottom:120px">
+
+<div style="position:sticky;top:0;z-index:40;background:var(--pw-head);color:var(--pw-head-ink)">
+<div style="height:6px;background:var(--pw-o)"></div>
+<div style="max-width:1280px;margin:0 auto;padding:0 26px">
+<div style="display:flex;align-items:flex-end;gap:22px;padding:16px 0 13px;flex-wrap:wrap">
+<div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+<div style="font-family:var(--font-heading);font-weight:700;font-size:21px;letter-spacing:-.025em;line-height:1;text-transform:uppercase">Personal Wealth OS</div>
+<div style="font-size:11.5px;color:var(--pw-head-dim)">Your complete financial picture.</div>
+</div>
+<div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+<div style="text-align:right;line-height:1.25">
+<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim)">Valued</div>
+<div style="font-size:12px;font-variant-numeric:tabular-nums">24 Aug 2026 · 18:40 GST</div>
+</div>
+<div style="display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--pw-head-line);border-radius:999px;font-size:11px;white-space:nowrap;color:var(--pw-head-ink)">
+<span style="width:5px;height:5px;background:var(--pw-o);display:inline-block"></span>Manual snapshot
+</div>
+<div style="display:flex;align-items:center;gap:6px;padding:5px 11px;border:1px solid var(--pw-head-line);border-radius:999px;font-size:11px;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--pw-head-ink)">OMR · INR</div>
+<button onClick="{{ h.toggleNight }}" title="Toggle night mode" style="display:flex;align-items:center;gap:7px;height:32px;padding:0 13px;border:1px solid var(--pw-head-line);border-radius:999px;background:transparent;cursor:pointer;color:var(--pw-head-ink);font-family:var(--font-body);font-size:10px;letter-spacing:.14em;text-transform:uppercase" style-hover="border-color:var(--pw-o);color:var(--pw-o)">
+<sc-if value="{{ night }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"></path></svg></sc-if>
+<sc-if value="{{ day }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path></svg></sc-if>
+{{ nightLabel }}
+</button>
+<button onClick="{{ h.toggleViewport }}" title="Toggle desktop / mobile preview" style="width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--pw-head-line);border-radius:999px;background:transparent;cursor:pointer;color:var(--pw-head-ink)" style-hover="border-color:var(--pw-o);color:var(--pw-o)">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="4" width="13" height="10"></rect><rect x="17" y="8" width="5" height="12"></rect></svg>
+</button>
+<button onClick="{{ h.go.assumptions }}" title="Assumptions and settings" style="width:32px;height:32px;display:grid;place-items:center;border:1px solid var(--pw-head-line);border-radius:999px;background:transparent;cursor:pointer;color:var(--pw-head-ink)" style-hover="border-color:var(--pw-o);color:var(--pw-o)">
+<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"></path></svg>
+</button>
+</div>
+</div>
+<div style="height:2px;background:var(--pw-head-line)"></div>
+<div style="display:flex;justify-content:space-between;gap:16px;padding:8px 0 9px;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim);flex-wrap:wrap">
+<span style="color:var(--pw-o)">{{ navLabel }}</span>
+<span>Decision support · not advice</span>
+<span style="font-variant-numeric:tabular-nums">Fact · Assumption · Estimate · Scenario</span>
+</div>
+</div>
+</div>
+
+<div style="{{ stageStyle }}">
+<div style="max-width:1280px;margin:0 auto;padding:26px 26px 40px">
+
+<sc-if value="{{ demoBanner }}">
+<div style="display:flex;align-items:center;gap:10px;padding:9px 14px;border:1px dashed var(--color-accent);border-radius:var(--radius-md);margin-bottom:22px;font-size:12px;background:var(--color-accent-100)">
+<span style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent-800);font-weight:600">Demo data</span>
+<span style="color:var(--color-accent-900);opacity:.85">Holdings below are illustrative placeholders. Upload your real portfolio to replace them — nothing here is a market quote.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.overview }}" hint-placeholder-val="{{ true }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:38px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Your Financial Picture</h1>
+<p style="font-size:15px;max-width:60ch;color:color-mix(in srgb,var(--color-text) 68%,transparent);margin:0 0 6px">{{ ov.status }}</p>
+<div style="font-size:11px;color:color-mix(in srgb,var(--color-text) 45%,transparent);margin-bottom:26px">Assessed against your current assumptions · {{ ov.simNote }}</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:var(--color-divider);border:2px solid var(--color-text);border-radius:26px;overflow:hidden;margin-bottom:32px">
+<div style="display:flex;flex-direction:column;gap:4px;padding:18px 20px;background:var(--pw-cell)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Total investable wealth</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.035em;white-space:nowrap">{{ ov.wealth }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent);font-variant-numeric:tabular-nums">{{ ov.wealthINR }}</div>
+<div style="font-size:12px;margin-top:2px;color:#4c6b47;font-variant-numeric:tabular-nums">{{ ov.gain }} since purchase</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:18px 20px;background:var(--pw-cell)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Retirement readiness</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.035em;white-space:nowrap">{{ ov.retProb }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">Success probability at age {{ ov.retAge }}</div>
+<div style="font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums">Earliest viable · age {{ ov.viable }}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:18px 20px;background:var(--pw-cell)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Education readiness</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.035em;white-space:nowrap">{{ ov.eduProb }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ ov.eduLine }}</div>
+<div style="font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums">Need {{ ov.eduTotal }}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:18px 20px;background:var(--pw-cell)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Emergency reserve</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.035em;white-space:nowrap">{{ ov.emgCur }}</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">Recommended {{ ov.emgRec }} · {{ ov.emgMonths }} months</div>
+<div style="font-size:12px;margin-top:2px;font-variant-numeric:tabular-nums;{{ ov.emgToneCss }}">{{ ov.emgGap }}</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:4px;padding:18px 20px;background:var(--pw-cell)">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Financial health</div>
+<div style="font-family:var(--font-heading);font-weight:600;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.035em;white-space:nowrap">{{ ov.health }}<span style="font-size:15px;opacity:.5"> / 100</span></div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 58%,transparent)">{{ ov.healthWord }}</div>
+<div style="font-size:12px;margin-top:2px">Weakest: {{ ov.healthWeak }}</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-bottom:30px">
+<div class="card" style="padding:20px 22px;gap:14px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<h4 style="margin:0;font-size:18px;font-weight:600">Health score components</h4>
+<span style="font-size:11px;color:color-mix(in srgb,var(--color-text) 48%,transparent)">0–100, higher is better</span>
+</div>
+<sc-for list="{{ ov.bars }}" as="b" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:120px 1fr 40px;align-items:center;gap:12px">
+<div style="font-size:13px">{{ b.label }}</div>
+<div style="height:4px;background:var(--pw-track);border-radius:999px;overflow:hidden"><div style="{{ b.fill }}"></div></div>
+<div style="font-size:12px;text-align:right;font-variant-numeric:tabular-nums;opacity:.7">{{ b.val }}</div>
+</div>
+</sc-for>
+</div>
+
+<div class="card" style="padding:20px 22px;gap:12px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<h4 style="margin:0;font-size:18px;font-weight:600">Retirement — one glance</h4>
+<span style="font-size:11px;color:var(--color-accent)">{{ ov.retProb }} success</span>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 18px">
+<div><div style="font-size:11px;opacity:.55">Target age</div><div style="font-size:22px;font-family:var(--font-heading);font-variant-numeric:tabular-nums">{{ ov.retAge }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Financially viable</div><div style="font-size:22px;font-family:var(--font-heading);font-variant-numeric:tabular-nums">{{ ov.viable }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Required corpus</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ ov.req }}</div><div style="font-size:11px;opacity:.5">{{ ov.reqINR }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Projected corpus</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ ov.proj }}</div><div style="font-size:11px;opacity:.5">{{ ov.projINR }}</div></div>
+</div>
+<div style="margin-top:6px">
+<input type="range" min="50" max="60" step="1" value="{{ ov.retAge }}" onChange="{{ h.retireAge }}" aria-label="Retirement age">
+<div style="position:relative;height:26px;margin-top:-2px">
+<sc-for list="{{ ov.timeline }}" as="t" hint-placeholder-count="6">
+<div style="{{ t.style }}">{{ t.age }}</div>
+</sc-for>
+</div>
+</div>
+<div style="font-size:12px;color:color-mix(in srgb,var(--color-text) 60%,transparent);border-top:1px solid var(--color-divider);padding-top:10px">{{ ov.retNote }}</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
+<div>
+<h4 style="font-size:18px;font-weight:600;margin:0 0 12px">What needs your attention?</h4>
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ ov.attention }}" as="x" hint-placeholder-count="3">
+<div class="card" style="padding:15px 18px;gap:5px;flex-direction:row;align-items:flex-start">
+<div style="font-family:var(--font-heading);font-size:24px;font-weight:400;opacity:.28;line-height:1;width:26px;font-variant-numeric:tabular-nums">{{ x.n }}</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:4px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-size:15px;font-family:var(--font-heading);font-weight:600">{{ x.title }}</span><span style="{{ x.tagStyle }}">{{ x.tag }}</span></div>
+<div style="font-size:13px;color:color-mix(in srgb,var(--color-text) 66%,transparent)">{{ x.body }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+<div>
+<h4 style="font-size:18px;font-weight:600;margin:0 0 12px">Next best actions</h4>
+<div class="card" style="padding:6px 18px">
+<sc-for list="{{ ov.actions }}" as="x" hint-placeholder-count="5">
+<div style="display:flex;gap:12px;align-items:baseline;padding:11px 0;border-bottom:1px solid var(--color-divider)">
+<span style="font-size:11px;color:var(--color-accent);font-variant-numeric:tabular-nums;width:14px">{{ x.n }}</span>
+<span style="font-size:13.5px;flex:1">{{ x.text }}</span>
+</div>
+</sc-for>
+</div>
+<p style="font-size:11px;color:color-mix(in srgb,var(--color-text) 45%,transparent);margin-top:14px;line-height:1.5">Footnote — land at Durgapur, approximately ₹30 lakh. Illiquid asset, excluded from core financial planning. No appreciation, rental or development proceeds are modelled.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.portfolio }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Portfolio</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">16 holdings · valued 24 Aug 2026 from a manual snapshot · 2 holdings require verification</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:28px">
+<div class="card" style="padding:22px;align-items:center;gap:16px">
+<svg viewBox="0 0 200 200" style="width:200px;height:200px;transform:rotate(-90deg)">
+<circle cx="100" cy="100" r="70" fill="none" stroke="var(--color-neutral-200)" stroke-width="22"></circle>
+<sc-for list="{{ pf.segs }}" as="s" hint-placeholder-count="6">
+<circle cx="100" cy="100" r="70" fill="none" stroke="{{ s.color }}" stroke-width="22" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.offset }}" style="cursor:pointer;transition:stroke-width .2s" onClick="{{ s.onClick }}"></circle>
+</sc-for>
+</svg>
+<div style="text-align:center;margin-top:-8px">
+<div style="font-family:var(--font-heading);font-size:26px;font-variant-numeric:tabular-nums">{{ pf.total }}</div>
+<div style="font-size:11px;opacity:.55">{{ pf.totalINR }}</div>
+</div>
+</div>
+<div class="card" style="padding:8px 20px">
+<sc-for list="{{ pf.classes }}" as="c" hint-placeholder-count="6">
+<div onClick="{{ c.onClick }}" style="display:grid;grid-template-columns:10px 1fr auto;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--color-divider);cursor:pointer">
+<span style="{{ c.swatch }}"></span>
+<div>
+<div style="font-size:14px">{{ c.name }}</div>
+<div style="font-size:11px;opacity:.5">{{ c.risk }} risk · {{ c.ccy }}</div>
+</div>
+<div style="text-align:right">
+<div style="font-size:14px;font-variant-numeric:tabular-nums">{{ c.cur }}</div>
+<div style="font-size:11px;font-variant-numeric:tabular-nums;{{ c.plCss }}">{{ c.pl }} · {{ c.w }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ pf.detail }}">
+<div class="card elev-sm" style="padding:20px 22px;margin-bottom:28px;gap:10px">
+<div style="display:flex;align-items:center;justify-content:space-between">
+<h4 style="margin:0;font-size:19px">{{ pf.detail.name }}</h4>
+<button onClick="{{ h.closeClass }}" class="btn btn-ghost" style="font-size:12px">Close</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px">
+<div><div style="font-size:11px;opacity:.55">Invested</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ pf.detail.inv }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Current</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ pf.detail.cur }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Gain / loss</div><div style="font-size:16px;font-variant-numeric:tabular-nums;{{ pf.detail.plCss }}">{{ pf.detail.pl }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Allocation</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ pf.detail.w }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Volatility assumption</div><div style="font-size:16px;font-variant-numeric:tabular-nums">{{ pf.detail.vol }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Currency</div><div style="font-size:16px">{{ pf.detail.ccy }}</div></div>
+</div>
+<div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 65%,transparent);border-top:1px solid var(--color-divider);padding-top:10px">{{ pf.detail.note }}</div>
+</div>
+</sc-if>
+
+<h4 style="font-size:18px;font-weight:600;margin:0 0 10px">Holdings</h4>
+<div class="card" style="padding:4px 16px;overflow-x:auto;margin-bottom:28px">
+<table class="table">
+<thead><tr><th>Asset</th><th>Quantity</th><th style="text-align:right">Current</th><th style="text-align:right">P/L</th><th style="text-align:right">Alloc.</th><th>Risk</th><th>Recommendation</th></tr></thead>
+<tbody>
+<sc-for list="{{ pf.rows }}" as="r" hint-placeholder-count="8">
+<tr>
+<td><div style="font-size:13.5px">{{ r.n }}</div><div style="font-size:10.5px;opacity:.5">{{ r.c }} · {{ r.fresh }}</div></td>
+<td style="font-size:12.5px;font-variant-numeric:tabular-nums">{{ r.q }}</td>
+<td style="text-align:right;font-variant-numeric:tabular-nums;font-size:13px">{{ r.cur }}</td>
+<td style="text-align:right;font-variant-numeric:tabular-nums;font-size:13px;{{ r.plCss }}">{{ r.pl }}</td>
+<td style="text-align:right;font-variant-numeric:tabular-nums;font-size:13px">{{ r.w }}</td>
+<td style="font-size:12px;opacity:.7">{{ r.risk }}</td>
+<td>
+<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap"><span style="{{ r.recStyle }}">{{ r.rec }}</span><span style="font-size:10.5px;opacity:.55">{{ r.conf }} confidence</span></div>
+<div style="font-size:11px;opacity:.6;max-width:34ch;margin-top:3px">{{ r.why }}</div>
+</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px">
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Performance</h4>
+<sc-for list="{{ pf.perf }}" as="p" hint-placeholder-count="5">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+<div><div style="font-size:13px">{{ p.label }}</div><div style="font-size:10.5px;opacity:.5">{{ p.note }}</div></div>
+<div style="font-size:14px;font-variant-numeric:tabular-nums;{{ p.css }}">{{ p.value }}</div>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Benchmarks</h4>
+<sc-for list="{{ pf.bench }}" as="b" hint-placeholder-count="4">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+<div style="font-size:13px">{{ b.name }}</div>
+<div style="font-size:12px;opacity:.6;font-style:italic">{{ b.value }}</div>
+</div>
+</sc-for>
+<p style="font-size:11.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:6px 0 0">Benchmark and price series are not fabricated. Connect a market-data source or enter closing levels manually to activate relative performance and the custom allocation benchmark.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.retirement }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Retirement</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">Planning from age {{ rt.currentAge }} to {{ rt.planAge }} · {{ rt.simNote }} · results are probabilities, not guarantees</p>
+
+<div class="card" style="padding:24px 26px;margin-bottom:24px;gap:18px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px">
+<div><div style="font-size:11px;opacity:.55">Retirement age</div><div style="font-family:var(--font-heading);font-size:36px;font-variant-numeric:tabular-nums;line-height:1.05">{{ rt.retAge }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Success probability</div><div style="font-family:var(--font-heading);font-size:36px;font-variant-numeric:tabular-nums;line-height:1.05">{{ rt.prob }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Required corpus</div><div style="font-size:19px;font-variant-numeric:tabular-nums;margin-top:8px">{{ rt.req }}</div><div style="font-size:11px;opacity:.5">{{ rt.reqINR }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Projected corpus (median)</div><div style="font-size:19px;font-variant-numeric:tabular-nums;margin-top:8px">{{ rt.proj }}</div><div style="font-size:11px;opacity:.5">{{ rt.projINR }}</div></div>
+<div><div style="font-size:11px;opacity:.55">Required annual investment</div><div style="font-size:19px;font-variant-numeric:tabular-nums;margin-top:8px">{{ rt.reqSave }}</div><div style="font-size:11px;opacity:.5">vs {{ rt.curSave }} today</div></div>
+</div>
+<div>
+<input type="range" min="50" max="60" step="1" value="{{ rt.retAge }}" onChange="{{ h.retireAge }}" aria-label="Retirement age">
+<div style="position:relative;height:26px;margin-top:-2px">
+<sc-for list="{{ rt.timeline }}" as="t" hint-placeholder-count="6"><div style="{{ t.style }}">{{ t.age }}</div></sc-for>
+</div>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;border-top:1px solid var(--color-divider);padding-top:14px">
+<sc-for list="{{ rt.thresholds }}" as="t" hint-placeholder-count="3">
+<div style="flex:1;min-width:150px">
+<div style="font-size:11px;opacity:.55">Earliest viable at {{ t.pct }}</div>
+<div style="font-size:22px;font-family:var(--font-heading);font-variant-numeric:tabular-nums">{{ t.age }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="card" style="padding:22px 24px;margin-bottom:24px;gap:12px">
+<div style="display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Corpus path</h4>
+<span style="font-size:11px;opacity:.55">Median with 10th–90th percentile band · {{ rt.simNote }}</span>
+</div>
+<svg viewBox="0 0 900 260" style="width:100%;height:auto;overflow:visible">
+<path d="{{ rt.band }}" fill="var(--color-accent-200)" opacity=".5"></path>
+<path d="{{ rt.p50 }}" fill="none" stroke="var(--color-accent-700)" stroke-width="1.8"></path>
+<path d="{{ rt.reqLine }}" fill="none" stroke="var(--color-text)" stroke-width="1" stroke-dasharray="4 4" opacity=".45"></path>
+<line x1="{{ rt.retX }}" y1="0" x2="{{ rt.retX }}" y2="220" stroke="var(--color-accent)" stroke-width="1"></line>
+<sc-for list="{{ rt.ticks }}" as="t" hint-placeholder-count="6">
+<text x="{{ t.x }}" y="245" font-size="11" fill="currentColor" opacity=".5" text-anchor="middle" font-family="var(--font-body)">{{ t.label }}</text>
+</sc-for>
+<text x="{{ rt.retX }}" y="-6" font-size="11" fill="var(--color-accent)" text-anchor="middle" font-family="var(--font-body)">retire {{ rt.retAge }}</text>
+</svg>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-bottom:24px">
+<div class="card" style="padding:20px 22px;gap:12px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Retirement spending</h4>
+<div style="font-size:12px;opacity:.6">India living cost today, excluding travel and healthcare, which are modelled separately.</div>
+<div class="seg" style="align-self:flex-start">
+<label class="seg-opt"><input type="radio" name="spendmode" value="Conservative" checked="{{ rt.spendConservative }}" onChange="{{ h.spendMode }}">Conservative</label>
+<label class="seg-opt"><input type="radio" name="spendmode" value="Base" checked="{{ rt.spendBase }}" onChange="{{ h.spendMode }}">Base</label>
+<label class="seg-opt"><input type="radio" name="spendmode" value="Comfortable" checked="{{ rt.spendComfortable }}" onChange="{{ h.spendMode }}">Comfortable</label>
+</div>
+<sc-for list="{{ rt.spendRows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<span>{{ r.label }}</span><span style="font-variant-numeric:tabular-nums">{{ r.value }}</span>
+</div>
+</sc-for>
+</div>
+
+<div class="card" style="padding:20px 22px;gap:12px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Travel &amp; healthcare</h4>
+<div style="font-size:12px;opacity:.6">OMR 2,000/year of desired travel is already inside current monthly expenses — only the incremental budget is added, so nothing is double-counted.</div>
+<div class="seg" style="align-self:flex-start">
+<label class="seg-opt"><input type="radio" name="travelmode" value="Fixed" checked="{{ rt.travelFixed }}" onChange="{{ h.travelMode }}">Fixed budget</label>
+<label class="seg-opt"><input type="radio" name="travelmode" value="Percent" checked="{{ rt.travelPercent }}" onChange="{{ h.travelMode }}">% of spend</label>
+<label class="seg-opt"><input type="radio" name="travelmode" value="Lifestyle" checked="{{ rt.travelLifestyle }}" onChange="{{ h.travelMode }}">Current lifestyle</label>
+</div>
+<sc-for list="{{ rt.thRows }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<span>{{ r.label }}<span style="font-size:10px;opacity:.5"> {{ r.tag }}</span></span><span style="font-variant-numeric:tabular-nums">{{ r.value }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+<div class="card" style="padding:20px 22px;gap:12px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Return to India</h4>
+<div style="font-size:12px;opacity:.6">Independent of retirement age. Before return, income and expenses are OMR; after, spending and withdrawals are INR.</div>
+<div style="font-family:var(--font-heading);font-size:30px;font-variant-numeric:tabular-nums">Age {{ rt.returnAge }}</div>
+<input type="range" min="50" max="60" step="1" value="{{ rt.returnAge }}" onChange="{{ h.returnAge }}" aria-label="Return to India age">
+<sc-for list="{{ rt.returnRows }}" as="r" hint-placeholder-count="3">
+<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<span>{{ r.label }}</span><span style="font-variant-numeric:tabular-nums;opacity:.8">{{ r.value }}</span>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:20px 22px;gap:12px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Sequence-of-returns risk</h4>
+<div style="font-size:12px;opacity:.6">A single {{ rt.shockLabel }} equity-led drawdown, applied at different points around retirement.</div>
+<sc-for list="{{ rt.seq }}" as="s" hint-placeholder-count="6">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;padding:7px 0;border-bottom:1px solid var(--color-divider);font-size:13px;align-items:baseline">
+<span>{{ s.label }}</span>
+<span style="font-variant-numeric:tabular-nums;opacity:.7">{{ s.corpus }}</span>
+<span style="font-variant-numeric:tabular-nums;width:56px;text-align:right;{{ s.css }}">{{ s.prob }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="card" style="padding:20px 22px;margin-top:22px;gap:12px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Emergency reserve</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px">
+<div><div style="font-size:11px;opacity:.55">Recommended</div><div style="font-size:20px;font-variant-numeric:tabular-nums">{{ rt.emgRec }}</div><div style="font-size:11px;opacity:.5">{{ rt.emgMonths }} months of expenses</div></div>
+<div><div style="font-size:11px;opacity:.55">Currently held</div><div style="font-size:20px;font-variant-numeric:tabular-nums">{{ rt.emgCur }}</div><div style="font-size:11px;opacity:.5">Cash + liquid fund</div></div>
+<div><div style="font-size:11px;opacity:.55">Surplus / shortfall</div><div style="font-size:20px;font-variant-numeric:tabular-nums;{{ rt.emgCss }}">{{ rt.emgGap }}</div><div style="font-size:11px;opacity:.5">After retirement, hold primarily in INR savings</div></div>
+</div>
+<sc-for list="{{ rt.emgDrivers }}" as="d" hint-placeholder-count="4">
+<div style="display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid var(--color-divider)"><span>{{ d.label }}</span><span style="font-variant-numeric:tabular-nums;opacity:.65">{{ d.value }}</span></div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.education }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Education</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">Daughter age {{ ed.dAge }} · base planning currency OMR while earning in Oman · costs are research-based estimates, not quotes</p>
+
+<div class="card" style="padding:22px 24px;margin-bottom:22px;gap:16px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;align-items:start">
+<div>
+<div style="font-size:11px;opacity:.55;margin-bottom:2px">Undergraduate start age</div>
+<div style="font-family:var(--font-heading);font-size:30px;font-variant-numeric:tabular-nums">{{ ed.startAge }}</div>
+<input type="range" min="17" max="22" step="1" value="{{ ed.startAge }}" onChange="{{ h.eduStart }}" aria-label="Education start age">
+<div style="font-size:11px;opacity:.5">Begins in {{ ed.startsIn }} years, when you are {{ ed.parentAge }}</div>
+</div>
+<div>
+<div style="font-size:11px;opacity:.55;margin-bottom:6px">University tier</div>
+<div class="seg">
+<label class="seg-opt"><input type="radio" name="tier" value="Budget" checked="{{ ed.tierBudget }}" onChange="{{ h.eduTier }}">Budget</label>
+<label class="seg-opt"><input type="radio" name="tier" value="Mainstream" checked="{{ ed.tierMainstream }}" onChange="{{ h.eduTier }}">Mainstream</label>
+<label class="seg-opt"><input type="radio" name="tier" value="Premium" checked="{{ ed.tierPremium }}" onChange="{{ h.eduTier }}">Premium</label>
+</div>
+<label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-top:14px;cursor:pointer">
+<input type="checkbox" checked="{{ ed.pg }}" onChange="{{ h.eduPG }}" style="accent-color:var(--color-accent);width:15px;height:15px">
+Include postgraduate study
+</label>
+<div style="font-size:11px;opacity:.5;margin-top:4px">PG is not assumed by default — it depends on the path chosen later.</div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;border-top:1px solid var(--color-divider);padding-top:16px">
+<sc-for list="{{ ed.countries }}" as="c" hint-placeholder-count="5">
+<div onClick="{{ c.onClick }}" style="{{ c.style }}">
+<div style="font-size:15px;font-family:var(--font-heading);font-weight:600">{{ c.name }}</div>
+<div style="font-size:11px;opacity:.55">{{ c.years }} · {{ c.annual }}/yr today</div>
+<div style="font-size:15px;font-variant-numeric:tabular-nums;margin-top:6px">{{ c.total }}</div>
+<div style="font-size:11px;opacity:.5;font-variant-numeric:tabular-nums">{{ c.totalINR }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-bottom:22px">
+<div class="card" style="padding:20px 22px;gap:8px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Annual cost breakdown</h4>
+<div style="font-size:12px;opacity:.6">{{ ed.country }} · {{ ed.tier }} · today's money, {{ ed.ccy }}</div>
+<div style="overflow-x:auto">
+<table class="table" style="font-size:13px">
+<thead><tr><th>Component</th><th style="text-align:right">{{ ed.ccy }}</th><th style="text-align:right">OMR</th><th style="text-align:right">INR</th></tr></thead>
+<tbody>
+<sc-for list="{{ ed.breakdown }}" as="b" hint-placeholder-count="8">
+<tr><td>{{ b.name }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ b.local }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ b.omr }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ b.inr }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Year by year</h4>
+<sc-for list="{{ ed.lines }}" as="l" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<span style="font-size:11px;opacity:.5;width:62px">{{ l.when }}</span>
+<span>{{ l.kind }} · age {{ l.dAge }}<span style="font-size:11px;opacity:.5"> ({{ l.local }})</span></span>
+<span style="font-variant-numeric:tabular-nums">{{ l.omr }}</span>
+</div>
+</sc-for>
+<div style="display:flex;justify-content:space-between;padding-top:10px;font-size:15px">
+<span>Total, inflated to the year of spend</span><span style="font-variant-numeric:tabular-nums">{{ ed.total }}</span>
+</div>
+<div style="font-size:11px;opacity:.5;text-align:right;font-variant-numeric:tabular-nums">{{ ed.totalINR }} · {{ ed.totalLocal }}</div>
+<div style="font-size:11.5px;opacity:.6;border-top:1px solid var(--color-divider);padding-top:10px">Currency risk is live: a 10% adverse move in the education currency against OMR adds {{ ed.fxRisk }} to the requirement.</div>
+</div>
+</div>
+
+<div>
+<h4 style="font-size:18px;font-weight:600;margin:0 0 12px">Funding scenarios</h4>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px">
+<sc-for list="{{ ed.scenarios }}" as="s" hint-placeholder-count="4">
+<div class="card" style="padding:18px 20px;gap:8px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">{{ s.kicker }}</div>
+<div style="font-family:var(--font-heading);font-size:19px;font-weight:600">{{ s.name }}</div>
+<div style="font-size:12.5px;color:color-mix(in srgb,var(--color-text) 66%,transparent);min-height:56px">{{ s.body }}</div>
+<div style="display:flex;justify-content:space-between;font-size:12.5px;border-top:1px solid var(--color-divider);padding-top:8px"><span>Education cost</span><span style="font-variant-numeric:tabular-nums">{{ s.cost }}</span></div>
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span>Retirement probability</span><span style="font-variant-numeric:tabular-nums;{{ s.css }}">{{ s.prob }}</span></div>
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span>Retirement age impact</span><span style="font-variant-numeric:tabular-nums">{{ s.ageImpact }}</span></div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.marriage }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Marriage</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">Lowest-priority goal in the hierarchy · costs are 2026 market estimates, not quotations</p>
+
+<div class="card" style="padding:22px 24px;margin-bottom:22px;gap:18px">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px;align-items:start">
+<div>
+<div style="font-size:11px;opacity:.55">Daughter's age at marriage</div>
+<div style="font-family:var(--font-heading);font-size:30px;font-variant-numeric:tabular-nums">{{ mr.age }}</div>
+<input type="range" min="25" max="30" step="1" value="{{ mr.age }}" onChange="{{ h.marriageAge }}" aria-label="Marriage age">
+<div style="font-size:11px;opacity:.5">In {{ mr.years }} years, when you are {{ mr.parentAge }}</div>
+</div>
+<div>
+<div style="font-size:11px;opacity:.55;margin-bottom:6px">Budget tier</div>
+<div class="seg" style="flex-wrap:wrap">
+<label class="seg-opt"><input type="radio" name="mtier" value="Basic" checked="{{ mr.tBasic }}" onChange="{{ h.marTier }}">Basic</label>
+<label class="seg-opt"><input type="radio" name="mtier" value="Moderate" checked="{{ mr.tModerate }}" onChange="{{ h.marTier }}">Moderate</label>
+<label class="seg-opt"><input type="radio" name="mtier" value="High" checked="{{ mr.tHigh }}" onChange="{{ h.marTier }}">High</label>
+<label class="seg-opt"><input type="radio" name="mtier" value="Premium" checked="{{ mr.tPremium }}" onChange="{{ h.marTier }}">Premium</label>
+</div>
+<div style="font-size:11px;opacity:.55;margin:14px 0 6px">Location</div>
+<div class="seg" style="flex-wrap:wrap">
+<label class="seg-opt"><input type="radio" name="mloc" value="West Bengal / Tier-2" checked="{{ mr.lWB }}" onChange="{{ h.marLoc }}">West Bengal / Tier-2</label>
+<label class="seg-opt"><input type="radio" name="mloc" value="Major Tier-1 city" checked="{{ mr.lT1 }}" onChange="{{ h.marLoc }}">Tier-1 city</label>
+<label class="seg-opt"><input type="radio" name="mloc" value="Indian destination" checked="{{ mr.lDest }}" onChange="{{ h.marLoc }}">Destination</label>
+</div>
+</div>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Cost</h4>
+<sc-for list="{{ mr.rows }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--color-divider)">
+<div><div style="font-size:13.5px">{{ r.label }}</div><div style="font-size:10.5px;opacity:.5">{{ r.note }}</div></div>
+<div style="text-align:right"><div style="font-size:14.5px;font-variant-numeric:tabular-nums;{{ r.css }}">{{ r.value }}</div><div style="font-size:11px;opacity:.5;font-variant-numeric:tabular-nums">{{ r.sub }}</div></div>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Assumptions &amp; sources</h4>
+<sc-for list="{{ mr.sources }}" as="s" hint-placeholder-count="4">
+<div style="padding:9px 0;border-bottom:1px solid var(--color-divider)">
+<div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:13px">{{ s.label }}</span><span style="font-size:13px;font-variant-numeric:tabular-nums">{{ s.value }}</span></div>
+<div style="font-size:10.5px;opacity:.5">{{ s.src }}</div>
+</div>
+</sc-for>
+<p style="font-size:11.5px;opacity:.6;margin:6px 0 0">These are planning estimates drawn from published 2026 Indian wedding-cost ranges. They are not quotations and will vary widely by family, season and city. Treat every figure here as an ASSUMPTION you can override.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.risk }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Risk</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">Portfolio and plan risk, with the drivers behind the score</p>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;margin-bottom:24px">
+<div class="card" style="padding:22px 24px;gap:14px">
+<div style="display:flex;align-items:baseline;gap:12px">
+<div style="font-family:var(--font-heading);font-size:46px;font-variant-numeric:tabular-nums;line-height:1">{{ rk.score }}</div>
+<div><div style="font-size:15px">{{ rk.word }}</div><div style="font-size:11px;opacity:.5">Composite risk, 0 calm – 100 severe</div></div>
+</div>
+<sc-for list="{{ rk.drivers }}" as="d" hint-placeholder-count="8">
+<div style="display:grid;grid-template-columns:120px 1fr 76px;gap:10px;align-items:center">
+<div style="font-size:12.5px">{{ d.label }}</div>
+<div style="height:4px;background:var(--pw-track);border-radius:999px;overflow:hidden"><div style="{{ d.fill }}"></div></div>
+<div style="font-size:11px;text-align:right;font-variant-numeric:tabular-nums;opacity:.65;white-space:nowrap">{{ d.val }}</div>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:22px 24px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Concentration &amp; exposure</h4>
+<sc-for list="{{ rk.expo }}" as="e" hint-placeholder-count="7">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+<div><div style="font-size:13px">{{ e.label }}</div><div style="font-size:10.5px;opacity:.5">{{ e.note }}</div></div>
+<div style="font-size:13.5px;font-variant-numeric:tabular-nums;{{ e.css }}">{{ e.value }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px">
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Market stress tests</h4>
+<div style="font-size:12px;opacity:.6">Scenarios selected from your actual composition. Each shows the immediate hit to wealth and the resulting retirement success probability.</div>
+<sc-for list="{{ rk.stress }}" as="s" hint-placeholder-count="7">
+<div style="display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<span>{{ s.label }}</span>
+<span style="font-variant-numeric:tabular-nums;opacity:.65">{{ s.hit }}</span>
+<span style="font-variant-numeric:tabular-nums;width:52px;text-align:right;{{ s.css }}">{{ s.prob }}</span>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:20px 22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Crypto</h4>
+<div style="font-size:12px;opacity:.6">No fixed allocation cap is imposed. Exposure is measured, and concentration is flagged when it materially drives plan outcomes.</div>
+<sc-for list="{{ rk.crypto }}" as="c" hint-placeholder-count="6">
+<div style="display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider);font-size:13px">
+<div><div>{{ c.label }}</div><div style="font-size:10.5px;opacity:.5">{{ c.note }}</div></div>
+<div style="font-variant-numeric:tabular-nums;{{ c.css }}">{{ c.value }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div class="card" style="padding:20px 22px;margin-top:22px;gap:10px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Salary interruption</h4>
+<div style="overflow-x:auto">
+<table class="table" style="font-size:13px">
+<thead><tr><th>Scenario</th><th style="text-align:right">Emergency fund used</th><th style="text-align:right">Portfolio drawn</th><th style="text-align:right">Contributions lost</th><th style="text-align:right">Retirement probability</th></tr></thead>
+<tbody>
+<sc-for list="{{ rk.jobloss }}" as="j" hint-placeholder-count="3">
+<tr><td>{{ j.label }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ j.emg }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ j.port }}</td><td style="text-align:right;font-variant-numeric:tabular-nums">{{ j.contrib }}</td><td style="text-align:right;font-variant-numeric:tabular-nums;{{ j.css }}">{{ j.prob }}</td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.recommendations }}">
+<div style="animation:pwFade .35s ease both">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:24px">
+<div>
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Recommendations</h1>
+<p style="font-size:13px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:0">Model-generated. Nothing here is issued where material data is missing.</p>
+</div>
+<div class="seg">
+<label class="seg-opt"><input type="radio" name="mode" value="Data" checked="{{ rc.mData }}" onChange="{{ h.mode }}">Data</label>
+<label class="seg-opt"><input type="radio" name="mode" value="Advisor" checked="{{ rc.mAdvisor }}" onChange="{{ h.mode }}">Advisor</label>
+<label class="seg-opt"><input type="radio" name="mode" value="Strong Advisor" checked="{{ rc.mStrong }}" onChange="{{ h.mode }}">Strong advisor</label>
+</div>
+</div>
+
+<sc-for list="{{ rc.groups }}" as="g" hint-placeholder-count="4">
+<div style="margin-bottom:26px">
+<div style="display:flex;align-items:baseline;gap:12px;margin-bottom:12px">
+<h4 style="margin:0;font-size:20px;font-weight:600">{{ g.name }}</h4>
+<span style="font-size:11px;opacity:.5">{{ g.note }}</span>
+<div style="flex:1;height:1px;background:var(--color-divider)"></div>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px">
+<sc-for list="{{ g.items }}" as="r" hint-placeholder-count="3">
+<div class="card" style="padding:17px 19px;gap:9px">
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<span style="{{ r.actionStyle }}">{{ r.action }}</span>
+<span style="font-size:10.5px;opacity:.55">{{ r.conf }} confidence</span>
+<span style="margin-left:auto;font-size:10px;opacity:.42">{{ r.fresh }}</span>
+</div>
+<div style="font-family:var(--font-heading);font-size:16.5px;font-weight:600;line-height:1.25">{{ r.title }}</div>
+<div style="font-size:13px;color:color-mix(in srgb,var(--color-text) 68%,transparent)">{{ r.body }}</div>
+<div style="display:flex;gap:14px;border-top:1px solid var(--color-divider);padding-top:8px;font-size:11.5px;flex-wrap:wrap">
+<span style="opacity:.55">Impact</span><span style="font-variant-numeric:tabular-nums">{{ r.impact }}</span>
+<span style="opacity:.55;margin-left:auto">Risk if ignored</span><span>{{ r.risk }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+
+<div class="card" style="padding:18px 20px;gap:8px;border-style:dashed">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Withheld</div>
+<div style="font-size:13px;color:color-mix(in srgb,var(--color-text) 70%,transparent)">{{ rc.withheld }}</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.assumptions }}">
+<div style="animation:pwFade .35s ease both">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:24px">
+<div>
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Assumptions</h1>
+<p style="font-size:13px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:0">Every model input, its source and its date. Edit anything; the whole plan recomputes.</p>
+</div>
+<button class="btn btn-secondary" onClick="{{ h.resetAll }}">Reset all to defaults</button>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px">
+<sc-for list="{{ as.groups }}" as="g" hint-placeholder-count="6">
+<div class="card" style="padding:18px 20px;gap:6px">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px">{{ g.name }}</div>
+<sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+<div style="display:grid;grid-template-columns:1fr 96px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+<div>
+<div style="font-size:13px">{{ it.label }}</div>
+<div style="font-size:10.5px;opacity:.48">{{ it.source }}</div>
+</div>
+<div style="display:flex;align-items:center;gap:5px">
+<input class="input" type="number" step="{{ it.step }}" value="{{ it.value }}" onChange="{{ it.onChange }}" style="text-align:right;font-variant-numeric:tabular-nums;padding:4px 6px;min-height:28px;font-size:12.5px">
+<span style="font-size:10.5px;opacity:.5;width:22px">{{ it.unit }}</span>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:18px 20px;margin-top:18px;gap:8px;border-style:dashed">
+<div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--color-accent)">Provenance key</div>
+<div style="display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px">
+<span><strong>Fact</strong> — from your portfolio file or stated directly by you.</span>
+<span><strong>Assumption</strong> — a model input you can change.</span>
+<span><strong>Estimate</strong> — research-based, dated, and uncertain.</span>
+<span><strong>Scenario</strong> — a hypothetical, never a forecast.</span>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ is.upload }}">
+<div style="animation:pwFade .35s ease both">
+<h1 style="font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px">Upload portfolio</h1>
+<p style="font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)">Excel, CSV, PDF statements or screenshots. Nothing is guessed — unclear values are queued for your review.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:26px">
+<sc-for list="{{ up.zones }}" as="z" hint-placeholder-count="3">
+<label style="display:flex;flex-direction:column;gap:8px;padding:30px 22px;border:1px dashed var(--color-divider);border-radius:var(--radius-md);cursor:pointer;text-align:center;align-items:center" style-hover="border-color:var(--color-accent);background:var(--color-accent-100)">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"></path><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path></svg>
+<div style="font-family:var(--font-heading);font-size:17px;font-weight:600">{{ z.name }}</div>
+<div style="font-size:11.5px;opacity:.55">{{ z.hint }}</div>
+<div style="font-size:11.5px;color:var(--color-accent)">{{ z.status }}</div>
+<input type="file" multiple="{{ true }}" onChange="{{ z.onChange }}" style="display:none">
+</label>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px">
+<div class="card" style="padding:20px 22px;gap:8px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Ingestion pipeline</h4>
+<sc-for list="{{ up.steps }}" as="s" hint-placeholder-count="6">
+<div style="display:flex;gap:11px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)">
+<span style="font-size:11px;color:var(--color-accent);width:14px;font-variant-numeric:tabular-nums">{{ s.n }}</span>
+<div style="flex:1"><div style="font-size:13px">{{ s.label }}</div><div style="font-size:10.5px;opacity:.5">{{ s.note }}</div></div>
+<span style="font-size:11px;opacity:.55">{{ s.state }}</span>
+</div>
+</sc-for>
+</div>
+<div class="card" style="padding:20px 22px;gap:8px">
+<h4 style="margin:0;font-size:18px;font-weight:600">Needs verification</h4>
+<div style="font-size:12.5px;opacity:.65">2 holdings require verification before they are used in any recommendation.</div>
+<sc-for list="{{ up.review }}" as="r" hint-placeholder-count="2">
+<div style="padding:10px 0;border-bottom:1px solid var(--color-divider)">
+<div style="display:flex;justify-content:space-between;gap:10px"><span style="font-size:13.5px">{{ r.name }}</span><span style="font-size:11px;color:var(--color-accent)">{{ r.field }}</span></div>
+<div style="font-size:11.5px;opacity:.6">{{ r.why }}</div>
+</div>
+</sc-for>
+<button class="btn btn-primary btn-block">Review 2 holdings</button>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+<div style="position:fixed;left:0;right:0;bottom:20px;z-index:60;display:flex;justify-content:center;pointer-events:none;padding:0 16px">
+<div style="display:flex;flex-direction:column;align-items:center;gap:12px;pointer-events:auto;max-width:100%">
+<sc-if value="{{ navOpen }}">
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:2px;background:var(--color-surface);border:2px solid var(--color-text);border-radius:30px;padding:6px;box-shadow:var(--shadow-lg);animation:pwRail .28s cubic-bezier(.2,.85,.3,1) both;max-width:min(94vw,880px)">
+<button onClick="{{ h.go.overview }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5z"></path></svg>Overview
+<sc-if value="{{ act.overview }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.portfolio }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.2 15.9A9 9 0 1 1 8.1 2.8"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>Portfolio
+<sc-if value="{{ act.portfolio }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.retirement }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12M6 22h12M17 22v-4.2L12 13l-5 4.8V22M7 2v4.2l5 4.8 5-4.8V2"></path></svg>Retirement
+<sc-if value="{{ act.retirement }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.education }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"></path></svg>Education
+<sc-if value="{{ act.education }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.marriage }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.5-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 3.5C19 16.5 12 21 12 21z"></path></svg>Marriage
+<sc-if value="{{ act.marriage }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.risk }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8.5v4M12 16h.01"></path></svg>Risk
+<sc-if value="{{ act.risk }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.recommendations }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6h11M10 12h11M10 18h11"></path><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"></path></svg>Advice
+<sc-if value="{{ act.recommendations }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.assumptions }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h16M4 18h16"></path><circle cx="9" cy="6" r="2"></circle><circle cx="15" cy="12" r="2"></circle><circle cx="8" cy="18" r="2"></circle></svg>Assumptions
+<sc-if value="{{ act.assumptions }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+<button onClick="{{ h.go.upload }}" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 13px;border:0;border-radius:22px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px" style-hover="background:color-mix(in srgb,var(--color-accent) 18%,transparent)">
+<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M8 8l4-4 4 4"></path><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path></svg>Upload
+<sc-if value="{{ act.upload }}"><span style="width:4px;height:4px;border-radius:50%;background:var(--color-accent)"></span></sc-if>
+</button>
+</div>
+</sc-if>
+<div style="display:flex;align-items:center;gap:10px">
+<button onClick="{{ h.toggleNav }}" aria-label="Open navigation" style="display:flex;align-items:center;gap:9px;height:48px;padding:0 22px;border:2px solid var(--color-text);border-radius:999px;background:var(--color-accent);color:#fff;cursor:pointer;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.02em;text-transform:uppercase;box-shadow:var(--shadow-md)" style-hover="background:var(--color-accent-700)">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>{{ navLabel }}
+</button>
+<button onClick="{{ h.toggleWhatIf }}" style="display:flex;align-items:center;gap:8px;height:48px;padding:0 20px;border:2px solid var(--color-text);border-radius:999px;background:var(--pw-o);color:#fff;box-shadow:var(--shadow-md);cursor:pointer;font-family:var(--font-heading);font-weight:600;font-size:13px;letter-spacing:.02em;text-transform:uppercase" style-hover="background:var(--pw-o-bright)">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"></path><circle cx="12" cy="12" r="3.2"></circle></svg>What if?
+</button>
+</div>
+</div>
+</div>
+
+<sc-if value="{{ whatIf }}">
+<div style="position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);z-index:70;background:var(--color-bg);border-left:1px solid var(--color-divider);box-shadow:var(--shadow-lg);overflow-y:auto;animation:pwSlide .3s cubic-bezier(.2,.85,.3,1) both">
+<div style="padding:22px 24px 120px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;align-items:baseline;justify-content:space-between">
+<h3 style="margin:0;font-size:24px;font-weight:400">What if?</h3>
+<button onClick="{{ h.toggleWhatIf }}" class="btn btn-ghost" style="font-size:13px">Close</button>
+</div>
+<div class="card" style="padding:14px 16px;gap:6px;background:var(--color-surface)">
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span>Retirement probability</span><span style="font-variant-numeric:tabular-nums;{{ wi.probCss }}">{{ wi.prob }}</span></div>
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span>Required corpus</span><span style="font-variant-numeric:tabular-nums;{{ wi.reqCss }}">{{ wi.req }}</span></div>
+<div style="display:flex;justify-content:space-between;font-size:12.5px"><span>Earliest viable age</span><span style="font-variant-numeric:tabular-nums;{{ wi.viableCss }}">{{ wi.viable }}</span></div>
+<div style="font-size:10.5px;opacity:.5;margin-top:2px">Change against your saved baseline</div>
+</div>
+<sc-for list="{{ wi.sliders }}" as="s" hint-placeholder-count="8">
+<div>
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:12.5px">{{ s.label }}</span><span style="font-size:12.5px;font-variant-numeric:tabular-nums;color:var(--color-accent)">{{ s.value }}</span></div>
+<input type="range" min="{{ s.min }}" max="{{ s.max }}" step="{{ s.step }}" value="{{ s.raw }}" onChange="{{ s.onChange }}" aria-label="{{ s.label }}">
+</div>
+</sc-for>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<button class="btn btn-secondary" onClick="{{ h.resetWhatIf }}">Reset to baseline</button>
+<button class="btn btn-primary" onClick="{{ h.commitWhatIf }}">Save as baseline</button>
+</div>
+<p style="font-size:11px;opacity:.5;margin:0">Scenario outputs are hypothetical. They do not change your holdings and are never presented as forecasts.</p>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;demoBanner&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;defaultScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;overview&quot;,&quot;portfolio&quot;,&quot;retirement&quot;,&quot;education&quot;,&quot;marriage&quot;,&quot;risk&quot;,&quot;recommendations&quot;,&quot;assumptions&quot;,&quot;upload&quot;],&quot;default&quot;:&quot;overview&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;advisorMode&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Data&quot;,&quot;Advisor&quot;,&quot;Strong Advisor&quot;],&quot;default&quot;:&quot;Advisor&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Recommendations&quot;}}">
+class Component extends DCLogic {
+  C = {
+    India:{ccy:'INR',fx:1/228.4,ug:4,pg:2,infl:8,tiers:{Budget:200000,Mainstream:550000,Premium:1200000}},
+    USA:{ccy:'USD',fx:0.3845,ug:4,pg:2,infl:5,tiers:{Budget:28000,Mainstream:48000,Premium:78000}},
+    Canada:{ccy:'CAD',fx:0.2780,ug:4,pg:2,infl:5,tiers:{Budget:32000,Mainstream:45000,Premium:62000}},
+    UK:{ccy:'GBP',fx:0.4920,ug:3,pg:1,infl:5,tiers:{Budget:26000,Mainstream:38000,Premium:52000}},
+    Europe:{ccy:'EUR',fx:0.4180,ug:3,pg:2,infl:4.5,tiers:{Budget:14000,Mainstream:22000,Premium:34000}}
+  };
+  MT = {Basic:800000,Moderate:1800000,High:3500000,Premium:7000000};
+  ML = {'West Bengal / Tier-2':1,'Major Tier-1 city':1.35,'Indian destination':1.8};
+  KEYS = ['Indian Equity','US Equity','Crypto','Liquid Fund','Cash','Gold'];
+  COL = {'Indian Equity':'#1d3fbf','US Equity':'#5c78d2','Crypto':'#d95e08','Liquid Fund':'#f4933f','Cash':'#9aaeea','Gold':'#fbd3ab'};
+  RISKW = {'Indian Equity':'High','US Equity':'High','Crypto':'Very high','Liquid Fund':'Low','Cash':'None','Gold':'Moderate'};
+  CCYW = {'Indian Equity':'INR','US Equity':'USD','Crypto':'USD','Liquid Fund':'OMR','Cash':'OMR','Gold':'INR'};
+  HOLD = [
+    {n:'Nifty 50 Index Fund',c:'Indian Equity',q:'18,400 units',inv:13200,cur:18600,rec:'HOLD',cf:'High',why:'Core index exposure, at target weight.',fresh:'NAV 22 Aug'},
+    {n:'Parag Parikh Flexi Cap',c:'Indian Equity',q:'9,120 units',inv:10400,cur:14200,rec:'HOLD',cf:'High',why:'Diversified; low overlap with the index core.',fresh:'NAV 22 Aug'},
+    {n:'HDFC Mid-Cap Opportunities',c:'Indian Equity',q:'6,050 units',inv:8100,cur:11300,rec:'REDUCE',cf:'Medium',why:'Mid-cap weight above policy band; trim on strength.',fresh:'NAV 22 Aug'},
+    {n:'ICICI Pru Bluechip',c:'Indian Equity',q:'7,400 units',inv:7900,cur:9700,rec:'HOLD',cf:'High',why:'Large-cap ballast.',fresh:'NAV 22 Aug'},
+    {n:'Direct equity basket',c:'Indian Equity',q:'5 positions',inv:6800,cur:8200,rec:'WATCH',cf:'Low',why:'Transaction history incomplete — XIRR unavailable.',fresh:'Manual 24 Aug'},
+    {n:'Vanguard S&P 500 (VOO)',c:'US Equity',q:'42 units',inv:17600,cur:24800,rec:'HOLD',cf:'High',why:'Primary global equity sleeve.',fresh:'Close 22 Aug'},
+    {n:'Invesco QQQ',c:'US Equity',q:'26 units',inv:9800,cur:13900,rec:'HOLD',cf:'Medium',why:'Overlaps VOO on the mega-caps; watch combined weight.',fresh:'Close 22 Aug'},
+    {n:'Apple (AAPL)',c:'US Equity',q:'28 units',inv:5900,cur:7600,rec:'HOLD',cf:'Medium',why:'Single-stock weight within tolerance.',fresh:'Close 22 Aug'},
+    {n:'Microsoft (MSFT)',c:'US Equity',q:'19 units',inv:5600,cur:7700,rec:'HOLD',cf:'Medium',why:'Single-stock weight within tolerance.',fresh:'Close 22 Aug'},
+    {n:'Bitcoin',c:'Crypto',q:'0.42 BTC',inv:9800,cur:22900,rec:'REDUCE',cf:'High',why:'Largest single position in the book.',fresh:'Manual 24 Aug'},
+    {n:'Ethereum',c:'Crypto',q:'4.10 ETH',inv:6200,cur:9400,rec:'HOLD',cf:'Medium',why:'Second crypto leg; sized below BTC.',fresh:'Manual 24 Aug'},
+    {n:'Solana',c:'Crypto',q:'60 SOL',inv:3100,cur:4200,rec:'WATCH',cf:'Low',why:'Quantity unverified from screenshot.',fresh:'Screenshot 19 Aug'},
+    {n:'Altcoin basket',c:'Crypto',q:'6 tokens',inv:2900,cur:2500,rec:'SELL',cf:'Medium',why:'Sub-1% positions, no thesis on file, high idiosyncratic risk.',fresh:'Manual 24 Aug'},
+    {n:'Liquid fund',c:'Liquid Fund',q:'~4.0% yield',inv:20200,cur:21000,rec:'HOLD',cf:'High',why:'Emergency reserve core.',fresh:'Stmt 21 Aug'},
+    {n:'Savings / cash',c:'Cash',q:'—',inv:4000,cur:4000,rec:'HOLD',cf:'High',why:'Immediate liquidity.',fresh:'Stmt 24 Aug'},
+    {n:'Gold ETF',c:'Gold',q:'—',inv:4100,cur:5420,rec:'HOLD',cf:'Medium',why:'Small inflation hedge.',fresh:'NAV 22 Aug'}
+  ];
+  _memo = new Map();
+  _memo2 = new Map();
+  state = {
+    screen: this.props.defaultScreen || 'overview',
+    navOpen: false, whatIf: false, viewport: 'desktop',
+    mode: this.props.advisorMode || 'Advisor',
+    openClass: null, uploads: {},
+    a: this.defaults(), base: this.defaults(),
+    mc10k: null, mc10kKey: null
+  };
+
+  defaults(){
+    return {
+      currentAge:42, retireAge:52, planAge:90, returnAge:52,
+      salary:2500, salaryGrowth:2, expenses:1400, expenseGrowth:4, contribution:1000,
+      indiaSpend:100000, spendMode:'Base',
+      travelMode:'Fixed', travelBudget:100, travelPct:12,
+      healthBase:60000, medInflation:8, insurance:true,
+      inflIndia:6, inflOman:2.5,
+      fxOMRINR:228.4, fxDrift:3.0,
+      rIN:10, rUS:7.5, rCR:12, rLQ:4, rCA:0.5, rGO:5,
+      vIN:18, vUS:16, vCR:65, vLQ:1, vCA:0.2, vGO:14,
+      daughterAge:11, eduStartAge:18, eduCountry:'USA', eduTier:'Mainstream', eduPG:false, pgGap:1,
+      marriageAge:27, marriageTier:'Moderate', marriageLoc:'West Bengal / Tier-2', marriageInfl:7,
+      jobRisk:1.5, taxOn:0
+    };
+  }
+
+  componentDidMount(){
+    let n = false;
+    try { n = localStorage.getItem('pwos-night') === '1'; } catch (e) {}
+    document.documentElement.classList.toggle('pw-night', n);
+    if (n) this.setState({ night: true });
+    this.refine();
+  }
+  componentDidUpdate(pp, ps){ if (ps.a !== this.state.a) this.refine(); }
+  componentWillUnmount(){ clearTimeout(this._t); }
+  refine(){
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      const a = this.state.a, k = JSON.stringify(a);
+      const c = this.core(a);
+      const m = this.mc(a, 10000, false, { eduFloor: c.eduFloor });
+      this.setState({ mc10k: m, mc10kKey: k });
+    }, 420);
+  }
+  setA(p){ this.setState(s => ({ a: { ...s.a, ...p } })); }
+
+  /* ---------- primitives ---------- */
+  rng(seed){ let t = seed >>> 0; return () => { t = (t + 0x6D2B79F5) >>> 0; let r = Math.imul(t ^ (t >>> 15), 1 | t); r = (r + Math.imul(r ^ (r >>> 7), 61 | r)) ^ r; return ((r ^ (r >>> 14)) >>> 0) / 4294967296; }; }
+  gauss(rnd){ if (this._g != null) { const g = this._g; this._g = null; return g; } let u = 0, v = 0; while (u === 0) u = rnd(); while (v === 0) v = rnd(); const m = Math.sqrt(-2 * Math.log(u)), th = 2 * Math.PI * v; this._g = m * Math.sin(th); return m * Math.cos(th); }
+  total(){ return this.HOLD.reduce((s, x) => s + x.cur, 0); }
+  invested(){ return this.HOLD.reduce((s, x) => s + x.inv, 0); }
+  byClass(c){ return this.HOLD.filter(x => x.c === c).reduce((s, x) => s + x.cur, 0); }
+  weights(){ const t = this.total(); return this.KEYS.map(k => this.byClass(k) / t); }
+
+  muSigma(a){
+    const w = this.weights();
+    const r = [a.rIN, a.rUS, a.rCR, a.rLQ, a.rCA, a.rGO].map(x => x / 100);
+    const v = [a.vIN, a.vUS, a.vCR, a.vLQ, a.vCA, a.vGO].map(x => x / 100);
+    const C = [[1,.55,.35,0,0,.1],[.55,1,.45,0,0,.05],[.35,.45,1,0,0,.1],[0,0,0,1,.2,0],[0,0,0,.2,1,0],[.1,.05,.1,0,0,1]];
+    let mu = 0, va = 0;
+    for (let i = 0; i < 6; i++) { mu += w[i] * r[i]; for (let j = 0; j < 6; j++) va += w[i] * w[j] * v[i] * v[j] * C[i][j]; }
+    return { mu, sig: Math.sqrt(va) };
+  }
+
+  eduPlan(a){
+    const c = this.C[a.eduCountry], flows = {}, lines = [];
+    const startIn = a.eduStartAge - a.daughterAge;
+    const list = [];
+    for (let k = 0; k < c.ug; k++) list.push({ k, kind: 'Undergraduate', c });
+    if (a.eduPG) { const pc = this.C[a.eduCountry]; for (let k = 0; k < pc.pg; k++) list.push({ k: c.ug + a.pgGap + k, kind: 'Postgraduate', c: pc }); }
+    let tOMR = 0, tLocal = 0;
+    list.forEach(y => {
+      const yr = startIn + y.k;
+      const ann = y.c.tiers[a.eduTier] * (y.kind === 'Postgraduate' ? 1.05 : 1);
+      const infl = ann * Math.pow(1 + y.c.infl / 100, yr);
+      const omr = infl * y.c.fx;
+      const age = a.currentAge + yr;
+      flows[age] = (flows[age] || 0) + omr;
+      tOMR += omr; tLocal += infl;
+      lines.push({ age, dAge: a.daughterAge + yr, yr, kind: y.kind, ccy: y.c.ccy, local: infl, omr });
+    });
+    const ages = Object.keys(flows).map(Number);
+    return { flows, lines, tOMR, tLocal, c, startIn, lastAge: ages.length ? Math.max(...ages) : null };
+  }
+  marPlan(a){
+    const yr = a.marriageAge - a.daughterAge;
+    const today = this.MT[a.marriageTier] * this.ML[a.marriageLoc];
+    const then = today * Math.pow(1 + a.marriageInfl / 100, yr);
+    const age = a.currentAge + yr;
+    return { yr, today, then, age, flow: { age, omr: then / this.fxAt(a, yr) } };
+  }
+  fxAt(a, yr){ return a.fxOMRINR * Math.pow(1 + (a.fxDrift || 0) / 100, yr); }
+  retSpend(a, yr, age, inflAdj){
+    const mult = { Conservative: .85, Base: 1, Comfortable: 1.25 }[a.spendMode];
+    const inf = Math.max(0.5, a.inflIndia + (inflAdj || 0)) / 100;
+    const inr = a.indiaSpend * 12 * mult * Math.pow(1 + inf, yr);
+    const fx = this.fxAt(a, yr);
+    let travel;
+    if (a.travelMode === 'Fixed') travel = a.travelBudget * 12 * Math.pow(1 + a.inflOman / 100, yr);
+    else if (a.travelMode === 'Percent') travel = (inr / fx) * (a.travelPct / 100);
+    else travel = (a.travelBudget * 12 + 2000) * Math.pow(1 + a.inflOman / 100, yr);
+    const esc = 1 + Math.max(0, age - 60) * 0.025;
+    const health = a.healthBase * Math.pow(1 + a.medInflation / 100, yr) * esc * (a.insurance ? 0.6 : 1);
+    return inr / fx + travel + health / fx;
+  }
+
+  simPath(a, o){
+    const R = o.retireAge || a.retireAge;
+    const from = o.fromAge || a.currentAge;
+    const N = a.planAge - from + 1;
+    const s = o.series ? new Float64Array(N) : null;
+    const ms = o.ms;
+    let corpus = o.corpus0 != null ? o.corpus0 : this.total();
+    let dep = null, atR = 0, okEdu = true, okMar = true;
+    for (let i = 0; i < N; i++) {
+      const age = from + i, yr = age - a.currentAge;
+      let flow = 0;
+      if (age < R) flow += a.contribution * 12 * Math.pow(1 + a.salaryGrowth / 100, yr);
+      else flow -= this.retSpend(a, yr, age, o.inflAdj);
+      if (o.edu && o.edu[age]) flow -= o.edu[age];
+      if (o.mar && o.mar.age === age) flow -= o.mar.omr;
+      if (o.jl && yr >= o.jl.start && yr < o.jl.start + o.jl.years && age < R) {
+        flow -= a.contribution * 12 * Math.pow(1 + a.salaryGrowth / 100, yr);
+        flow -= a.expenses * 12 * Math.pow(1 + a.expenseGrowth / 100, yr) * (o.jl.emgCover || 0);
+      }
+      let r;
+      if (o.rnd) { r = (age < R ? ms.mu : ms.mu - 0.012) + ms.sig * this.gauss(o.rnd); if (r < -0.9) r = -0.9; }
+      else r = age < R ? ms.mu : ms.mu - 0.012;
+      if (o.shockAge === age) r = o.shockMag;
+      corpus = (corpus + flow) * (1 + r);
+      if (corpus < 0) { corpus = 0; if (dep === null) dep = age; }
+      if (s) s[i] = corpus;
+      if (age === R) atR = corpus;
+      if (o.eduLast != null && age === o.eduLast && corpus < (o.eduFloor || 1)) okEdu = false;
+      if (o.marAge != null && age === o.marAge && corpus <= 1) okMar = false;
+    }
+    return { s, dep, atR, final: corpus, okEdu, okMar, N, from };
+  }
+
+  mc(a, n, collect, opt){
+    opt = opt || {};
+    const ms = this.muSigma(a), edu = this.eduPlan(a), mar = this.marPlan(a);
+    const rnd = this.rng(20260824);
+    this._g = null;
+    const R = opt.retireAge || a.retireAge;
+    const N = a.planAge - a.currentAge + 1;
+    let succ = 0, eok = 0, mok = 0;
+    const atR = new Float64Array(n);
+    const bands = collect ? Array.from({ length: N }, () => new Float64Array(n)) : null;
+    for (let i = 0; i < n; i++) {
+      const p = this.simPath(a, { ms, edu: edu.flows, mar: mar.flow, eduLast: edu.lastAge, eduFloor: opt.eduFloor, marAge: mar.age, rnd, inflAdj: this.gauss(rnd) * 1.1, retireAge: R, series: collect, corpus0: opt.corpus0, fromAge: opt.fromAge });
+      if (p.dep === null) succ++;
+      if (p.okEdu) eok++;
+      if (p.okMar) mok++;
+      atR[i] = p.atR;
+      if (collect) for (let y = 0; y < N; y++) bands[y][i] = p.s[y];
+    }
+    const q = (arr, x) => arr[Math.min(arr.length - 1, Math.floor(x * arr.length))];
+    const sorted = Float64Array.from(atR).sort();
+    let band = null;
+    if (collect) band = bands.map((arr, y) => { const b = arr.sort(); return { age: a.currentAge + y, p10: q(b, .1), p50: q(b, .5), p90: q(b, .9) }; });
+    return { n, succ: succ / n, edu: eok / n, mar: mok / n, dep: 1 - succ / n, atR: { p10: q(sorted, .1), p50: q(sorted, .5), p90: q(sorted, .9) }, band };
+  }
+
+  requiredCorpus(a, R){
+    let lo = 0, hi = 5e6;
+    for (let i = 0; i < 15; i++) {
+      const mid = (lo + hi) / 2;
+      const m = this.mc(a, 220, false, { retireAge: R, corpus0: mid, fromAge: R });
+      if (m.succ >= 0.9) hi = mid; else lo = mid;
+    }
+    return hi;
+  }
+
+  /* ---------- derive ---------- */
+  core(a){
+    const k = JSON.stringify(a);
+    if (this._memo.has(k)) return this._memo.get(k);
+    const ms = this.muSigma(a), edu = this.eduPlan(a), mar = this.marPlan(a);
+    const det = this.simPath(a, { ms, edu: edu.flows, mar: mar.flow, series: true });
+    const req = this.requiredCorpus(a, a.retireAge);
+    const eduFloor = 1;
+    const mc = this.mc(a, 2200, true, { eduFloor });
+    const viable = {};
+    [.8, .9, .95].forEach(t => { viable[t] = null; });
+    for (let R = 50; R <= 60; R++) {
+      const m = this.mc(a, 500, false, { retireAge: R });
+      [.8, .9, .95].forEach(t => { if (viable[t] === null && m.succ >= t) viable[t] = R; });
+    }
+    const emg = this.emergency(a);
+    const risk = this.risk(a, ms);
+    const gap = Math.max(0, req - mc.atR.p50);
+    const yrsTo = Math.max(1, a.retireAge - a.currentAge);
+    const reqSave = a.contribution * 12 + (gap > 0 ? gap / (((Math.pow(1 + ms.mu, yrsTo) - 1) / ms.mu)) : 0);
+    const health = this.health(a, mc, emg, risk);
+    const m10 = this.state.mc10kKey === k ? this.state.mc10k : null;
+    const out = { ms, edu, mar, det, mc, req, viable, emg, risk, gap, reqSave, health, m10, eduFloor, key: k };
+    if (this._memo.size > 24) this._memo.clear();
+    this._memo.set(k, out);
+    return out;
+  }
+  emergency(a){
+    const w = this.weights();
+    let months = 6 + a.jobRisk + (w[2] > 0.15 ? 1.5 : 0) + 1;
+    const rec = a.expenses * months;
+    const cur = this.byClass('Cash') + this.byClass('Liquid Fund');
+    return { months: Math.round(months * 10) / 10, rec, cur, gap: cur - rec };
+  }
+  risk(a, ms){
+    const w = this.weights(), t = this.total();
+    const maxHold = Math.max(...this.HOLD.map(x => x.cur)) / t;
+    const inr = (this.byClass('Indian Equity') + this.byClass('Gold')) / t;
+    const liq = (this.byClass('Cash') + this.byClass('Liquid Fund')) / t;
+    const emg = this.emergency(a);
+    const d = [
+      { label: 'Crypto exposure', v: Math.min(100, w[2] / 0.25 * 100), note: (w[2] * 100).toFixed(1) + '%' },
+      { label: 'Single-asset', v: Math.min(100, maxHold / 0.15 * 100), note: (maxHold * 100).toFixed(1) + '%' },
+      { label: 'Country mix', v: Math.min(100, Math.abs(inr - 0.4) / 0.4 * 100), note: (inr * 100).toFixed(0) + '% India' },
+      { label: 'Currency', v: Math.min(100, (1 - inr) / 0.7 * 100), note: (100 - inr * 100).toFixed(0) + '% non-INR' },
+      { label: 'Liquidity', v: Math.max(0, 100 - Math.min(100, emg.cur / emg.rec * 100)), note: (liq * 100).toFixed(0) + '% liquid' },
+      { label: 'Volatility', v: Math.min(100, ms.sig / 0.25 * 100), note: (ms.sig * 100).toFixed(1) + '% p.a.' },
+      { label: 'Drawdown', v: Math.min(100, ms.sig * 2.2 / 0.5 * 100), note: '-' + (ms.sig * 2.2 * 100).toFixed(0) + '% est.' },
+      { label: 'Sequence risk', v: Math.min(100, (w[0] + w[1] + w[2]) * 100 * (1 - Math.min(1, (a.retireAge - a.currentAge) / 15))), note: (a.retireAge - a.currentAge) + ' yrs out' }
+    ];
+    const score = Math.round(d.reduce((s, x) => s + x.v, 0) / d.length);
+    return { score, drivers: d, maxHold, inr, liq };
+  }
+  health(a, mc, emg, risk){
+    const w = this.weights();
+    const hhi = w.reduce((s, x) => s + x * x, 0);
+    const div = Math.max(0, Math.min(100, (1 - (hhi - 0.167) / 0.5) * 100));
+    const sav = Math.min(100, ((a.salary - a.expenses) / a.salary) / 0.4 * 100);
+    const parts = [
+      { label: 'Retirement', v: mc.succ * 100, wt: .3 },
+      { label: 'Liquidity', v: Math.min(100, emg.cur / emg.rec * 100), wt: .15 },
+      { label: 'Diversification', v: div, wt: .15 },
+      { label: 'Education', v: mc.edu * 100, wt: .15 },
+      { label: 'Risk control', v: 100 - risk.score, wt: .15 },
+      { label: 'Savings capacity', v: sav, wt: .1 }
+    ];
+    const score = Math.round(parts.reduce((s, p) => s + p.v * p.wt, 0));
+    return { score, parts };
+  }
+  stress(a){
+    const k = 'S' + JSON.stringify(a);
+    if (this._memo2.has(k)) return this._memo2.get(k);
+    const t = this.total(), w = this.weights();
+    const eq = (this.byClass('Indian Equity') + this.byClass('US Equity'));
+    const cr = this.byClass('Crypto');
+    const scen = [
+      { label: 'Equity −30%', loss: eq * .3 },
+      { label: 'Severe equity −45%', loss: eq * .45 },
+      { label: 'Crypto −50%', loss: cr * .5 },
+      { label: 'Crypto −70%', loss: cr * .7 },
+      { label: 'Crypto −90%', loss: cr * .9 },
+      { label: 'Equity −30% and crypto −70%', loss: eq * .3 + cr * .7 },
+      { label: 'Global risk-off: equity −35%, crypto −80%, gold +10%', loss: eq * .35 + cr * .8 - this.byClass('Gold') * .1 }
+    ].map(s => {
+      const m = this.mc(a, 500, false, { corpus0: t - s.loss });
+      return { ...s, prob: m.succ };
+    });
+    const R = a.retireAge;
+    const seqDefs = [{ o: -5, l: '5 years before retirement' }, { o: 0, l: 'At retirement' }, { o: 1, l: '1 year after' }, { o: 2, l: '2 years after' }, { o: 3, l: '3 years after' }, { o: 5, l: '5 years after' }];
+    const ms = this.muSigma(a), edu = this.eduPlan(a), mar = this.marPlan(a);
+    const seq = seqDefs.map(s => {
+      const age = R + s.o;
+      const p = this.simPath(a, { ms, edu: edu.flows, mar: mar.flow, shockAge: age, shockMag: -0.35 });
+      const m = this.mc(a, 400, false);
+      return { label: s.l, corpus: p.final, atR: p.atR, prob: Math.max(0, m.succ - Math.max(0, 0.34 - Math.abs(s.o) * 0.045)) };
+    });
+    const jl = [6, 12, 24].map(mo => {
+      const yrs = mo / 12;
+      const p = this.simPath(a, { ms, edu: edu.flows, mar: mar.flow, jl: { start: 3, years: Math.ceil(yrs), emgCover: 1 } });
+      const emg = this.emergency(a);
+      const need = a.expenses * mo;
+      const fromEmg = Math.min(emg.cur, need);
+      const m = this.mc(a, 400, false, { corpus0: this.total() - Math.max(0, need - fromEmg) });
+      return { label: mo + ' months without salary', emg: fromEmg, port: Math.max(0, need - fromEmg), contrib: a.contribution * mo, prob: m.succ };
+    });
+    const out = { scen, seq, jl };
+    if (this._memo2.size > 12) this._memo2.clear();
+    this._memo2.set(k, out);
+    return out;
+  }
+
+  /* ---------- format ---------- */
+  n0(v){ return Math.round(v).toLocaleString('en-US'); }
+  omr(v){ return 'OMR ' + this.n0(v); }
+  omrK(v){ return Math.abs(v) >= 1e6 ? 'OMR ' + (v / 1e6).toFixed(2) + 'M' : 'OMR ' + this.n0(v); }
+  inr(v){ const x = Math.abs(v); const s = v < 0 ? '−₹' : '₹'; const y = Math.abs(v); return x >= 1e7 ? s + (y / 1e7).toFixed(2) + ' Cr' : x >= 1e5 ? s + (y / 1e5).toFixed(1) + ' L' : s + this.n0(y); }
+  oi(v){ return this.inr(v * this.state.a.fxOMRINR); }
+  pc(v, d){ return (v * 100).toFixed(d == null ? 0 : d) + '%'; }
+  sign(v){ return (v >= 0 ? '+' : '−') + this.n0(Math.abs(v)); }
+  tone(good){ return good ? 'color:var(--pw-pos)' : 'color:var(--pw-neg)'; }
+  fill(v, color){ return 'height:100%;width:' + Math.max(1, Math.min(100, v)) + '%;background:' + (color || 'var(--color-accent)') + ';transition:width .45s cubic-bezier(.2,.8,.3,1)'; }
+  bar(){ return 'height:4px;background:var(--pw-track);overflow:hidden'; }
+
+  renderVals(){
+    const a = this.state.a, st = this.state;
+    const m = this.core(a);
+    const eff = m.m10 || m.mc;
+    const simNote = (m.m10 ? '10,000' : m.mc.n.toLocaleString('en-US')) + ' simulations' + (m.m10 ? '' : ' · refining');
+    const total = this.total(), invested = this.invested();
+    const scr = st.screen;
+    const go = {};
+    ['overview','portfolio','retirement','education','marriage','risk','recommendations','assumptions','upload'].forEach(s => { go[s] = () => this.setState({ screen: s, navOpen: false }); });
+    const act = {}; Object.keys(go).forEach(s => act[s] = scr === s);
+    const is = {}; Object.keys(go).forEach(s => is[s] = scr === s);
+
+    const tl = (ages, lo, hi, cur) => ages.map(g => ({ age: g, style: 'position:absolute;left:' + ((g - lo) / (hi - lo) * 100) + '%;transform:translateX(-50%);font-size:11px;font-variant-numeric:tabular-nums;' + (g === cur ? 'color:var(--color-accent);font-weight:600' : 'opacity:.45') }));
+
+    /* overview */
+    const hw = m.health.parts.slice().sort((x, y) => x.v - y.v)[0];
+    const statusWord = eff.succ >= .9 && m.emg.gap >= 0 && m.risk.score < 55 ? 'on track' : eff.succ >= .75 ? 'partially on track' : 'off track';
+    const ov = {
+      status: 'You are currently ' + statusWord + '. Retirement at ' + a.retireAge + ' carries a ' + this.pc(eff.succ) + ' success probability, but ' + (m.risk.drivers[0].v > 70 ? 'concentration risk and ' : '') + (m.emg.gap < 0 ? 'a thin emergency reserve' : 'the education funding spike') + ' are the binding constraints.',
+      simNote,
+      wealth: this.omr(total), wealthINR: this.oi(total), gain: this.sign(total - invested) + ' OMR (' + this.pc((total - invested) / invested, 1) + ')',
+      retProb: this.pc(eff.succ), retAge: a.retireAge, viable: m.viable[.9] || 'beyond 60',
+      eduProb: this.pc(eff.edu), eduLine: a.eduCountry + ' · ' + a.eduTier + ' · starts age ' + a.eduStartAge, eduTotal: this.omrK(m.edu.tOMR),
+      emgCur: this.omr(m.emg.cur), emgRec: this.omr(m.emg.rec), emgMonths: m.emg.months,
+      emgGap: (m.emg.gap >= 0 ? 'Surplus ' : 'Short ') + this.omr(Math.abs(m.emg.gap)), emgToneCss: this.tone(m.emg.gap >= 0),
+      health: m.health.score, healthWord: m.health.score >= 80 ? 'Strong' : m.health.score >= 65 ? 'Sound, with gaps' : 'Needs attention', healthWeak: hw.label,
+      bars: m.health.parts.map(p => ({ label: p.label, val: Math.round(p.v), fill: this.fill(p.v) })),
+      req: this.omrK(m.req), reqINR: this.oi(m.req), proj: this.omrK(eff.atR.p50), projINR: this.oi(eff.atR.p50),
+      timeline: tl([42, 50, 52, 55, 60, 90], 42, 90, a.retireAge),
+      retNote: m.gap > 0 ? 'Median projection falls ' + this.omrK(m.gap) + ' short of the required corpus at age ' + a.retireAge + '. Required annual investment rises to ' + this.omr(m.reqSave) + '.' : 'Median projection clears the required corpus at age ' + a.retireAge + ' with ' + this.omrK(eff.atR.p50 - m.req) + ' of headroom.',
+      attention: [], actions: []
+    };
+    ov.timeline = tl([42, 50, 52, 55, 60, 90], 42, 90, a.retireAge);
+    const atts = [];
+    if (m.risk.drivers[0].v > 70) atts.push({ title: 'Crypto concentration', tag: 'Risk', body: 'Crypto is ' + m.risk.drivers[0].note + ' of investable wealth, and Bitcoin alone is ' + this.pc(m.risk.maxHold, 1) + '. A 70% crypto drawdown removes ' + this.omrK(this.byClass('Crypto') * .7) + ' from the plan.' });
+    if (m.emg.gap < 0) atts.push({ title: 'Emergency reserve below target', tag: 'Liquidity', body: 'Recommended ' + this.omr(m.emg.rec) + ' (' + m.emg.months + ' months); you hold ' + this.omr(m.emg.cur) + '.' });
+    atts.push({ title: 'Education funding spike', tag: 'Goal', body: a.eduCountry + ' ' + a.eduTier + ' costs ' + this.omrK(m.edu.tOMR) + ' across ' + m.edu.lines.length + ' years starting when you are ' + (a.currentAge + m.edu.startIn) + ' — the single largest outflow before retirement.' });
+    if (m.gap > 0) atts.push({ title: 'Retirement funding gap', tag: 'Retirement', body: 'Median corpus is ' + this.omrK(m.gap) + ' short at age ' + a.retireAge + '.' });
+    atts.push({ title: 'Contribution pattern is irregular', tag: 'Data', body: 'Averaging OMR ' + this.n0(a.contribution) + '/month in lump sums. Forecasts use the annual average, not a fixed SIP.' });
+    ov.attention = atts.slice(0, 3).map((x, i) => ({ ...x, n: String(i + 1).padStart(2, '0'), tagStyle: 'font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:999px;background:var(--pw-o);color:#fff' }));
+    ov.actions = [
+      (m.emg.gap < 0 ? 'Add ' + this.omr(-m.emg.gap) + ' to the liquid reserve before any new equity purchase.' : 'Hold the reserve at ' + this.omr(m.emg.cur) + '; it covers ' + m.emg.months + ' months.'),
+      'Trim the altcoin basket (' + this.omr(2500) + ') — sub-1% positions with no thesis on file.',
+      'Open an education bucket and earmark ' + this.omrK(m.edu.tOMR / Math.max(1, m.edu.startIn)) + '/year for the next ' + m.edu.startIn + ' years.',
+      'Continue the ' + this.omr(a.contribution) + '/month average pace; it is the assumption the whole plan rests on.',
+      'Revisit the retirement target at age 45, once ' + (45 - a.currentAge) + ' more years of actual contributions are on record.'
+    ].map((t, i) => ({ n: String(i + 1), text: t }));
+
+    /* portfolio */
+    const w = this.weights();
+    const CIRC = 2 * Math.PI * 70;
+    let off = 0;
+    const segs = this.KEYS.map((k, i) => { const len = w[i] * CIRC; const s = { color: this.COL[k], dash: len.toFixed(2) + ' ' + (CIRC - len).toFixed(2), offset: (-off).toFixed(2), onClick: () => this.setState({ openClass: k }) }; off += len; return s; });
+    const classes = this.KEYS.map((k, i) => {
+      const cur = this.byClass(k), inv = this.HOLD.filter(x => x.c === k).reduce((s, x) => s + x.inv, 0);
+      return { name: k, swatch: 'display:block;width:10px;height:10px;border-radius:2px;background:' + this.COL[k], cur: this.omr(cur), pl: this.sign(cur - inv), plCss: this.tone(cur >= inv), w: this.pc(w[i], 1), risk: this.RISKW[k], ccy: this.CCYW[k], onClick: () => this.setState({ openClass: k }) };
+    });
+    let detail = null;
+    if (st.openClass) {
+      const k = st.openClass, i = this.KEYS.indexOf(k);
+      const cur = this.byClass(k), inv = this.HOLD.filter(x => x.c === k).reduce((s, x) => s + x.inv, 0);
+      const vols = { 'Indian Equity': a.vIN, 'US Equity': a.vUS, Crypto: a.vCR, 'Liquid Fund': a.vLQ, Cash: a.vCA, Gold: a.vGO };
+      detail = { name: k, inv: this.omr(inv), cur: this.omr(cur), pl: this.sign(cur - inv) + ' (' + this.pc((cur - inv) / inv, 1) + ')', plCss: this.tone(cur >= inv), w: this.pc(w[i], 1), vol: vols[k] + '% p.a.', ccy: this.CCYW[k], note: k === 'Crypto' ? 'No allocation cap is imposed on this sleeve. At ' + this.pc(w[i], 1) + ' it is the second-largest driver of plan volatility; stress tests run at −50%, −70% and −90%.' : k === 'US Equity' ? 'VOO and QQQ overlap heavily on the mega-caps. Effective single-name concentration is higher than the line items suggest.' : k === 'Liquid Fund' ? 'Yielding approximately 4%. This sleeve plus cash forms the emergency reserve; after your return to India it should shift to INR savings.' : 'Weight is inside the policy band implied by your assumptions.' };
+    }
+    const rows = this.HOLD.map(x => ({
+      n: x.n, c: x.c, q: x.q, fresh: x.fresh, cur: this.omr(x.cur), pl: this.sign(x.cur - x.inv), plCss: this.tone(x.cur >= x.inv), w: this.pc(x.cur / total, 1), risk: this.RISKW[x.c], rec: x.rec, conf: x.cf, why: x.why,
+      recStyle: 'font-size:10px;letter-spacing:.07em;padding:2px 9px;border-radius:999px;text-transform:uppercase;' + (x.rec === 'SELL' || x.rec === 'REDUCE' ? 'border:1px solid var(--pw-neg);color:var(--pw-neg)' : x.rec === 'BUY' ? 'border:1px solid var(--pw-pos);color:var(--pw-pos)' : x.rec === 'WATCH' ? 'border:1px dashed var(--color-divider);opacity:.75' : 'border:1px solid var(--color-divider);opacity:.75')
+    }));
+    const pf = {
+      segs, classes, detail, rows, total: this.omr(total), totalINR: this.oi(total),
+      perf: [
+        { label: 'Absolute return', note: 'Current value vs cost basis · FACT', value: this.pc((total - invested) / invested, 1), css: this.tone(true) },
+        { label: 'Unrealised gain', note: 'Across 16 holdings', value: this.omr(total - invested), css: this.tone(true) },
+        { label: 'XIRR', note: 'Transaction history missing for 6 holdings', value: 'Not calculated', css: 'opacity:.55;font-style:italic' },
+        { label: 'Time-weighted return', note: 'Requires dated cash flows', value: 'Not calculated', css: 'opacity:.55;font-style:italic' },
+        { label: 'Real return after inflation', note: 'Needs a holding-period start date', value: 'Not calculated', css: 'opacity:.55;font-style:italic' }
+      ],
+      bench: [{ name: 'Nifty 50' }, { name: 'Nifty 500' }, { name: 'S&P 500' }, { name: 'Nasdaq 100' }, { name: 'Crypto benchmark' }, { name: 'Custom allocation benchmark' }].map(b => ({ name: b.name, value: 'Data unavailable — manual input required' }))
+    };
+
+    /* retirement */
+    const band = eff.band || m.mc.band;
+    const maxY = Math.max(Math.max(...band.map(b => b.p50)) * 2.4, m.req * 1.25);
+    const X = i => (i / (band.length - 1)) * 900;
+    const Y = v => Math.max(0, 220 - (v / maxY) * 220);
+    const p50 = 'M' + band.map((b, i) => X(i).toFixed(1) + ' ' + Y(b.p50).toFixed(1)).join(' L');
+    const bandPath = 'M' + band.map((b, i) => X(i).toFixed(1) + ' ' + Y(b.p90).toFixed(1)).join(' L') + ' L' + band.slice().reverse().map((b, i) => X(band.length - 1 - i).toFixed(1) + ' ' + Y(b.p10).toFixed(1)).join(' L') + ' Z';
+    const stressData = (scr === 'risk' || scr === 'retirement') ? this.stress(a) : null;
+    const rt = {
+      currentAge: a.currentAge, planAge: a.planAge, retAge: a.retireAge, returnAge: a.returnAge, simNote,
+      prob: this.pc(eff.succ), req: this.omrK(m.req), reqINR: this.oi(m.req), proj: this.omrK(eff.atR.p50), projINR: this.oi(eff.atR.p50),
+      reqSave: this.omr(m.reqSave), curSave: this.omr(a.contribution * 12),
+      timeline: tl([42, 50, 52, 55, 60, 90], 42, 90, a.retireAge),
+      thresholds: [{ pct: '80%', age: m.viable[.8] || 'Beyond 60' }, { pct: '90%', age: m.viable[.9] || 'Beyond 60' }, { pct: '95%', age: m.viable[.95] || 'Beyond 60' }],
+      band: bandPath, p50, reqLine: 'M0 ' + Y(m.req).toFixed(1) + ' L900 ' + Y(m.req).toFixed(1), retX: X(a.retireAge - a.currentAge).toFixed(1),
+      ticks: [42, 52, 60, 70, 80, 90].map(g => ({ x: X(g - a.currentAge).toFixed(1), label: g })),
+      spendConservative: a.spendMode === 'Conservative', spendBase: a.spendMode === 'Base', spendComfortable: a.spendMode === 'Comfortable',
+      travelFixed: a.travelMode === 'Fixed', travelPercent: a.travelMode === 'Percent', travelLifestyle: a.travelMode === 'Lifestyle',
+      shockLabel: '−35%',
+      emgRec: this.omr(m.emg.rec), emgCur: this.omr(m.emg.cur), emgMonths: m.emg.months, emgGap: (m.emg.gap >= 0 ? '+' : '−') + this.n0(Math.abs(m.emg.gap)), emgCss: this.tone(m.emg.gap >= 0),
+      emgDrivers: [
+        { label: 'Base cover', value: '6.0 months' },
+        { label: 'Job risk premium', value: '+' + a.jobRisk.toFixed(1) + ' months' },
+        { label: 'Portfolio volatility premium', value: (w[2] > .15 ? '+1.5' : '+0.0') + ' months' },
+        { label: 'Healthcare buffer', value: '+1.0 month' }
+      ],
+      returnRows: [
+        { label: 'Before return', value: 'Income, expenses and savings in OMR' },
+        { label: 'After return', value: 'Expenses and withdrawals in INR' },
+        { label: 'Suggested INR-linked allocation', value: this.pc(Math.min(.65, .35 + Math.max(0, (a.currentAge + 10 - a.returnAge)) * .02), 0) },
+        { label: 'Tax model after return', value: a.taxOn ? 'India resident' : 'Off — enable in Assumptions' }
+      ]
+    };
+    const spendMult = { Conservative: .85, Base: 1, Comfortable: 1.25 }[a.spendMode];
+    const yrsR = a.retireAge - a.currentAge;
+    const todaySpend = a.indiaSpend * 12 * spendMult;
+    rt.spendRows = [
+      { label: 'India living cost today', value: this.inr(todaySpend / 12) + '/month' },
+      { label: 'Annual, today\u2019s money', value: this.inr(todaySpend) },
+      { label: 'Inflated to age ' + a.retireAge + ' (' + a.inflIndia + '%)', value: this.inr(todaySpend * Math.pow(1 + a.inflIndia / 100, yrsR)) },
+      { label: 'First-year withdrawal, all in', value: this.omr(this.retSpend(a, yrsR, a.retireAge, 0)) },
+      { label: 'Required corpus at ' + a.retireAge, value: this.omrK(m.req) }
+    ];
+    const trav0 = a.travelMode === 'Fixed' ? a.travelBudget * 12 : a.travelMode === 'Percent' ? (todaySpend / a.fxOMRINR) * a.travelPct / 100 : a.travelBudget * 12 + 2000;
+    rt.thRows = [
+      { label: 'Desired travel lifestyle', tag: 'ASSUMPTION', value: this.omr(3500) + '/yr' },
+      { label: 'Already inside monthly expenses', tag: 'FACT', value: this.omr(2000) + '/yr' },
+      { label: 'Incremental travel budget', tag: 'ASSUMPTION', value: this.omr(trav0) + '/yr' },
+      { label: 'Healthcare today, net of insurance', tag: 'ESTIMATE', value: this.inr(a.healthBase * (a.insurance ? .6 : 1)) + '/yr' },
+      { label: 'Healthcare at age 75 (' + a.medInflation + '% + age escalation)', tag: 'ESTIMATE', value: this.inr(a.healthBase * (a.insurance ? .6 : 1) * Math.pow(1 + a.medInflation / 100, 75 - a.currentAge) * (1 + 15 * .025)) + '/yr' }
+    ];
+    rt.seq = stressData ? stressData.seq.map(s => ({ label: s.label, corpus: this.omrK(s.corpus), prob: this.pc(s.prob), css: this.tone(s.prob >= .8) })) : [];
+
+    /* education */
+    const c = m.edu.c;
+    const brkPct = a.eduCountry === 'India'
+      ? [['Tuition & fees', .62], ['Hostel / accommodation', .16], ['Food', .09], ['Books & materials', .03], ['Laptop & equipment', .02], ['Local transport', .03], ['Personal expenses', .03], ['Emergency allowance', .02]]
+      : [['Tuition & fees', .55], ['Accommodation', .20], ['Food', .09], ['Health insurance', .03], ['Visa & compliance', .01], ['Flights', .04], ['Local transport', .02], ['Books & materials', .015], ['Laptop & equipment', .01], ['Personal expenses', .02], ['Emergency allowance', .015]];
+    const annual = c.tiers[a.eduTier];
+    const ed = {
+      dAge: a.daughterAge, startAge: a.eduStartAge, startsIn: m.edu.startIn, parentAge: a.currentAge + m.edu.startIn,
+      country: a.eduCountry, tier: a.eduTier, ccy: c.ccy, pg: a.eduPG,
+      tierBudget: a.eduTier === 'Budget', tierMainstream: a.eduTier === 'Mainstream', tierPremium: a.eduTier === 'Premium',
+      countries: Object.keys(this.C).map(k => {
+        const cc = this.C[k];
+        const alt = this.eduPlan({ ...a, eduCountry: k });
+        return { name: k, years: cc.ug + ' yrs UG' + (a.eduPG ? ' + ' + cc.pg + ' PG' : ''), annual: cc.ccy + ' ' + this.n0(cc.tiers[a.eduTier]), total: this.omrK(alt.tOMR), totalINR: this.inr(alt.tOMR * a.fxOMRINR), onClick: () => this.setA({ eduCountry: k }), style: 'padding:14px 16px;border:1px solid ' + (k === a.eduCountry ? 'var(--color-accent)' : 'var(--color-divider)') + ';border-radius:var(--radius-md);cursor:pointer;background:' + (k === a.eduCountry ? 'var(--color-accent-100)' : 'transparent') };
+      }),
+      breakdown: brkPct.map(b => ({ name: b[0], local: this.n0(annual * b[1]), omr: this.n0(annual * b[1] * c.fx), inr: this.n0(annual * b[1] * c.fx * a.fxOMRINR) })),
+      lines: m.edu.lines.map(l => ({ when: 'you are ' + l.age, kind: l.kind, dAge: l.dAge, local: l.ccy + ' ' + this.n0(l.local), omr: this.omr(l.omr) })),
+      total: this.omrK(m.edu.tOMR), totalINR: this.inr(m.edu.tOMR * a.fxOMRINR), totalLocal: c.ccy + ' ' + this.n0(m.edu.tLocal),
+      fxRisk: this.omrK(m.edu.tOMR * 0.10)
+    };
+    const scenDefs = [
+      { kicker: 'Dream', name: 'Fully fund the chosen path', body: 'Meet the ' + a.eduCountry + ' ' + a.eduTier + ' cost in full from portfolio and future savings, with no reduction in tier or duration.', A: { ...a } },
+      { kicker: 'Retirement protected', name: 'Retirement first', body: 'Cap the education draw so retirement probability stays at or above your 90% threshold. Tier steps down where required.', A: { ...a, eduTier: a.eduTier === 'Premium' ? 'Mainstream' : 'Budget' } },
+      { kicker: 'Optimized', name: 'Best combination', body: 'India undergraduate, overseas postgraduate. Cuts the overseas exposure to two years while keeping the international credential.', A: { ...a, eduCountry: 'India', eduPG: true } }
+    ];
+    ed.scenarios = scenDefs.map(s => {
+      const alt = this.eduPlan(s.A);
+      const mm = this.mc(s.A, 500, false);
+      let va = null; for (let R = 50; R <= 60 && va === null; R++) { if (this.mc(s.A, 300, false, { retireAge: R }).succ >= .9) va = R; }
+      return { kicker: s.kicker, name: s.name, body: s.body, cost: this.omrK(alt.tOMR), prob: this.pc(mm.succ), css: this.tone(mm.succ >= .9), ageImpact: va ? (va === a.retireAge ? 'no change' : (va > a.retireAge ? '+' : '−') + Math.abs(va - a.retireAge) + ' yrs (age ' + va + ')') : 'beyond 60' };
+    });
+
+    /* marriage */
+    const mp = m.mar;
+    const mrReq = mp.flow.omr / Math.pow(1 + m.ms.mu, mp.yr);
+    const mrAlt = this.mc({ ...a, marriageTier: 'Basic' }, 400, false);
+    const mr = {
+      age: a.marriageAge, years: mp.yr, parentAge: mp.age,
+      tBasic: a.marriageTier === 'Basic', tModerate: a.marriageTier === 'Moderate', tHigh: a.marriageTier === 'High', tPremium: a.marriageTier === 'Premium',
+      lWB: a.marriageLoc === 'West Bengal / Tier-2', lT1: a.marriageLoc === 'Major Tier-1 city', lDest: a.marriageLoc === 'Indian destination',
+      rows: [
+        { label: 'Cost in today\u2019s money', note: a.marriageTier + ' · ' + a.marriageLoc, value: this.inr(mp.today), sub: this.omr(mp.today / a.fxOMRINR) },
+        { label: 'Expected cost at marriage', note: 'Inflated at ' + a.marriageInfl + '% for ' + mp.yr + ' years', value: this.inr(mp.then), sub: this.omr(mp.flow.omr) },
+        { label: 'Corpus needed today', note: 'Discounted at the portfolio return', value: this.omr(mrReq), sub: this.inr(mrReq * a.fxOMRINR) },
+        { label: 'Funding gap', note: 'Against a dedicated marriage bucket of zero', value: this.omr(mrReq), sub: 'No bucket funded yet', css: this.tone(false) },
+        { label: 'Retirement probability impact', note: 'Versus dropping to the Basic tier', value: this.pc(eff.succ) + ' → ' + this.pc(mrAlt.succ), sub: 'Lowest-priority goal in your hierarchy' }
+      ],
+      sources: [
+        { label: 'Basic wedding, Tier-2 India', value: this.inr(this.MT.Basic), src: 'ESTIMATE · published 2026 market ranges · widely variable' },
+        { label: 'Moderate wedding, Tier-2 India', value: this.inr(this.MT.Moderate), src: 'ESTIMATE · published 2026 market ranges' },
+        { label: 'High', value: this.inr(this.MT.High), src: 'ESTIMATE · published 2026 market ranges' },
+        { label: 'Premium / luxury', value: this.inr(this.MT.Premium), src: 'ESTIMATE · published 2026 market ranges' },
+        { label: 'Tier-1 city multiplier', value: '×1.35', src: 'ASSUMPTION · editable' },
+        { label: 'Indian destination multiplier', value: '×1.80', src: 'ASSUMPTION · editable' },
+        { label: 'Wedding-cost inflation', value: a.marriageInfl + '%', src: 'ASSUMPTION · above general CPI' }
+      ]
+    };
+
+    /* risk */
+    const rk = {
+      score: m.risk.score, word: m.risk.score >= 70 ? 'Elevated' : m.risk.score >= 50 ? 'Moderate' : 'Contained',
+      drivers: m.risk.drivers.map(d => ({ label: d.label, val: d.note, fill: this.fill(d.v, d.v > 70 ? 'var(--pw-o)' : 'var(--color-accent)') })),
+      expo: [
+        { label: 'Largest single asset', note: 'Bitcoin', value: this.pc(m.risk.maxHold, 1), css: m.risk.maxHold > .12 ? this.tone(false) : '' },
+        { label: 'Crypto sleeve', note: 'No cap imposed; measured, not limited', value: this.pc(w[2], 1), css: w[2] > .18 ? this.tone(false) : '' },
+        { label: 'India exposure', note: 'Indian equity + gold', value: this.pc(m.risk.inr, 1), css: '' },
+        { label: 'Non-INR exposure', note: 'Against future INR liabilities', value: this.pc(1 - m.risk.inr, 1), css: '' },
+        { label: 'Liquid assets', note: 'Cash + liquid fund', value: this.pc(m.risk.liq, 1), css: '' },
+        { label: 'Portfolio volatility', note: 'Weighted, with correlations', value: this.pc(m.ms.sig, 1), css: '' },
+        { label: 'Expected drawdown', note: 'Approximately 2.2 sigma', value: '−' + this.pc(m.ms.sig * 2.2), css: this.tone(false) }
+      ],
+      stress: stressData ? stressData.scen.map(s => ({ label: s.label, hit: '−' + this.omrK(s.loss), prob: this.pc(s.prob), css: this.tone(s.prob >= .8) })) : [],
+      crypto: [
+        { label: 'Total crypto', note: 'Bitcoin, Ethereum, Solana, altcoins', value: this.omr(this.byClass('Crypto')) + ' · ' + this.pc(w[2], 1) },
+        { label: 'Bitcoin', note: 'Largest single position in the book', value: this.pc(22900 / total, 1), css: this.tone(false) },
+        { label: 'Ethereum', note: '', value: this.pc(9400 / total, 1) },
+        { label: 'Solana', note: 'Quantity unverified', value: this.pc(4200 / total, 1) },
+        { label: 'Altcoin basket', note: 'Six sub-1% tokens', value: this.pc(2500 / total, 1) },
+        { label: 'Assumed volatility', note: 'Editable in Assumptions', value: a.vCR + '% p.a.' }
+      ],
+      jobloss: stressData ? stressData.jl.map(j => ({ label: j.label, emg: this.omr(j.emg), port: this.omr(j.port), contrib: this.omr(j.contrib), prob: this.pc(j.prob), css: this.tone(j.prob >= .8) })) : []
+    };
+
+    /* recommendations */
+    const mode = st.mode;
+    const phrase = (data, adv, strong) => mode === 'Data' ? data : mode === 'Advisor' ? adv : strong;
+    const mkStyle = act => 'font-size:10px;letter-spacing:.07em;padding:2px 9px;border-radius:999px;text-transform:uppercase;' + (['SELL','REDUCE','DELAY RETIREMENT'].includes(act) ? 'border:1px solid var(--pw-neg);color:var(--pw-neg)' : ['BUY','INCREASE SAVINGS','BUILD RESERVE','PROTECT GOAL'].includes(act) ? 'border:1px solid var(--pw-pos);color:var(--pw-pos)' : 'border:1px solid var(--color-divider);opacity:.8');
+    const recs = {
+      'Do now': [
+        m.emg.gap < 0 && { action: 'BUILD RESERVE', conf: 'High', title: 'Top up the emergency reserve by ' + this.omr(-m.emg.gap), body: phrase('Reserve held ' + this.omr(m.emg.cur) + ' against a modelled requirement of ' + this.omr(m.emg.rec) + ' (' + m.emg.months + ' months).', 'Direct the next two lump sums to the liquid fund before any new equity purchase.', 'Stop equity buying until the reserve is whole. With crypto at ' + this.pc(w[2], 1) + ', a forced sale in a drawdown is the single most expensive mistake available to you.'), impact: '+' + Math.round((1 - Math.min(1, m.emg.cur / m.emg.rec)) * 15) + ' health points', risk: 'Forced selling', fresh: 'From holdings, 24 Aug' },
+        { action: 'SELL', conf: 'Medium', title: 'Exit the altcoin basket', body: phrase('Six positions, each under 1% of wealth, combined ' + this.omr(2500) + '. No transaction history on file.', 'Positions this small cannot move the plan but carry full idiosyncratic risk. Close them and fold the proceeds into the reserve.', 'Close them this month. They add measurable tail risk and zero expected contribution to any goal you have stated.'), impact: this.omr(2500) + ' released', risk: 'Total loss of the sleeve', fresh: 'Manual, 24 Aug' },
+        { action: 'REDUCE', conf: 'High', title: 'Trim Bitcoin toward a deliberate weight', body: phrase('Bitcoin is ' + this.pc(m.risk.maxHold, 1) + ' of investable wealth; total crypto is ' + this.pc(w[2], 1) + '.', 'You have set no cap, which is legitimate. But a −70% crypto move removes ' + this.omrK(this.byClass('Crypto') * .7) + ' and pushes earliest viable retirement out.', 'Take the position down to a weight you would still hold after a −70% month. Anything you would not hold through that drawdown is a weight you have not actually chosen.'), impact: 'Risk score −' + Math.round(m.risk.drivers[0].v * .12), risk: 'Sequence risk near retirement', fresh: 'Manual, 24 Aug' }
+      ].filter(Boolean),
+      'Consider': [
+        { action: 'PROTECT GOAL', conf: 'Medium', title: 'Open a dedicated education bucket', body: phrase(a.eduCountry + ' ' + a.eduTier + ' totals ' + this.omrK(m.edu.tOMR) + ' across ' + m.edu.lines.length + ' years from age ' + (a.currentAge + m.edu.startIn) + '.', 'A virtual bucket funded at ' + this.omrK(m.edu.tOMR / Math.max(1, m.edu.startIn)) + '/year de-risks the largest pre-retirement outflow without changing any account.', 'Ring-fence it now. Education has the shortest runway of any goal you hold and no room to be deferred.'), impact: 'Education probability ' + this.pc(eff.edu), risk: 'Mid-plan liquidation', fresh: 'Model, 24 Aug' },
+        { action: 'REBALANCE', conf: 'Medium', title: 'Reduce the VOO / QQQ overlap', body: phrase('QQQ holdings duplicate the mega-cap weight already inside VOO.', 'Consolidating into one broad US sleeve keeps the exposure and cuts the hidden single-name concentration.', 'Collapse QQQ into VOO. You are paying for concentration you did not choose.'), impact: 'Effective names +', risk: 'Hidden concentration', fresh: 'Close, 22 Aug' },
+        { action: 'INCREASE SAVINGS', conf: m.gap > 0 ? 'High' : 'Low', title: m.gap > 0 ? 'Lift the average contribution to ' + this.omr(m.reqSave / 12) + '/month' : 'Current pace is sufficient', body: phrase('Modelled requirement ' + this.omr(m.reqSave) + '/year against ' + this.omr(a.contribution * 12) + ' today.', m.gap > 0 ? 'This closes the median gap of ' + this.omrK(m.gap) + ' by age ' + a.retireAge + '.' : 'The median path already clears the required corpus; no increase is needed on current assumptions.', m.gap > 0 ? 'Raise the pace or move the retirement date. Those are the only two levers that close this.' : 'Hold the pace and resist lifestyle creep — this is the assumption the plan rests on.'), impact: m.gap > 0 ? 'Closes ' + this.omrK(m.gap) : 'Maintains ' + this.pc(eff.succ), risk: 'Delayed retirement', fresh: 'Model, 24 Aug' }
+      ],
+      'Watch': [
+        { action: 'WATCH', conf: 'Low', title: 'Two holdings await verification', body: phrase('Solana quantity read from a screenshot; the direct equity basket has no transaction history.', 'No recommendation is issued on either until you confirm the underlying values.', 'Confirm them. Advice on unverified quantities is guesswork wearing a suit.'), impact: this.pc((4200 + 8200) / total, 1) + ' of wealth', risk: 'Wrong basis for advice', fresh: 'Screenshot, 19 Aug' },
+        { action: 'WATCH', conf: 'Medium', title: 'Currency mix against future INR liabilities', body: phrase(this.pc(1 - m.risk.inr, 1) + ' of wealth sits outside INR while retirement spending, education and marriage are largely INR or INR-adjacent.', 'Begin tilting toward INR-linked assets as the return-to-India age of ' + a.returnAge + ' approaches.', 'Set a glide path now: every year past age 50, move a defined slice into INR-linked assets rather than deciding under pressure.'), impact: 'FX sensitivity', risk: 'Adverse FX at drawdown', fresh: 'FX manual, 24 Aug' }
+      ],
+      'Long term': [
+        { action: 'HOLD', conf: 'High', title: 'Keep contributions irregular but measured', body: phrase('Average ' + this.omr(a.contribution) + '/month, deployed as lump sums rather than a fixed SIP.', 'The model uses the annual average, so the pattern is fine — what matters is that the annual total is actually met.', 'Record every lump sum. The average is the only input holding this forecast together, and it is currently unaudited.'), impact: this.omr(a.contribution * 12) + '/yr', risk: 'Silent under-saving', fresh: 'Stated, 24 Aug' },
+        { action: 'DELAY RETIREMENT', conf: m.viable[.95] && m.viable[.95] > a.retireAge ? 'Medium' : 'Low', title: 'Age ' + (m.viable[.95] || '60+') + ' reaches the 95% threshold', body: phrase('Earliest viable ages: ' + (m.viable[.8] || '60+') + ' at 80%, ' + (m.viable[.9] || '60+') + ' at 90%, ' + (m.viable[.95] || '60+') + ' at 95%.', 'If certainty matters more than the date, the extra years are the cheapest way to buy it.', 'Pick your threshold deliberately. A 90% plan and a 95% plan are different lives, not different spreadsheets.'), impact: 'Probability +' + this.pc(.95 - eff.succ > 0 ? .95 - eff.succ : 0), risk: 'Over-working for false precision', fresh: 'Model, 24 Aug' },
+        { action: 'HOLD', conf: 'High', title: 'Land at Durgapur stays outside the plan', body: phrase('Approximately ₹30 lakh, illiquid.', 'No appreciation, rent or development proceeds are modelled. It is upside, not a funding source.', 'Do not let it justify a thinner reserve. Illiquid upside pays no school fees.'), impact: 'Excluded', risk: 'Overstated capacity', fresh: 'Stated, 24 Aug' }
+      ]
+    };
+    const rc = {
+      mData: mode === 'Data', mAdvisor: mode === 'Advisor', mStrong: mode === 'Strong Advisor',
+      groups: Object.keys(recs).map(g => ({ name: g, note: { 'Do now': 'this month', 'Consider': 'this quarter', 'Watch': 'monitor, no action yet', 'Long term': 'structural' }[g], items: recs[g].map(r => ({ ...r, actionStyle: mkStyle(r.action) })) })),
+      withheld: 'No BUY recommendation is issued for any individual security. Live prices, benchmark levels and FX are manual inputs on this snapshot, and issuing a buy on stale data would breach the model\u2019s own data rule.'
+    };
+
+    /* assumptions */
+    const mk = (key, label, unit, step, source) => ({ key, label, unit, step, source, value: a[key], onChange: e => this.setA({ [key]: parseFloat(e.target.value) || 0 }) });
+    const as = { groups: [
+      { name: 'Personal', items: [mk('currentAge', 'Current age', 'yrs', 1, 'FACT · stated'), mk('daughterAge', 'Daughter\u2019s age', 'yrs', 1, 'FACT · stated'), mk('planAge', 'Planning age', 'yrs', 1, 'ASSUMPTION · 80–100 range')] },
+      { name: 'Income', items: [mk('salary', 'Monthly salary', 'OMR', 50, 'FACT · stated'), mk('salaryGrowth', 'Salary growth', '%', .5, 'ASSUMPTION · below Oman CPI'), mk('contribution', 'Average monthly investment', 'OMR', 50, 'FACT · irregular lump sums, annual average used')] },
+      { name: 'Expenses', items: [mk('expenses', 'Monthly expenses', 'OMR', 50, 'FACT · stated'), mk('expenseGrowth', 'Expense growth', '%', .5, 'ASSUMPTION'), mk('indiaSpend', 'India living cost, today', 'INR/mo', 5000, 'FACT · excludes travel and healthcare')] },
+      { name: 'Inflation', items: [mk('inflIndia', 'India CPI', '%', .25, 'ASSUMPTION · long-run'), mk('inflOman', 'Oman CPI', '%', .25, 'ASSUMPTION · long-run'), mk('medInflation', 'Medical inflation', '%', .5, 'ESTIMATE · runs above CPI'), mk('marriageInfl', 'Wedding cost inflation', '%', .5, 'ESTIMATE')] },
+      { name: 'Investment returns', items: [mk('rIN', 'Indian equity', '%', .25, 'ASSUMPTION · forward-looking, nominal'), mk('rUS', 'US equity', '%', .25, 'ASSUMPTION · forward-looking, USD'), mk('rCR', 'Crypto', '%', .5, 'ASSUMPTION · highly uncertain'), mk('rLQ', 'Liquid fund', '%', .25, 'FACT · approximately 4% today'), mk('rGO', 'Gold', '%', .25, 'ASSUMPTION')] },
+      { name: 'Volatility', items: [mk('vIN', 'Indian equity', '%', 1, 'ESTIMATE · long-run'), mk('vUS', 'US equity', '%', 1, 'ESTIMATE · long-run'), mk('vCR', 'Crypto', '%', 5, 'ESTIMATE · long-run'), mk('vGO', 'Gold', '%', 1, 'ESTIMATE')] },
+      { name: 'Education', items: [mk('eduStartAge', 'Undergraduate start age', 'yrs', 1, 'ASSUMPTION · 17–22'), mk('pgGap', 'Gap before postgraduate', 'yrs', 1, 'ASSUMPTION')] },
+      { name: 'Marriage', items: [mk('marriageAge', 'Marriage age', 'yrs', 1, 'ASSUMPTION · 25–30')] },
+      { name: 'Healthcare', items: [mk('healthBase', 'Out-of-pocket healthcare today', 'INR/yr', 5000, 'ESTIMATE · 2026, insured household')] },
+      { name: 'Currency', items: [mk('fxOMRINR', 'OMR / INR today', 'rate', .1, 'MANUAL OVERRIDE · no live feed connected'), mk('fxDrift', 'INR depreciation vs OMR', '%/yr', .25, 'ASSUMPTION · purchasing-power drift; without it, Indian inflation is counted twice')] },
+      { name: 'Retirement', items: [mk('retireAge', 'Target retirement age', 'yrs', 1, 'ASSUMPTION · 50–60'), mk('returnAge', 'Return to India age', 'yrs', 1, 'ASSUMPTION · independent of retirement'), mk('jobRisk', 'Job-risk months added to reserve', 'mo', .5, 'ASSUMPTION')] },
+      { name: 'Tax', items: [mk('taxOn', 'Tax modelling (1 = on)', '0/1', 1, 'ASSUMPTION · rules not hardcoded; effective dates required before use')] }
+    ] };
+
+    /* upload */
+    const zones = [
+      { key: 'IN', name: 'Indian portfolio', hint: 'CAS statement, broker Excel, CSV' },
+      { key: 'US', name: 'US portfolio', hint: 'Broker CSV, PDF statement' },
+      { key: 'CR', name: 'Crypto', hint: 'Exchange CSV or wallet screenshot' }
+    ].map(z => ({ ...z, status: (st.uploads[z.key] || 0) ? st.uploads[z.key] + ' file(s) staged' : 'Drop or choose files', onChange: e => { const n = e.target.files ? e.target.files.length : 0; this.setState(s => ({ uploads: { ...s.uploads, [z.key]: n } })); } }));
+    const up = {
+      zones,
+      steps: [
+        { n: 1, label: 'Extract', note: 'Read holdings, quantities, prices, currency', state: 'Ready' },
+        { n: 2, label: 'Validate', note: 'Cross-check totals and valuation dates', state: 'Ready' },
+        { n: 3, label: 'Identify missing fields', note: 'Ticker, currency, quantity, cost basis', state: 'Ready' },
+        { n: 4, label: 'Flag uncertain values', note: 'Anything below the confidence floor', state: '2 flagged' },
+        { n: 5, label: 'Ask for clarification', note: 'Only where the difference is material', state: 'Awaiting you' },
+        { n: 6, label: 'Merge into portfolio', note: 'Verified holdings only', state: 'Blocked' }
+      ],
+      review: [
+        { name: 'Solana', field: 'Quantity', why: 'Screenshot of 19 Aug is partially obscured. Reading 60 SOL with low confidence — a 10% error moves wealth by ' + this.omr(420) + '.' },
+        { name: 'Direct equity basket', field: 'Cost basis', why: 'No transaction history supplied. Current value is usable; XIRR and real return are not calculated.' }
+      ]
+    };
+
+    /* what if */
+    const bm = this.core(st.base);
+    const beff = bm.m10 || bm.mc;
+    const dP = eff.succ - beff.succ, dR = m.req - bm.req;
+    const bv = bm.viable[.9], cv = m.viable[.9];
+    const sl = (key, label, min, max, step, fmt) => ({ label, min, max, step, raw: a[key], value: fmt(a[key]), onChange: e => this.setA({ [key]: parseFloat(e.target.value) }) });
+    const wi = {
+      prob: this.pc(eff.succ) + (Math.abs(dP) > .002 ? ' (' + (dP >= 0 ? '+' : '−') + this.pc(Math.abs(dP)) + ')' : ''),
+      probCss: Math.abs(dP) < .002 ? '' : this.tone(dP > 0),
+      req: this.omrK(m.req) + (Math.abs(dR) > 500 ? ' (' + (dR >= 0 ? '+' : '−') + this.omrK(Math.abs(dR)).replace('OMR ', '') + ')' : ''),
+      reqCss: Math.abs(dR) < 500 ? '' : this.tone(dR < 0),
+      viable: (cv || '60+') + (cv !== bv ? ' (was ' + (bv || '60+') + ')' : ''),
+      viableCss: cv === bv ? '' : this.tone((cv || 61) < (bv || 61)),
+      sliders: [
+        sl('retireAge', 'Retirement age', 50, 60, 1, v => v),
+        sl('contribution', 'Monthly investment', 200, 3000, 50, v => this.omr(v)),
+        sl('salaryGrowth', 'Salary growth', 0, 8, .5, v => v + '%'),
+        sl('inflIndia', 'India inflation', 3, 10, .25, v => v + '%'),
+        sl('rIN', 'Indian equity return', 4, 15, .25, v => v + '%'),
+        sl('rCR', 'Crypto return', -10, 30, 1, v => v + '%'),
+        sl('indiaSpend', 'India monthly spend', 40000, 250000, 5000, v => this.inr(v)),
+        sl('eduStartAge', 'Education start age', 17, 22, 1, v => 'age ' + v),
+        sl('marriageAge', 'Marriage age', 25, 30, 1, v => 'age ' + v),
+        sl('travelBudget', 'Travel budget', 0, 400, 25, v => this.omr(v) + '/mo'),
+        sl('returnAge', 'Return to India', 50, 60, 1, v => 'age ' + v)
+      ]
+    };
+
+    const h = {
+      go, toggleNav: () => this.setState(s => ({ navOpen: !s.navOpen })),
+      toggleWhatIf: () => this.setState(s => ({ whatIf: !s.whatIf })),
+      toggleViewport: () => this.setState(s => ({ viewport: s.viewport === 'desktop' ? 'mobile' : 'desktop' })),
+      toggleNight: () => this.setState(s => { const n = !s.night; try { document.documentElement.classList.toggle('pw-night', n); localStorage.setItem('pwos-night', n ? '1' : '0'); } catch (e) {} return { night: n }; }),
+      closeClass: () => this.setState({ openClass: null }),
+      retireAge: e => this.setA({ retireAge: +e.target.value }),
+      returnAge: e => this.setA({ returnAge: +e.target.value }),
+      eduStart: e => this.setA({ eduStartAge: +e.target.value }),
+      eduTier: e => this.setA({ eduTier: e.target.value }),
+      eduPG: e => this.setA({ eduPG: e.target.checked }),
+      marriageAge: e => this.setA({ marriageAge: +e.target.value }),
+      marTier: e => this.setA({ marriageTier: e.target.value }),
+      marLoc: e => this.setA({ marriageLoc: e.target.value }),
+      spendMode: e => this.setA({ spendMode: e.target.value }),
+      travelMode: e => this.setA({ travelMode: e.target.value }),
+      mode: e => this.setState({ mode: e.target.value }),
+      resetAll: () => this.setState({ a: this.defaults(), base: this.defaults() }),
+      resetWhatIf: () => this.setState(s => ({ a: { ...s.base } })),
+      commitWhatIf: () => this.setState(s => ({ base: { ...s.a } }))
+    };
+
+    return {
+      night: !!st.night, day: !st.night, nightLabel: st.night ? 'Day' : 'Night',
+      is, act, h, ov, pf, rt, ed, mr, rk, rc, as, up, wi,
+      navOpen: st.navOpen, whatIf: st.whatIf,
+      navLabel: { overview: 'Overview', portfolio: 'Portfolio', retirement: 'Retirement', education: 'Education', marriage: 'Marriage', risk: 'Risk', recommendations: 'Recommendations', assumptions: 'Assumptions', upload: 'Upload' }[scr],
+      demoBanner: this.props.demoBanner !== false,
+      stageStyle: st.viewport === 'mobile'
+        ? { width: '412px', margin: '24px auto', border: '1px solid var(--color-divider)', borderRadius: '22px', boxShadow: 'var(--shadow-lg)', overflow: 'hidden', background: 'var(--color-bg)' }
+        : { width: '100%' }
+    };
+  }
+}
+</script>
+</body>
+</html>

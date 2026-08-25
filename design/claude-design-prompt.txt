@@ -1,0 +1,36 @@
+Design a dark-themed financial dashboard called "Retirement Intelligence Platform" — a retirement/FI planning tool with 9 tabs. Build it as a clickable prototype (tabs, buttons, dropdowns, and sliders should actually update the displayed numbers), not just a static mockup.
+
+DESIGN SYSTEM (use exactly, never deviate)
+- Background: #070B12
+- Card background: #0C1422, border 1px solid #192536, radius 10px, padding 12px 14px
+- Header background: linear-gradient(135deg, #0B1220, #0F1A2E)
+- Control bar background: #09101A
+- Tab bar background: #080D16
+- Primary blue: #3B82F6 | Green: #22C55E | Amber: #F59E0B | Red: #EF4444 | Teal: #14B8A6 | Purple: #A78BFA
+- Text primary: #E2E8F0 | Text secondary: #94A3B8 | Text muted: #334155
+- Font: DM Sans (Google Font), falling back to Inter, Segoe UI, sans-serif
+- Money formatting: ≥₹1Cr shows as "₹X.XXCr", ₹1L–99L shows as "₹XX.XL"
+
+LAYOUT (top to bottom, all sticky except tab content)
+1. Header: "⬡ RETIREMENT INTELLIGENCE PLATFORM" title + "Live data · Muscat → India · Age 42 → FI" subtitle on the left; on the right, a row of small pill badges showing current retire age, return %, inflation %, life expectancy, an on-track/review status pill (green/red), and the projected corpus.
+2. Control bar: retire-age quick-select buttons (50/52/53/55, selected one highlighted blue), dropdowns for inflation (5/6/7%), portfolio return (8/10/12%), life expectancy (80/85/90/95), withdrawal rule (3.5%/4%/Dynamic 3.8%/Bucket 25x), and education destination (flag emoji + country); below that, two labeled range sliders — "Retire Expense" (₹50K–₹300K/mo) and "Monthly SIP" (₹50K–₹500K/mo) — each showing its live value above the slider.
+3. Tab bar: 9 tabs — Executive, Portfolio, Scenarios, Monte Carlo, Education, Cash Flow, Stress Test, Optimizer, Year Plan. Active tab is blue text with a blue underline. Build Executive and Portfolio fully; the other 7 can be a simple placeholder panel.
+
+EXECUTIVE TAB
+- Row of 8 KPI cards: Total Portfolio Today, Projected Corpus, Required Corpus, Surplus/Deficit (green if positive, red if negative), Monthly Income Need, Safe Withdrawal/mo, MC Success %, and a Readiness Score shown as a circular gauge (0-100, colored green ≥75, amber ≥50, red below).
+- A full-width net worth trajectory line chart (SVG), projecting the portfolio forward year by year at the selected return rate + SIP, with markers on the four retire-age options (the selected one highlighted).
+- Two-column row: "FIRE Readiness" card (Lean FIRE ₹3.5Cr / Full FIRE ₹6Cr / Fat FIRE ₹10Cr+ / Coast FIRE, each with an Achievable/Stretch badge) and "Education Impact" card (cost today, inflated cost at college entry, liquid fund projection, funding ratio progress bar, gap, SIP needed, and a Fully Funded/Partially Funded/Funding Gap status banner).
+- Two-column row: "Top 5 Risks" and "Top 5 Opportunities", each a stack of small red or green pill badges with short descriptive text.
+- A "10-Year Action Plan" card: a row of 10 small year labels (Now, 2026 Q4, 2027...2033+, Ongoing) each with a short action description that references the live numbers above it.
+
+PORTFOLIO TAB
+- Toolbar: Refresh All, Add Holding, CSV export, Import, Undo buttons; a status line showing how many holdings are live-priced vs stale.
+- 4 summary KPI cards: Portfolio Total, Total Invested, Total P&L, Day Gain/Loss.
+- Filter buttons: All / India Equity / US Equity / Crypto / Liquid Fund — filters the table below.
+- A holdings table (Name, Ticker, Exchange, Qty, Avg Buy, Price, Status badge [LIVE green/MANUAL blue/STALE amber/ERROR red/FIXED purple], INR Value, P&L, P&L%, Portfolio %) with ~10-12 representative rows spanning India equities, US equities, crypto, and a liquid fund.
+- Two-column row: "Asset Allocation" (current % vs target %, per asset class, with a Buy/Trim/Hold signal) and a stacked column with "Concentration Alerts" (flags any holding over 15%/25% of the portfolio) plus "Currency Exposure" (INR/USD/OMR split as progress bars).
+
+INTERACTIVITY
+- Clicking a retire-age button, changing any dropdown, or moving a slider should recompute and redisplay the KPIs, gauge, trajectory chart, and action-plan text live (use a simple compound-growth projection: portfolio grows at the selected return rate plus the monthly SIP each year; a small "liquid fund" slice grows at a fixed 4%/yr).
+- Clicking a tab switches the visible content; clicking a portfolio filter button filters the table.
+- Add Holding should reveal a small inline form; Add should append a demo row to the table.

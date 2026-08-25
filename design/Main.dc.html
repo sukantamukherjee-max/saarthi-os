@@ -1,0 +1,698 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'DM Sans','Inter','Segoe UI',sans-serif; background: #070B12; }
+    a { color: #3B82F6; text-decoration: none; }
+    a:hover { color: #60A5FA; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #0C1422; }
+    ::-webkit-scrollbar-thumb { background: #192536; border-radius: 4px; }
+    select { font-family: inherit; }
+    input[type="range"] { accent-color: #3B82F6; }
+  </style>
+</helmet>
+
+<div style="width:1440px; height:900px; background:#070B12; color:#E2E8F0; display:flex; flex-direction:column; overflow:hidden;">
+
+  <!-- HEADER -->
+  <div style="background:linear-gradient(135deg,#0B1220,#0F1A2E); border-bottom:1px solid #192536; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
+    <div>
+      <div style="font-size:15px; font-weight:700; display:flex; align-items:center; gap:8px;">
+        <span style="font-size:18px;">⬡</span> RETIREMENT INTELLIGENCE PLATFORM
+      </div>
+      <div style="font-size:11px; color:#94A3B8; margin-top:2px;">Live data · Muscat → India · Age 42 → FI</div>
+    </div>
+    <div style="display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end;">
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:#3B82F622; color:#3B82F6;">Age{{retireAge}}</span>
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:#14B8A622; color:#14B8A6;">{{returnPctLabel}}ret</span>
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:#F59E0B22; color:#F59E0B;">{{inflationPctLabel}}inf</span>
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:#A78BFA22; color:#A78BFA;">Life{{lifeExp}}</span>
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:{{onTrackBg}}; color:{{onTrackColor}};">{{onTrackLabel}}</span>
+      <span style="padding:3px 10px; border-radius:5px; font-size:10px; font-weight:700; background:#3B82F622; color:#3B82F6;">{{projectedLabel}} proj</span>
+    </div>
+  </div>
+
+  <!-- CONTROL BAR -->
+  <div style="background:#09101A; border-bottom:1px solid #192536; padding:10px 20px; display:flex; flex-direction:column; gap:8px; flex-shrink:0;">
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <div style="display:flex; align-items:center; gap:4px;">
+        <span style="font-size:10px; color:#94A3B8; margin-right:4px;">Retire Age</span>
+        <sc-for list="{{retireAgeButtons}}" as="btn" hint-placeholder-count="4">
+          <button onClick="{{btn.select}}" style="{{btn.style}}">{{btn.age}}</button>
+        </sc-for>
+      </div>
+      <select onChange="{{onInflationChange}}" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px;">
+        <option value="0.05" selected="{{inflationIs05}}">Optimistic 5%</option>
+        <option value="0.06" selected="{{inflationIs06}}">Base 6%</option>
+        <option value="0.07" selected="{{inflationIs07}}">Conservative 7%</option>
+      </select>
+      <select onChange="{{onReturnsChange}}" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px;">
+        <option value="0.08" selected="{{returnsIs08}}">Conservative 8%</option>
+        <option value="0.10" selected="{{returnsIs10}}">Base 10%</option>
+        <option value="0.12" selected="{{returnsIs12}}">Aggressive 12%</option>
+      </select>
+      <select onChange="{{onLifeExpChange}}" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px;">
+        <option value="80" selected="{{lifeIs80}}">Age 80</option>
+        <option value="85" selected="{{lifeIs85}}">Age 85</option>
+        <option value="90" selected="{{lifeIs90}}">Age 90</option>
+        <option value="95" selected="{{lifeIs95}}">Age 95</option>
+      </select>
+      <select onChange="{{onWithdrawalChange}}" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px;">
+        <option value="3.5pct" selected="{{wdIs35}}">3.5% Rule</option>
+        <option value="4pct" selected="{{wdIs4}}">4% Rule</option>
+        <option value="dynamic" selected="{{wdIsDyn}}">Dynamic 3.8%</option>
+        <option value="bucket" selected="{{wdIsBucket}}">Bucket 25×</option>
+      </select>
+      <select onChange="{{onEduChange}}" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px;">
+        <sc-for list="{{eduOptions}}" as="opt" hint-placeholder-count="6">
+          <option value="{{opt.key}}" selected="{{opt.selected}}">{{opt.label}}</option>
+        </sc-for>
+      </select>
+    </div>
+    <div style="display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
+      <div style="display:flex; flex-direction:column; gap:3px; min-width:230px;">
+        <span style="font-size:10px; color:#94A3B8;">Retire Expense: <b style="color:#E2E8F0;">{{monthlyExpLabel}}/mo</b></span>
+        <input type="range" min="50000" max="300000" step="5000" value="{{monthlyExp}}" onChange="{{onMonthlyExpChange}}" />
+      </div>
+      <div style="display:flex; flex-direction:column; gap:3px; min-width:230px;">
+        <span style="font-size:10px; color:#94A3B8;">Monthly SIP: <b style="color:#E2E8F0;">{{sipMonthlyLabel}}/mo</b></span>
+        <input type="range" min="50000" max="500000" step="5000" value="{{sipMonthly}}" onChange="{{onSipChange}}" />
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB BAR -->
+  <div style="background:#080D16; border-bottom:1px solid #192536; padding:0 16px; display:flex; gap:4px; flex-shrink:0; overflow-x:auto;">
+    <sc-for list="{{tabs}}" as="tab" hint-placeholder-count="9">
+      <button onClick="{{tab.select}}" style="{{tab.style}}">{{tab.label}}</button>
+    </sc-for>
+  </div>
+
+  <!-- CONTENT AREA -->
+  <div style="flex:1; overflow-y:auto; padding:16px 20px 40px;">
+
+    <!-- EXECUTIVE TAB -->
+    <sc-if value="{{isExec}}" hint-placeholder-val="{{true}}">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <!-- ROW 1: KPI CARDS -->
+        <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px;">
+          <sc-for list="{{kpis}}" as="kpi" hint-placeholder-count="7">
+            <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px; display:flex; flex-direction:column; gap:4px; min-width:0;">
+              <div style="font-size:10px; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8;">{{kpi.label}}</div>
+              <div style="font-size:19px; font-weight:700; color:{{kpi.color}}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{kpi.value}}</div>
+              <div style="font-size:10px; color:#334155;">{{kpi.sub}}</div>
+            </div>
+          </sc-for>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px; display:flex; align-items:center; justify-content:space-between;">
+            <div>
+              <div style="font-size:10px; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8;">Readiness Score</div>
+              <div style="font-size:10px; color:#334155; margin-top:2px;">Formula-driven</div>
+            </div>
+            <svg width="76" height="47" viewBox="0 0 100 65">
+              <path d="M12 54 A38 38 0 0 1 88 54" fill="none" stroke="#111B27" stroke-width="8"/>
+              <path d="M12 54 A38 38 0 0 1 88 54" fill="none" stroke="{{gaugeColor}}" stroke-width="8"
+                stroke-dasharray="{{gaugeCirc}}" stroke-dashoffset="{{gaugeOffset}}" stroke-linecap="round"/>
+              <text x="50" y="52" text-anchor="middle" fill="{{gaugeColor}}" font-size="17" font-weight="700">{{readiness}}</text>
+              <text x="50" y="62" text-anchor="middle" fill="#334155" font-size="7">/100</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ROW 2: TRAJECTORY CHART -->
+        <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Net Worth Trajectory</div>
+          <svg width="100%" height="170" viewBox="0 0 500 150">
+            <sc-for list="{{gridLines}}" as="gl" hint-placeholder-count="6">
+              <g>
+                <line x1="44" y1="{{gl.y}}" x2="495" y2="{{gl.y}}" stroke="#0F1A27" stroke-width="0.8" stroke-dasharray="3,2"/>
+                <text x="40" y="{{gl.yLabel}}" text-anchor="end" font-size="7" fill="#1E3048">{{gl.label}}</text>
+              </g>
+            </sc-for>
+            <polygon points="{{fillPolygon}}" fill="#3B82F60D"/>
+            <polyline points="{{trajectoryLine}}" fill="none" stroke="#3B82F6" stroke-width="2.2"/>
+            <sc-for list="{{markers}}" as="m" hint-placeholder-count="4">
+              <g>
+                <line x1="{{m.x}}" y1="12" x2="{{m.x}}" y2="122" stroke="{{m.lineColor}}" stroke-width="{{m.lineWidth}}" stroke-dasharray="2,3"/>
+                <circle cx="{{m.x}}" cy="{{m.y}}" r="{{m.r}}" fill="{{m.dotColor}}" stroke="{{m.ringColor}}" stroke-width="1.5"/>
+                <text x="{{m.x}}" y="{{m.valueY}}" text-anchor="middle" font-size="8" fill="{{m.labelColor}}" font-weight="{{m.fontWeight}}">{{m.valueText}}</text>
+                <text x="{{m.x}}" y="136" text-anchor="middle" font-size="8" fill="{{m.ageColor}}" font-weight="{{m.fontWeight}}">Ag{{m.age}}</text>
+              </g>
+            </sc-for>
+          </svg>
+        </div>
+
+        <!-- ROW 3: FIRE READINESS + EDUCATION IMPACT -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">FIRE Readiness</div>
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:12px;">
+              <sc-for list="{{fireList}}" as="f" hint-placeholder-count="4">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span>{{f.label}}</span>
+                  <span style="padding:2px 8px; border-radius:4px; font-size:9px; font-weight:700; background:{{f.badgeBg}}; color:{{f.badgeColor}};">{{f.badgeText}}</span>
+                </div>
+              </sc-for>
+              <div style="margin-top:4px;">
+                <span style="padding:2px 8px; border-radius:4px; font-size:9px; font-weight:700; background:#3B82F622; color:#3B82F6;">Current type: {{fireType}}</span>
+              </div>
+            </div>
+          </div>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Education Impact ({{eduFlag}} {{eduKey}})</div>
+            <div style="display:flex; flex-direction:column; gap:4px; font-size:11px; color:#94A3B8;">
+              <div style="display:flex; justify-content:space-between;"><span>Cost today</span><span style="color:#E2E8F0;">{{eduCostToday}}</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>Inflated at entry</span><span style="color:#E2E8F0;">{{eduInflatedLabel}}</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>Liquid at college</span><span style="color:#E2E8F0;">{{eduLiqGrownLabel}}</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>Funding ratio</span><span style="color:#E2E8F0;">{{eduRatioLabel}}</span></div>
+              <div style="height:6px; background:#111B27; border-radius:3px; overflow:hidden; margin-top:2px;">
+                <div style="width:{{eduRatioPctWidth}}; height:100%; background:{{eduRatioColor}}; border-radius:3px;"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; margin-top:4px;"><span>Gap</span><span style="color:{{eduGapColor}};">{{eduGapLabel}}</span></div>
+              <div style="display:flex; justify-content:space-between;"><span>SIP needed</span><span style="color:#E2E8F0;">{{eduSipLabel}}</span></div>
+              <div style="margin-top:6px; padding:6px 0; text-align:center; border-radius:6px; font-weight:700; font-size:11px; background:{{eduStatusBg}}; color:{{eduStatusColor}};">{{eduStatusText}}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 4: RISKS + OPPORTUNITIES -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Top 5 Risks</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{risks}}" as="r" hint-placeholder-count="5">
+                <span style="display:inline-block; padding:3px 9px; border-radius:5px; font-size:10px; font-weight:700; background:#EF444422; color:#EF4444; width:fit-content;">{{r}}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Top 5 Opportunities</div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <sc-for list="{{opportunities}}" as="o" hint-placeholder-count="5">
+                <span style="display:inline-block; padding:3px 9px; border-radius:5px; font-size:10px; font-weight:700; background:#22C55E22; color:#22C55E; width:fit-content;">{{o}}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 5: ACTION PLAN -->
+        <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:10px;">10-Year Action Plan</div>
+          <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:14px;">
+            <sc-for list="{{actionPlan}}" as="ap" hint-placeholder-count="10">
+              <div style="display:flex; flex-direction:column; gap:3px;">
+                <div style="font-size:11px; font-weight:700; color:#3B82F6;">{{ap.year}}</div>
+                <div style="font-size:10.5px; color:#94A3B8; line-height:1.4;">{{ap.desc}}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+      </div>
+    </sc-if>
+
+    <!-- PORTFOLIO TAB -->
+    <sc-if value="{{isPortfolio}}" hint-placeholder-val="{{false}}">
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+          <button style="padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; background:#3B82F622; color:#3B82F6; border:none; cursor:pointer;">🔄 REFRESH ALL</button>
+          <button onClick="{{toggleAdding}}" style="padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; background:#22C55E22; color:#22C55E; border:none; cursor:pointer;">➕ ADD HOLDING</button>
+          <button style="padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; background:#14B8A622; color:#14B8A6; border:none; cursor:pointer;">⬇ CSV</button>
+          <button style="padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; background:#A78BFA22; color:#A78BFA; border:none; cursor:pointer;">⬆ IMPORT</button>
+          <button style="padding:6px 12px; border-radius:6px; font-size:11px; font-weight:700; background:#F59E0B22; color:#F59E0B; border:none; cursor:pointer;">↩ UNDO</button>
+          <span style="font-size:11px; color:#94A3B8; margin-left:auto;">{{lastRefreshLabel}} • {{liveCount}}/{{holdingCount}} LIVE • {{staleCount}} STALE/ERROR</span>
+        </div>
+
+        <sc-if value="{{addingNew}}" hint-placeholder-val="{{false}}">
+          <div style="background:#0F1A2A; border:1px solid #192536; border-radius:10px; padding:10px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <input placeholder="Name" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px; width:140px;" />
+            <input placeholder="Ticker" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px; width:90px;" />
+            <input placeholder="Qty" type="number" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px; width:70px;" />
+            <input placeholder="Avg Buy" type="number" style="background:#111B27; color:#E2E8F0; border:1px solid #192536; border-radius:5px; padding:5px 8px; font-size:11px; width:90px;" />
+            <button onClick="{{addDemoHolding}}" style="padding:5px 10px; border-radius:5px; font-size:11px; font-weight:700; background:#22C55E22; color:#22C55E; border:none; cursor:pointer;">✅ Add</button>
+            <button onClick="{{cancelAdding}}" style="padding:5px 10px; border-radius:5px; font-size:11px; font-weight:700; background:#EF444422; color:#EF4444; border:none; cursor:pointer;">✖ Cancel</button>
+          </div>
+        </sc-if>
+
+        <div style="display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px;">
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:10px; text-transform:uppercase; color:#94A3B8;">Portfolio Total (INR)</div>
+            <div style="font-size:18px; font-weight:700;">{{portfolioTotalLabel}}</div>
+          </div>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:10px; text-transform:uppercase; color:#94A3B8;">Total Invested (INR)</div>
+            <div style="font-size:18px; font-weight:700;">{{portfolioInvestedLabel}}</div>
+          </div>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:10px; text-transform:uppercase; color:#94A3B8;">Total P&amp;L (INR)</div>
+            <div style="font-size:18px; font-weight:700; color:{{portfolioPnlColor}};">{{portfolioPnlLabel}}</div>
+          </div>
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:10px; text-transform:uppercase; color:#94A3B8;">Day Gain/Loss (INR)</div>
+            <div style="font-size:18px; font-weight:700; color:{{portfolioDayColor}};">{{portfolioDayLabel}}</div>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <sc-for list="{{filterButtons}}" as="fb" hint-placeholder-count="5">
+            <button onClick="{{fb.select}}" style="{{fb.style}}">{{fb.label}}</button>
+          </sc-for>
+        </div>
+
+        <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px; overflow-x:auto;">
+          <table style="width:100%; font-size:11px; border-collapse:collapse;">
+            <thead>
+              <tr style="color:#94A3B8;">
+                <th style="text-align:left; padding:4px;">Name</th>
+                <th style="text-align:left; padding:4px;">Ticker</th>
+                <th style="text-align:left; padding:4px;">Exch</th>
+                <th style="text-align:right; padding:4px;">Qty</th>
+                <th style="text-align:right; padding:4px;">Avg Buy</th>
+                <th style="text-align:right; padding:4px;">Price</th>
+                <th style="text-align:left; padding:4px;">Status</th>
+                <th style="text-align:right; padding:4px;">INR Value</th>
+                <th style="text-align:right; padding:4px;">P&amp;L</th>
+                <th style="text-align:right; padding:4px;">P&amp;L%</th>
+                <th style="text-align:right; padding:4px;">Port%</th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{visibleHoldings}}" as="h" hint-placeholder-count="12">
+                <tr style="border-top:1px solid #141F2E;">
+                  <td style="padding:5px 4px;">{{h.name}}</td>
+                  <td style="padding:5px 4px;">{{h.ticker}}</td>
+                  <td style="padding:5px 4px; color:#94A3B8;">{{h.exchange}}</td>
+                  <td style="padding:5px 4px; text-align:right;">{{h.qtyLabel}}</td>
+                  <td style="padding:5px 4px; text-align:right;">{{h.avgBuyLabel}}</td>
+                  <td style="padding:5px 4px; text-align:right;">{{h.priceLabel}}</td>
+                  <td style="padding:5px 4px;"><span style="padding:2px 7px; border-radius:4px; font-size:9px; font-weight:700; background:{{h.statusBg}}; color:{{h.statusColor}};">{{h.status}}</span></td>
+                  <td style="padding:5px 4px; text-align:right; font-weight:600;">{{h.inrValueLabel}}</td>
+                  <td style="padding:5px 4px; text-align:right; color:{{h.pnlColor}};">{{h.pnlLabel}}</td>
+                  <td style="padding:5px 4px; text-align:right; color:{{h.pnlColor}};">{{h.pnlPctLabel}}</td>
+                  <td style="padding:5px 4px; text-align:right; color:#94A3B8;">{{h.portPctLabel}}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+          <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+            <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Asset Allocation — Current vs Target</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <sc-for list="{{assetAllocation}}" as="a" hint-placeholder-count="4">
+                <div>
+                  <div style="display:flex; justify-content:space-between; font-size:11px; margin-bottom:3px;">
+                    <span>{{a.classLabel}}</span>
+                    <span style="display:flex; align-items:center; gap:6px;">
+                      <span style="color:#94A3B8;">{{a.curPctLabel}} / target {{a.targetLabel}}</span>
+                      <span style="padding:2px 7px; border-radius:4px; font-size:9px; font-weight:700; background:{{a.signalBg}}; color:{{a.signalColor}};">{{a.signal}}</span>
+                    </span>
+                  </div>
+                  <div style="height:5px; background:#111B27; border-radius:3px; overflow:hidden;">
+                    <div style="width:{{a.curPctWidth}}; height:100%; background:#3B82F6; border-radius:3px;"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Concentration Alerts</div>
+              <div style="display:flex; flex-direction:column; gap:5px;">
+                <sc-for list="{{concentrationAlerts}}" as="ca" hint-placeholder-count="1">
+                  <div style="display:flex; justify-content:space-between; font-size:11px;">
+                    <span>{{ca.label}}</span>
+                    <span style="padding:2px 7px; border-radius:4px; font-size:9px; font-weight:700; background:{{ca.badgeBg}}; color:{{ca.badgeColor}};">{{ca.badgeText}}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:12px 14px;">
+              <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:#94A3B8; margin-bottom:8px;">Currency Exposure</div>
+              <sc-for list="{{currencyExposure}}" as="ce" hint-placeholder-count="3">
+                <div style="margin-bottom:8px;">
+                  <div style="display:flex; justify-content:space-between; font-size:11px;"><span>{{ce.currency}}</span><span>{{ce.pctLabel}}</span></div>
+                  <div style="height:5px; background:#111B27; border-radius:3px; overflow:hidden; margin-top:3px;">
+                    <div style="width:{{ce.pctWidth}}; height:100%; background:{{ce.color}}; border-radius:3px;"></div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </sc-if>
+
+    <!-- PLACEHOLDER TABS -->
+    <sc-if value="{{isPlaceholder}}" hint-placeholder-val="{{false}}">
+      <div style="background:#0C1422; border:1px solid #192536; border-radius:10px; padding:60px 20px; text-align:center;">
+        <div style="font-size:28px; margin-bottom:10px;">🧭</div>
+        <div style="font-size:14px; font-weight:700; margin-bottom:6px;">{{placeholderTitle}}</div>
+        <div style="font-size:12px; color:#94A3B8; max-width:420px; margin:0 auto;">This tab is fully built in the working app (see the coded dashboard). This design canvas focuses on the Executive and Portfolio tabs — click those in the tab bar above to explore the interactive design.</div>
+      </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeTab: 'exec',
+      retireAge: 52,
+      inflation: 0.06,
+      returns: 0.10,
+      lifeExp: 85,
+      withdrawal: '4pct',
+      eduKey: 'India',
+      monthlyExp: 100000,
+      sipMonthly: 230000,
+      portfolioFilter: 'All',
+      addingNew: false,
+      holdings: [
+        { id: 1, name: 'OMR Liquid Fund', ticker: 'CASH', exchange: '—', currency: 'OMR', qty: 1, avgBuy: 25000, assetClass: 'Liquid Fund', isLiquidFund: true, status: 'FIXED', mult: 1 },
+        { id: 2, name: 'RAYMOND LIFESTYLE', ticker: 'RAYMOND', exchange: 'NSE', currency: 'INR', qty: 100, avgBuy: 14304.3, assetClass: 'India Equity', status: 'LIVE', mult: 1.032 },
+        { id: 3, name: 'Bitcoin', ticker: 'BTC', exchange: 'Binance', currency: 'OMR', qty: 0.6524, avgBuy: 9497.6, assetClass: 'Crypto', status: 'ERROR', mult: 1 },
+        { id: 4, name: 'Invesco QQQ', ticker: 'QQQ', exchange: 'NASDAQ', currency: 'USD', qty: 26, avgBuy: 493.58, assetClass: 'US Equity', status: 'LIVE', mult: 1.018 },
+        { id: 5, name: 'Tesla', ticker: 'TSLA', exchange: 'NASDAQ', currency: 'USD', qty: 60, avgBuy: 200.75, assetClass: 'US Equity', status: 'STALE', mult: 1 },
+        { id: 6, name: 'BAJAJ FINANCE', ticker: 'BAJFINANCE', exchange: 'NSE', currency: 'INR', qty: 20, avgBuy: 49928.9, assetClass: 'India Equity', status: 'MANUAL', mult: 0.989 },
+        { id: 7, name: 'EID PARRY INDIA', ticker: 'EIDPARRY', exchange: 'NSE', currency: 'INR', qty: 100, avgBuy: 8623.85, assetClass: 'India Equity', status: 'STALE', mult: 1 },
+        { id: 8, name: 'VARUN BEVERAGES', ticker: 'VBL', exchange: 'NSE', currency: 'INR', qty: 300, avgBuy: 2147.15, assetClass: 'India Equity', status: 'LIVE', mult: 1.009 },
+        { id: 9, name: 'MAS FINANCIAL', ticker: 'MASFIN', exchange: 'NSE', currency: 'INR', qty: 100, avgBuy: 7577, assetClass: 'India Equity', status: 'STALE', mult: 1 },
+        { id: 10, name: 'Ethereum', ticker: 'ETH', exchange: 'Binance', currency: 'OMR', qty: 3.1046, avgBuy: 836.27, assetClass: 'Crypto', status: 'ERROR', mult: 1 },
+        { id: 11, name: 'KIRLOSKAR OIL ENG', ticker: 'KIRLOSKAR', exchange: 'NSE', currency: 'INR', qty: 100, avgBuy: 5846, assetClass: 'India Equity', status: 'STALE', mult: 1 },
+        { id: 12, name: 'FEDBANK FINANCIAL', ticker: 'FEDFINA', exchange: 'NSE', currency: 'INR', qty: 600, avgBuy: 895.8, assetClass: 'India Equity', status: 'STALE', mult: 1 },
+      ],
+    };
+  }
+
+  fx(currency) { return currency === 'USD' ? 83.5 : currency === 'OMR' ? 230 : 1; }
+
+  fmt(v) {
+    if (v == null || isNaN(v)) return '₹0';
+    const neg = v < 0;
+    const av = Math.abs(v);
+    const s = av >= 1e7 ? `₹${(av / 1e7).toFixed(2)}Cr` : `₹${(av / 1e5).toFixed(1)}L`;
+    return neg ? '-' + s : s;
+  }
+
+  project(ret, sipAnnual, years, equityStart, liquidStart) {
+    let equity = equityStart, liquid = liquidStart;
+    for (let i = 0; i < years; i++) {
+      equity = equity * (1 + ret) + sipAnnual;
+      liquid = liquid * 1.04;
+    }
+    return { total: equity + liquid, equity, liquid };
+  }
+
+  setTab(key) { this.setState({ activeTab: key }); }
+  setRetireAge(age) { this.setState({ retireAge: age }); }
+  setFilter(key) { this.setState({ portfolioFilter: key }); }
+
+  renderVals() {
+    const s = this.state;
+    const CURR_AGE = 42, EDU_YEARS = 7;
+    const GREEN = '#22C55E', RED = '#EF4444', AMBER = '#F59E0B', BLUE = '#3B82F6', PURPLE = '#A78BFA', TEXT = '#E2E8F0', TEXTSEC = '#94A3B8';
+    const STATUS_COLOR = { LIVE: GREEN, MANUAL: BLUE, STALE: AMBER, ERROR: RED, FIXED: PURPLE };
+
+    const enriched = s.holdings.map(h => {
+      const price = h.avgBuy * h.mult;
+      const invested = h.qty * h.avgBuy * this.fx(h.currency);
+      const inrValue = h.qty * price * this.fx(h.currency);
+      return { ...h, price, invested, inrValue };
+    });
+
+    const totalPortfolioINR = enriched.reduce((sum, h) => sum + h.inrValue, 0);
+    const totalInvestedINR = enriched.reduce((sum, h) => sum + h.invested, 0);
+    const liquidINR = enriched.filter(h => h.isLiquidFund).reduce((sum, h) => sum + h.inrValue, 0);
+    const equityINR = totalPortfolioINR - liquidINR;
+
+    const yearsAccum = s.retireAge - CURR_AGE;
+    const sipAnnual = s.sipMonthly * 12;
+    const projected = this.project(s.returns, sipAnnual, yearsAccum, equityINR, liquidINR);
+    const expAtRetire = s.monthlyExp * Math.pow(1 + s.inflation, yearsAccum);
+    const wdRate = { '3.5pct': 0.035, '4pct': 0.04, dynamic: 0.038, bucket: 0.04 }[s.withdrawal];
+    const reqCorpus = (expAtRetire * 12) / wdRate;
+    const surplus = projected.total - reqCorpus;
+    const safeWd = (projected.total * wdRate) / 12;
+    const readiness = Math.min(100, Math.max(0, Math.round(
+      Math.min(40, (projected.total / reqCorpus) * 40) +
+      Math.min(20, yearsAccum * 1.5) +
+      (surplus > 0 ? 25 : 0) +
+      Math.min(15, (s.sipMonthly / 50000) * 3)
+    )));
+    const mcSuccess = Math.max(45, Math.min(97, Math.round(50 + (surplus / reqCorpus) * 60)));
+
+    const EDU_OPTIONS = {
+      India: { flag: '🇮🇳', cost: 2300000 },
+      USA: { flag: '🇺🇸', cost: 25000000 },
+      UK: { flag: '🇬🇧', cost: 18000000 },
+      Canada: { flag: '🇨🇦', cost: 14000000 },
+      Australia: { flag: '🇦🇺', cost: 16000000 },
+      Europe: { flag: '🇪🇺', cost: 10000000 },
+    };
+    const eduData = EDU_OPTIONS[s.eduKey];
+    const eduInflated = eduData.cost * Math.pow(1.08, EDU_YEARS);
+    const eduLiqGrown = liquidINR * Math.pow(1.04, EDU_YEARS);
+    const eduRatio = eduInflated > 0 ? Math.min(1, eduLiqGrown / eduInflated) : 1;
+    const eduGap = Math.max(0, eduInflated - eduLiqGrown);
+    const r12 = 0.01, n12 = 84;
+    const eduSIP = (eduInflated * r12) / (Math.pow(1 + r12, n12) - 1);
+    const eduOverlap = Math.max(0, (EDU_YEARS + 4) - yearsAccum);
+
+    const fireType = s.retireAge <= 50 ? 'Lean FIRE' : s.retireAge <= 53 ? 'Full FIRE' : 'Fat FIRE';
+
+    // Gauge arc
+    const circ = Math.PI * 38;
+    const gaugeColor = readiness >= 75 ? GREEN : readiness >= 50 ? AMBER : RED;
+    const gaugeOffset = circ * (1 - Math.min(readiness, 100) / 100);
+
+    // Trajectory chart
+    const W = 500, H = 150, PL = 44, PT = 12, PB = 28;
+    const pts = Array.from({ length: 13 }, (_, i) => ({
+      age: CURR_AGE + i + 1,
+      val: this.project(s.returns, sipAnnual, i + 1, equityINR, liquidINR).total,
+    }));
+    const maxV = pts[pts.length - 1].val * 1.08;
+    const minV = totalPortfolioINR * 0.95;
+    const sx = age => PL + ((age - CURR_AGE - 1) / 12) * (W - PL - 10);
+    const sy = v => PT + (H - PT - PB) * (1 - (v - minV) / (maxV - minV || 1));
+    const trajectoryLine = pts.map(p => `${sx(p.age).toFixed(1)},${sy(p.val).toFixed(1)}`).join(' ');
+    const fillPolygon = `${sx(CURR_AGE + 1).toFixed(1)},${sy(minV).toFixed(1)} ${trajectoryLine} ${sx(CURR_AGE + 13).toFixed(1)},${sy(minV).toFixed(1)}`;
+    const gridCandidates = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,18,20].map(c => c * 1e7).filter(c => c > minV && c < maxV * 1.05);
+    const gridLines = gridCandidates.slice(0, 6).map(c => ({ y: sy(c).toFixed(1), yLabel: (sy(c) + 3).toFixed(1), label: `₹${c / 1e7}Cr` }));
+    const RETIRE_AGES = [50, 52, 53, 55];
+    const markers = RETIRE_AGES.filter(age => age >= CURR_AGE + 1 && age <= CURR_AGE + 13).map(age => {
+      const val = this.project(s.returns, sipAnnual, age - CURR_AGE, equityINR, liquidINR).total;
+      const x = sx(age), y = sy(val), sel = age === s.retireAge;
+      return {
+        x: x.toFixed(1), y: y.toFixed(1), age, r: sel ? 5 : 3.5,
+        dotColor: sel ? BLUE : '#1E3A5F', ringColor: sel ? '#93C5FD' : 'none',
+        lineColor: sel ? '#3B82F650' : '#0F1A27', lineWidth: sel ? 1.5 : 1,
+        valueText: this.fmt(val), valueY: (y - 10).toFixed(1),
+        labelColor: sel ? '#93C5FD' : '#64748B', ageColor: sel ? BLUE : '#334155',
+        fontWeight: sel ? 700 : 400,
+      };
+    });
+
+    // KPI cards
+    const kpis = [
+      { label: 'Total Portfolio Today', value: this.fmt(totalPortfolioINR), sub: 'INR + USD + OMR live', color: TEXT },
+      { label: 'Projected Corpus', value: this.fmt(projected.total), sub: `Age ${s.retireAge} | ${(s.returns * 100).toFixed(0)}% equity + 4% liquid`, color: TEXT },
+      { label: 'Required Corpus', value: this.fmt(reqCorpus), sub: `${s.withdrawal} | life to ${s.lifeExp}`, color: TEXT },
+      { label: surplus >= 0 ? 'Surplus' : 'Deficit', value: this.fmt(Math.abs(surplus)), sub: 'Projected − Required', color: surplus >= 0 ? GREEN : RED },
+      { label: 'Monthly Income Need', value: this.fmt(expAtRetire), sub: `₹${(s.monthlyExp / 1000).toFixed(0)}K inflated`, color: TEXT },
+      { label: 'Safe Withdrawal/mo', value: this.fmt(safeWd), sub: '', color: safeWd >= expAtRetire ? GREEN : AMBER },
+      { label: 'MC Success %', value: `${mcSuccess}%`, sub: '', color: mcSuccess >= 80 ? GREEN : mcSuccess >= 65 ? AMBER : RED },
+    ];
+
+    const fireList = [
+      { label: 'Lean FIRE (₹3.5Cr)', ok: projected.total >= 35000000 },
+      { label: 'Full FIRE (₹6Cr)', ok: projected.total >= 60000000 },
+      { label: 'Fat FIRE (₹10Cr+)', ok: projected.total >= 100000000 },
+      { label: 'Coast FIRE', ok: true },
+    ].map(f => ({ ...f, badgeBg: (f.ok ? GREEN : AMBER) + '22', badgeColor: f.ok ? GREEN : AMBER, badgeText: f.ok ? 'Achievable' : 'Stretch' }));
+
+    const risks = [
+      'US equity concentration within limits',
+      'Crypto allocation modest',
+      'Sequence-of-returns risk near retirement',
+      'Inflation eroding fixed liquid-fund returns',
+      `Education/retirement overlap of ${eduOverlap.toFixed(0)} yrs`,
+    ];
+    const opportunities = [
+      'Compound India equity SIP over remaining accumulation years',
+      `Redeploy ${this.fmt(liquidINR)} liquid fund into higher-yield sleeve`,
+      'US equity + crypto provide natural currency diversification',
+      'NPS + Sukanya Samriddhi offer tax-efficient long-horizon compounding',
+      readiness >= 75 ? 'Readiness strong — consider earlier retirement age' : 'Raising SIP modestly closes most of the gap',
+    ];
+
+    const actionPlan = [
+      { year: 'Now', desc: `Track portfolio (${this.fmt(totalPortfolioINR)}) and confirm SIP of ₹${(s.sipMonthly / 1000).toFixed(0)}K/mo` },
+      { year: '2026 Q4', desc: 'Review asset allocation vs targets and rebalance' },
+      { year: '2027', desc: `Reassess education plan for ${s.eduKey} (target ${this.fmt(eduInflated)})` },
+      { year: '2028', desc: 'Maximize NPS + Sukanya Samriddhi contributions' },
+      { year: '2029', desc: `Mid-course check against required corpus ${this.fmt(reqCorpus)}` },
+      { year: '2030', desc: 'Increase health insurance cover ahead of retirement' },
+      { year: '2031', desc: 'Begin glide path — shift equity toward liquid sleeve' },
+      { year: '2032', desc: `Confirm readiness score (currently ${readiness}/100) trending up` },
+      { year: '2033+', desc: `Target retirement at age ${s.retireAge} with corpus ${this.fmt(projected.total)}` },
+      { year: 'Ongoing', desc: 'Annual estate planning and beneficiary review' },
+    ];
+
+    // Retire age buttons
+    const retireAgeButtons = RETIRE_AGES.map(age => ({
+      age, select: () => this.setRetireAge(age),
+      style: `padding:5px 10px; border-radius:5px; font-size:11px; font-weight:700; border:none; cursor:pointer; background:${age === s.retireAge ? BLUE : '#111B27'}; color:${age === s.retireAge ? '#fff' : TEXTSEC};`,
+    }));
+
+    // Tabs
+    const TAB_DEFS = [
+      { key: 'exec', label: 'Executive' },
+      { key: 'portfolio', label: 'Portfolio' },
+      { key: 'scenarios', label: 'Scenarios' },
+      { key: 'mc', label: 'Monte Carlo' },
+      { key: 'edu', label: 'Education' },
+      { key: 'cash', label: 'Cash Flow' },
+      { key: 'stress', label: 'Stress Test' },
+      { key: 'opt', label: 'Optimizer' },
+      { key: 'year', label: 'Year Plan' },
+    ];
+    const tabs = TAB_DEFS.map(t => ({
+      key: t.key, label: t.label, select: () => this.setTab(t.key),
+      style: `padding:9px 12px; font-size:12px; font-weight:600; border:none; background:none; cursor:pointer; white-space:nowrap; color:${s.activeTab === t.key ? BLUE : TEXTSEC}; border-bottom:2px solid ${s.activeTab === t.key ? BLUE : 'transparent'};`,
+    }));
+
+    // Portfolio tab data
+    const FILTER_DEFS = ['All', 'India Equity', 'US Equity', 'Crypto', 'Liquid Fund'];
+    const filterButtons = FILTER_DEFS.map(f => ({
+      label: f, select: () => this.setFilter(f),
+      style: `padding:5px 10px; border-radius:5px; font-size:10.5px; font-weight:600; border:none; cursor:pointer; background:${s.portfolioFilter === f ? BLUE : '#111B27'}; color:${s.portfolioFilter === f ? '#fff' : TEXTSEC};`,
+    }));
+    const visibleHoldings = enriched
+      .filter(h => s.portfolioFilter === 'All' || h.assetClass === s.portfolioFilter)
+      .sort((a, b) => b.inrValue - a.inrValue)
+      .map(h => {
+        const pnl = h.inrValue - h.invested;
+        const pnlPct = h.invested ? (pnl / h.invested) * 100 : 0;
+        const portPct = totalPortfolioINR ? (h.inrValue / totalPortfolioINR) * 100 : 0;
+        const col = STATUS_COLOR[h.status];
+        return {
+          ...h,
+          qtyLabel: h.qty, avgBuyLabel: h.avgBuy.toFixed(2), priceLabel: h.price.toFixed(2),
+          inrValueLabel: this.fmt(h.inrValue), pnlLabel: this.fmt(pnl), pnlPctLabel: pnlPct.toFixed(1) + '%',
+          portPctLabel: portPct.toFixed(1) + '%', portPct,
+          pnlColor: pnl >= 0 ? GREEN : RED, statusBg: col + '22', statusColor: col,
+        };
+      });
+
+    const liveCount = enriched.filter(h => h.status === 'LIVE').length;
+    const staleCount = enriched.filter(h => h.status === 'STALE' || h.status === 'ERROR').length;
+
+    const portfolioPnl = totalPortfolioINR - totalInvestedINR;
+
+    const ASSET_TARGETS = { 'India Equity': 40, 'US Equity': 35, 'Crypto': 10, 'Liquid Fund': 15 };
+    const assetAllocation = Object.keys(ASSET_TARGETS).map(cls => {
+      const val = enriched.filter(h => h.assetClass === cls).reduce((sum, h) => sum + h.inrValue, 0);
+      const curPct = totalPortfolioINR ? (val / totalPortfolioINR) * 100 : 0;
+      const target = ASSET_TARGETS[cls];
+      const diff = curPct - target;
+      const signal = Math.abs(diff) < 3 ? '◆ HOLD' : diff > 0 ? '▼ TRIM' : '▲ BUY';
+      const signalColor = signal === '◆ HOLD' ? TEXTSEC : signal === '▼ TRIM' ? RED : GREEN;
+      return { classLabel: cls, curPctLabel: curPct.toFixed(1) + '%', curPctWidth: Math.min(100, curPct).toFixed(1) + '%', targetLabel: target + '%', signal, signalBg: signalColor + '22', signalColor };
+    });
+
+    const concentrationAlerts = enriched
+      .map(h => ({ name: h.name, portPct: totalPortfolioINR ? (h.inrValue / totalPortfolioINR) * 100 : 0 }))
+      .filter(h => h.portPct > 15).sort((a, b) => b.portPct - a.portPct).map(h => ({
+        label: `${h.name} (${h.portPct.toFixed(1)}%)`,
+        badgeBg: (h.portPct > 25 ? RED : AMBER) + '22', badgeColor: h.portPct > 25 ? RED : AMBER, badgeText: h.portPct > 25 ? 'CRITICAL' : 'HIGH',
+      }));
+
+    const CUR_COLORS = { INR: BLUE, USD: '#14B8A6', OMR: PURPLE };
+    const currencyExposure = ['INR', 'USD', 'OMR'].map(cur => {
+      const val = enriched.filter(h => h.currency === cur).reduce((sum, h) => sum + h.inrValue, 0);
+      const p = totalPortfolioINR ? (val / totalPortfolioINR) * 100 : 0;
+      return { currency: cur, pctLabel: p.toFixed(1) + '%', pctWidth: Math.min(100, p).toFixed(1) + '%', color: CUR_COLORS[cur] };
+    });
+
+    const eduOptions = Object.keys(EDU_OPTIONS).map(k => ({
+      key: k, label: `${EDU_OPTIONS[k].flag} ${k}`, selected: k === s.eduKey,
+    }));
+
+    return {
+      // header
+      retireAge: s.retireAge, lifeExp: s.lifeExp,
+      returnPctLabel: `${(s.returns * 100).toFixed(0)}%`, inflationPctLabel: `${(s.inflation * 100).toFixed(0)}%`,
+      onTrackBg: (surplus > 0 ? GREEN : RED) + '22', onTrackColor: surplus > 0 ? GREEN : RED, onTrackLabel: surplus > 0 ? '✓ On Track' : '⚠ Review',
+      projectedLabel: this.fmt(projected.total),
+      // control bar
+      onInflationChange: e => this.setState({ inflation: Number(e.target.value) }),
+      onReturnsChange: e => this.setState({ returns: Number(e.target.value) }),
+      onLifeExpChange: e => this.setState({ lifeExp: Number(e.target.value) }),
+      onWithdrawalChange: e => this.setState({ withdrawal: e.target.value }),
+      onEduChange: e => this.setState({ eduKey: e.target.value }),
+      onMonthlyExpChange: e => this.setState({ monthlyExp: Number(e.target.value) }),
+      onSipChange: e => this.setState({ sipMonthly: Number(e.target.value) }),
+      inflationIs05: s.inflation === 0.05, inflationIs06: s.inflation === 0.06, inflationIs07: s.inflation === 0.07,
+      returnsIs08: s.returns === 0.08, returnsIs10: s.returns === 0.10, returnsIs12: s.returns === 0.12,
+      lifeIs80: s.lifeExp === 80, lifeIs85: s.lifeExp === 85, lifeIs90: s.lifeExp === 90, lifeIs95: s.lifeExp === 95,
+      wdIs35: s.withdrawal === '3.5pct', wdIs4: s.withdrawal === '4pct', wdIsDyn: s.withdrawal === 'dynamic', wdIsBucket: s.withdrawal === 'bucket',
+      eduOptions,
+      monthlyExp: s.monthlyExp, sipMonthly: s.sipMonthly,
+      monthlyExpLabel: `₹${(s.monthlyExp / 1000).toFixed(0)}K`, sipMonthlyLabel: `₹${(s.sipMonthly / 1000).toFixed(0)}K`,
+      retireAgeButtons, tabs,
+      // tab visibility
+      isExec: s.activeTab === 'exec', isPortfolio: s.activeTab === 'portfolio',
+      isPlaceholder: !['exec', 'portfolio'].includes(s.activeTab),
+      placeholderTitle: (TAB_DEFS.find(t => t.key === s.activeTab) || {}).label || '',
+      // executive tab
+      kpis, gaugeColor, gaugeCirc: circ.toFixed(2), gaugeOffset: gaugeOffset.toFixed(2), readiness,
+      gridLines, trajectoryLine, fillPolygon, markers,
+      fireList, fireType,
+      eduFlag: eduData.flag, eduKey: s.eduKey,
+      eduCostToday: this.fmt(eduData.cost), eduInflatedLabel: this.fmt(eduInflated), eduLiqGrownLabel: this.fmt(eduLiqGrown),
+      eduRatioLabel: `${(eduRatio * 100).toFixed(1)}%`, eduRatioPctWidth: `${(eduRatio * 100).toFixed(1)}%`,
+      eduRatioColor: eduRatio >= 1 ? GREEN : eduRatio >= 0.7 ? AMBER : RED,
+      eduGapLabel: eduGap > 0 ? this.fmt(eduGap) : 'None', eduGapColor: eduGap > 0 ? RED : GREEN,
+      eduSipLabel: `₹${Math.round(eduSIP / 1000)}K/mo`,
+      eduStatusText: eduRatio >= 1 ? '✅ FULLY FUNDED' : eduRatio >= 0.7 ? '⚠ PARTIALLY FUNDED' : '❌ FUNDING GAP',
+      eduStatusBg: (eduRatio >= 1 ? GREEN : eduRatio >= 0.7 ? AMBER : RED) + '22',
+      eduStatusColor: eduRatio >= 1 ? GREEN : eduRatio >= 0.7 ? AMBER : RED,
+      risks, opportunities, actionPlan,
+      // portfolio tab
+      toggleAdding: () => this.setState({ addingNew: !s.addingNew }),
+      addDemoHolding: () => this.setState({
+        addingNew: false,
+        holdings: [...s.holdings, { id: Date.now(), name: 'New Holding', ticker: 'NEW', exchange: 'NSE', currency: 'INR', qty: 10, avgBuy: 1000, assetClass: 'India Equity', status: 'STALE', mult: 1 }],
+      }),
+      cancelAdding: () => this.setState({ addingNew: false }),
+      addingNew: s.addingNew,
+      lastRefreshLabel: 'Last refreshed: 2 min ago', liveCount, holdingCount: enriched.length, staleCount,
+      portfolioTotalLabel: this.fmt(totalPortfolioINR), portfolioInvestedLabel: this.fmt(totalInvestedINR),
+      portfolioPnlLabel: this.fmt(portfolioPnl), portfolioPnlColor: portfolioPnl >= 0 ? GREEN : RED,
+      portfolioDayLabel: this.fmt(0), portfolioDayColor: TEXT,
+      filterButtons, visibleHoldings,
+      assetAllocation, concentrationAlerts, currencyExposure,
+    };
+  }
+}
+</script>
+</body>
+</html>
