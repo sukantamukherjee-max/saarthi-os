@@ -1,6 +1,7 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 import SaarthiMark from '../components/SaarthiMark';
+import NavMenu from './NavMenu';
 import { useAuth } from '../hooks/useAuth';
 import { supabaseConfigured } from '../lib/supabaseClient';
 
@@ -12,10 +13,14 @@ export default function Header({ vm }: { vm: any }) {
       <div style={sx('max-width:1280px;margin:0 auto;padding:0 26px')}>
         <div style={sx('display:flex;align-items:flex-end;gap:22px;padding:16px 0 13px;flex-wrap:wrap')}>
           <div style={sx('display:flex;align-items:baseline;gap:14px;flex-wrap:wrap')}>
-            <div style={sx('display:flex;align-items:center;gap:10px')}>
+            <button
+              onClick={vm.h.go.overview}
+              title="Go to Overview"
+              style={sx('display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:0;cursor:pointer;color:inherit')}
+            >
               <SaarthiMark variant="light" size={26} />
               <div style={sx('font-family:var(--font-heading);font-weight:700;font-size:21px;letter-spacing:-.025em;line-height:1;text-transform:uppercase')}>Saarthi OS</div>
-            </div>
+            </button>
             <div style={sx('font-size:11.5px;color:var(--pw-head-dim)')}>Navigate Wealth. Secure Your Family's Future.</div>
           </div>
           <div style={sx('margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap')}>
@@ -67,8 +72,21 @@ export default function Header({ vm }: { vm: any }) {
           </div>
         </div>
         <div style={sx('height:2px;background:var(--pw-head-line)')}></div>
-        <div style={sx('display:flex;justify-content:space-between;gap:16px;padding:8px 0 9px;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim);flex-wrap:wrap')}>
-          <span style={sx('color:var(--pw-o)')}>{vm.navLabel}</span>
+        <div style={sx('display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim);flex-wrap:wrap')}>
+          <div style={sx('position:relative')}>
+            <Hoverable
+              onClick={vm.h.toggleNav}
+              aria-label="Open navigation"
+              style="display:flex;align-items:center;gap:6px;padding:5px 12px 5px 8px;margin:2px 0;border:0;border-radius:999px;background:transparent;cursor:pointer;color:var(--pw-o);font-family:var(--font-body);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase"
+              hoverStyle="background:color-mix(in srgb,var(--pw-o) 16%,transparent)"
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+              {vm.navLabel}
+            </Hoverable>
+            <div style={sx('position:absolute;top:calc(100% + 8px);left:0;z-index:70')}>
+              <NavMenu vm={vm} />
+            </div>
+          </div>
           <span>Decision support · not advice</span>
           <span style={sx('font-variant-numeric:tabular-nums')}>Fact · Assumption · Estimate · Scenario</span>
         </div>

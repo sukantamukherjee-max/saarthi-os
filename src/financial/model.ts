@@ -208,7 +208,11 @@ export class Model {
     const risk = this.risk(a, ms);
     const gap = Math.max(0, req - mc.atR.p50);
     const yrsTo = Math.max(1, a.retireAge - a.currentAge);
-    const reqSave = a.contribution * 12 + (gap > 0 ? gap / (((Math.pow(1 + ms.mu, yrsTo) - 1) / ms.mu)) : 0);
+    // As mu -> 0 the annuity growth factor's limit is yrsTo (saving flat amounts
+    // with no growth for N years accumulates to N times the amount) — avoids 0/0
+    // when there's no portfolio yet (all weights, and so mu, are exactly 0).
+    const growthFactor = Math.abs(ms.mu) < 1e-9 ? yrsTo : (Math.pow(1 + ms.mu, yrsTo) - 1) / ms.mu;
+    const reqSave = a.contribution * 12 + (gap > 0 ? gap / growthFactor : 0);
     const health = this.health(a, mc, emg, risk);
     const m10 = mc10kKey === k ? mc10k : null;
     const out = { ms, edu, mar, det, mc, req, viable, emg, risk, gap, reqSave, health, m10, eduFloor, key: k };
