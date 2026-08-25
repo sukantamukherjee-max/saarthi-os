@@ -160,7 +160,13 @@ export class Model {
     const inf = Math.max(0.5, a.inflIndia + (inflAdj || 0)) / 100;
     const inr = a.indiaSpend * 12 * mult * Math.pow(1 + inf, yr);
     const fx = this.fxAt(a, yr);
-    const living = inr / fx;
+    // Retired but still in Oman (returnAge can be later than retireAge, e.g.
+    // staying back a few years before relocating) — living cost is still the
+    // Oman monthly expense, not the India-based retirement spend, until the
+    // year you actually return.
+    const living = age < a.returnAge
+      ? a.expenses * 12 * mult * Math.pow(1 + a.expenseGrowth / 100, yr)
+      : inr / fx;
     let travel: number;
     if (a.travelMode === 'Fixed') travel = a.travelBudget * 12 * Math.pow(1 + a.inflOman / 100, yr);
     else if (a.travelMode === 'Percent') travel = (inr / fx) * (a.travelPct / 100);
