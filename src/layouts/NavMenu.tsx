@@ -1,7 +1,7 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 
-const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 14px;border:0;border-radius:16px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px';
+const RAIL_BTN = 'display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 12px;border:0;border-radius:16px;background:transparent;cursor:pointer;color:var(--color-text);font-family:var(--font-body);font-size:11px;flex-shrink:0;white-space:nowrap';
 const RAIL_HOVER = 'background:color-mix(in srgb,var(--color-accent) 18%,transparent)';
 const DOT = <span style={sx('width:4px;height:4px;border-radius:50%;background:var(--color-accent)')}></span>;
 
@@ -16,13 +16,13 @@ export default function NavMenu({ vm }: { vm: any }) {
   return (
     <div
       style={{
-        display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 2,
+        display: 'flex', flexWrap: 'nowrap', justifyContent: 'flex-start', gap: 2, overflowX: 'auto',
         background: 'color-mix(in srgb, var(--color-surface) 78%, transparent)',
         backdropFilter: 'blur(16px) saturate(1.4)',
         WebkitBackdropFilter: 'blur(16px) saturate(1.4)',
         border: '1px solid color-mix(in srgb, var(--color-text) 10%, transparent)',
         borderRadius: 26, padding: 6, boxShadow: 'var(--shadow-lg)',
-        animation: 'pwFade .2s ease both', width: 'min(94vw, 460px)', color: 'var(--color-text)',
+        animation: 'pwFade .2s ease both', width: 'min(94vw, 720px)', maxWidth: '96vw', color: 'var(--color-text)',
       }}
     >
       <Hoverable onClick={vm.h.go.overview} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
@@ -36,6 +36,10 @@ export default function NavMenu({ vm }: { vm: any }) {
       <Hoverable onClick={vm.h.go.retirement} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2h12M6 22h12M17 22v-4.2L12 13l-5 4.8V22M7 2v4.2l5 4.8 5-4.8V2"></path></svg>Retirement
         {vm.act.retirement && DOT}
+      </Hoverable>
+      <Hoverable onClick={vm.h.go.timeline} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"></path><path d="M7 15l4-6 3 3 5-8"></path></svg>Timeline
+        {vm.act.timeline && DOT}
       </Hoverable>
       <Hoverable onClick={vm.h.go.education} style={RAIL_BTN} hoverStyle={RAIL_HOVER}>
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"></path></svg>Education

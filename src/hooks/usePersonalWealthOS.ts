@@ -46,11 +46,11 @@ export function usePersonalWealthOS() {
     const t = setTimeout(() => {
       const m = model.mc(a, 10000, false, { eduFloor: 1 });
       setMc10k(m);
-      setMc10kKey(JSON.stringify(a));
+      setMc10kKey(JSON.stringify(a) + '|H:' + model.holdKey());
     }, 420);
     return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [a, ready]);
+  }, [a, ready, model.HOLD]);
 
   const actions: ViewModelActions = useMemo(() => {
     const applyA = (next: Assumptions) => {

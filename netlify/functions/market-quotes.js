@@ -29,6 +29,20 @@ export async function handler(event) {
         const nav = data?.data?.[0]?.nav;
         if (nav) out[s.symbol] = { price: Number(nav), currency: 'INR', source: 'mfapi' };
         else throw new Error('no NAV returned');
+      } else if (s.source === 'yahoo') {
+        // Unofficial, unauthenticated Yahoo Finance endpoint — no key required, but
+        // unsupported/undocumented and can change or rate-limit without notice.
+        // Used for symbols (e.g. NSE ".NS" tickers) that Finnhub's free tier doesn't cover.
+        const res = await fetch(`https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(s.symbol)}`, {
+          headers: { 'User-Agent': 'Mozilla/5.0' },
+        });
+        const data = await res.json();
+        const meta = data?.chart?.result?.[0]?.meta;
+        if (meta && typeof meta.regularMarketPrice === 'number') {
+          out[s.symbol] = { price: meta.regularMarketPrice, currency: meta.currency || 'USD', source: 'yahoo' };
+        } else {
+          throw new Error(data?.chart?.error?.description || 'no quote returned');
+        }
       } else {
         throw new Error(`unknown source "${s.source}"`);
       }

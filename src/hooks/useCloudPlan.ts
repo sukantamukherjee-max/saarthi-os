@@ -6,6 +6,7 @@ import type { Assumptions, Holding } from '../financial/types';
 
 function rowToHolding(row: any): Holding {
   return {
+    id: row.id,
     n: row.name,
     c: row.asset_class,
     q: row.quantity_label || '—',
@@ -16,6 +17,7 @@ function rowToHolding(row: any): Holding {
     why: row.note || '',
     fresh: row.price_source === 'live' ? 'Live' : 'Manual',
     isDemo: !!row.is_demo,
+    ticker: row.ticker || null,
   };
 }
 

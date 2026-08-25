@@ -7,6 +7,7 @@ import DemoBanner from './layouts/DemoBanner';
 import OverviewPage from './pages/OverviewPage';
 import PortfolioPage from './pages/PortfolioPage';
 import RetirementPage from './pages/RetirementPage';
+import TimelinePage from './pages/TimelinePage';
 import EducationPage from './pages/EducationPage';
 import MarriagePage from './pages/MarriagePage';
 import RiskPage from './pages/RiskPage';
@@ -36,6 +37,7 @@ export default function App() {
           {vm.is.overview && <OverviewPage vm={vm} />}
           {vm.is.portfolio && <PortfolioPage vm={vm} />}
           {vm.is.retirement && <RetirementPage vm={vm} />}
+          {vm.is.timeline && <TimelinePage vm={vm} />}
           {vm.is.education && <EducationPage vm={vm} />}
           {vm.is.marriage && <MarriagePage vm={vm} />}
           {vm.is.risk && <RiskPage vm={vm} />}

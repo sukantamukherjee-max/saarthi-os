@@ -25,7 +25,7 @@ export default function PortfolioHistoryChart() {
     <div className="card" style={sx('padding:20px 22px;gap:14px;margin-top:22px')}>
       <div style={sx('display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px')}>
         <h4 style={sx('margin:0;font-size:18px;font-weight:600')}>Value over time</h4>
-        <span style={sx('font-size:11px;opacity:.55')}>Invested vs current, per asset class · recorded each time you merge an upload</span>
+        <span style={sx('font-size:11px;opacity:.55')}>Invested vs current, per asset class · recorded on every upload, edit or live price refresh</span>
       </div>
       {loading && <div style={sx('font-size:12.5px;opacity:.6')}>Loading history…</div>}
       {!loading && !hasAnyHistory && (

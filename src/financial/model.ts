@@ -37,7 +37,7 @@ export class Model {
       fxOMRINR: 249.17, fxOMRUSD: 0.3845, fxDrift: 3.0, // fxOMRUSD is OMR per 1 USD (matches C.USA.fx's convention)
       rIN: 10, rUS: 7.5, rCR: 12, rLQ: 4, rCA: 0.5, rGO: 5,
       vIN: 18, vUS: 16, vCR: 65, vLQ: 1, vCA: 0.2, vGO: 14,
-      daughterAge: 11, eduStartAge: 18, eduCountry: 'USA', eduTier: 'Mainstream', eduPG: false, pgGap: 1,
+      daughterAge: 11, eduStartAge: 18, eduCountry: 'USA', eduPGCountry: 'USA', eduTier: 'Mainstream', eduPG: false, pgGap: 1,
       marriageAge: 27, marriageTier: 'Moderate', marriageLoc: 'West Bengal / Tier-2', marriageInfl: 7,
       jobRisk: 1.5, taxOn: 0,
     };
@@ -65,6 +65,35 @@ export class Model {
   total() { return this.HOLD.reduce((s, x) => s + x.cur, 0); }
   invested() { return this.HOLD.reduce((s, x) => s + x.inv, 0); }
   byClass(c: AssetClass) { return this.HOLD.filter(x => x.c === c).reduce((s, x) => s + x.cur, 0); }
+  /** Fingerprint of current holdings, so memoized results below invalidate when holdings change even if assumptions don't. */
+  holdKey() { return this.HOLD.map(h => h.c + ':' + h.cur + ':' + h.inv).join('|'); }
+
+  /**
+   * Rule-based, per-holding call computed fresh from this holding's actual
+   * weight and performance — replaces whatever recommendation/note an upload
+   * happened to be saved with, so every holding reflects the current
+   * portfolio instead of a static value stamped on at insert time.
+   */
+  recommend(h: Holding, total: number): { rec: Holding['rec']; why: string } {
+    const classTotal = this.byClass(h.c);
+    const wTotal = total ? h.cur / total : 0;
+    const wClass = classTotal ? h.cur / classTotal : 0;
+    const plPct = h.inv > 0 ? (h.cur - h.inv) / h.inv : null;
+
+    if (wTotal >= 0.15) {
+      return { rec: 'REDUCE', why: this.pc(wTotal, 1) + ' of total portfolio in a single holding — above a typical 15% single-position guideline.' };
+    }
+    if (plPct !== null && plPct <= -0.15) {
+      return { rec: 'WATCH', why: 'Down ' + this.pc(-plPct, 1) + ' from cost basis — review before adding more.' };
+    }
+    if (h.c === 'Crypto' && classTotal > 0 && wTotal > 0 && wTotal < 0.01) {
+      return { rec: 'WATCH', why: 'Sub-1% of total wealth with no stated thesis on file — a candidate to trim or consolidate.' };
+    }
+    if (classTotal > 0 && wClass >= 0.6) {
+      return { rec: 'HOLD', why: 'Largest position within ' + h.c + ' at ' + this.pc(wClass) + ' of that sleeve — core holding, no action flagged.' };
+    }
+    return { rec: 'HOLD', why: 'Weight (' + this.pc(wTotal, 1) + ' of total) and performance are within normal range — no action flagged.' };
+  }
   weights() { const t = this.total(); if (!t) return this.KEYS.map(() => 0); return this.KEYS.map(k => this.byClass(k) / t); }
 
   muSigma(a: Assumptions) {
@@ -77,17 +106,27 @@ export class Model {
     return { mu, sig: Math.sqrt(va) };
   }
 
+  /**
+   * Undergraduate and postgraduate can be in different countries (e.g. UG in
+   * India, PG abroad) — eduCountry drives UG, eduPGCountry drives PG and
+   * falls back to eduCountry when unset, so existing plans with a single
+   * country (or eduPG off) are unaffected.
+   */
   eduPlan(a: Assumptions) {
     // USA's OMR conversion rate is user-editable/live-refreshable (see Assumptions),
     // unlike the other countries' rates which stay fixed reference estimates.
-    const c = a.eduCountry === 'USA' ? { ...this.C.USA, fx: a.fxOMRUSD } : this.C[a.eduCountry];
+    const cfgFor = (country: string) => country === 'USA' ? { ...this.C.USA, fx: a.fxOMRUSD } : this.C[country];
+    const ugCountry = a.eduCountry;
+    const pgCountry = a.eduPGCountry || a.eduCountry;
+    const cUG = cfgFor(ugCountry);
+    const cPG = cfgFor(pgCountry);
     const flows: Record<number, number> = {};
     const lines: any[] = [];
     const startIn = a.eduStartAge - a.daughterAge;
     const list: { k: number; kind: string; c: CountryConfig }[] = [];
-    for (let k = 0; k < c.ug; k++) list.push({ k, kind: 'Undergraduate', c });
-    if (a.eduPG) { const pc = this.C[a.eduCountry]; for (let k = 0; k < pc.pg; k++) list.push({ k: c.ug + a.pgGap + k, kind: 'Postgraduate', c: pc }); }
-    let tOMR = 0, tLocal = 0;
+    for (let k = 0; k < cUG.ug; k++) list.push({ k, kind: 'Undergraduate', c: cUG });
+    if (a.eduPG) { for (let k = 0; k < cPG.pg; k++) list.push({ k: cUG.ug + a.pgGap + k, kind: 'Postgraduate', c: cPG }); }
+    let tOMR = 0, tLocalUG = 0, tLocalPG = 0;
     list.forEach(y => {
       const yr = startIn + y.k;
       const ann = y.c.tiers[a.eduTier] * (y.kind === 'Postgraduate' ? 1.05 : 1);
@@ -95,11 +134,17 @@ export class Model {
       const omr = infl * y.c.fx;
       const age = a.currentAge + yr;
       flows[age] = (flows[age] || 0) + omr;
-      tOMR += omr; tLocal += infl;
+      tOMR += omr;
+      if (y.kind === 'Postgraduate') tLocalPG += infl; else tLocalUG += infl;
       lines.push({ age, dAge: a.daughterAge + yr, yr, kind: y.kind, ccy: y.c.ccy, local: infl, omr });
     });
     const ages = Object.keys(flows).map(Number);
-    return { flows, lines, tOMR, tLocal, c, startIn, lastAge: ages.length ? Math.max(...ages) : null };
+    const sameCurrency = cUG.ccy === cPG.ccy;
+    return {
+      flows, lines, tOMR, tLocal: sameCurrency ? tLocalUG + tLocalPG : null,
+      tLocalUG, tLocalPG, c: cUG, cPG, ugCountry, pgCountry, mixedCountries: ugCountry !== pgCountry,
+      startIn, lastAge: ages.length ? Math.max(...ages) : null,
+    };
   }
   marPlan(a: Assumptions) {
     const yr = a.marriageAge - a.daughterAge;
@@ -109,18 +154,129 @@ export class Model {
     return { yr, today, then, age, flow: { age, omr: then / this.fxAt(a, yr) } };
   }
   fxAt(a: Assumptions, yr: number) { return a.fxOMRINR * Math.pow(1 + (a.fxDrift || 0) / 100, yr); }
-  retSpend(a: Assumptions, yr: number, age: number, inflAdj?: number) {
+  /** Breaks retSpend's total into its three day-to-day components, for display. */
+  retSpendBreakdown(a: Assumptions, yr: number, age: number, inflAdj?: number) {
     const mult = { Conservative: .85, Base: 1, Comfortable: 1.25 }[a.spendMode];
     const inf = Math.max(0.5, a.inflIndia + (inflAdj || 0)) / 100;
     const inr = a.indiaSpend * 12 * mult * Math.pow(1 + inf, yr);
     const fx = this.fxAt(a, yr);
+    const living = inr / fx;
     let travel: number;
     if (a.travelMode === 'Fixed') travel = a.travelBudget * 12 * Math.pow(1 + a.inflOman / 100, yr);
     else if (a.travelMode === 'Percent') travel = (inr / fx) * (a.travelPct / 100);
     else travel = (a.travelBudget * 12 + 2000) * Math.pow(1 + a.inflOman / 100, yr);
     const esc = 1 + Math.max(0, age - 60) * 0.025;
-    const health = a.healthBase * Math.pow(1 + a.medInflation / 100, yr) * esc * (a.insurance ? 0.6 : 1);
-    return inr / fx + travel + health / fx;
+    const health = (a.healthBase * Math.pow(1 + a.medInflation / 100, yr) * esc * (a.insurance ? 0.6 : 1)) / fx;
+    return { living, travel, health, total: living + travel + health };
+  }
+  retSpend(a: Assumptions, yr: number, age: number, inflAdj?: number) {
+    return this.retSpendBreakdown(a, yr, age, inflAdj).total;
+  }
+
+  /**
+   * Full-lifetime, per-asset-class path from today (currentAge) to planAge.
+   * Each asset class compounds at its own assumed return (not the blended
+   * mu), so the split shown is real — not a single number divided by
+   * today's weights. Contributions (a.contribution) apply ONLY while
+   * age < retireAge and stop completely at retirement — there is no flow
+   * item for "annual contribution" after that age. New contributions flow into
+   * the growth sleeve (Indian Equity/US Equity/Crypto) only, in proportion
+   * to their weights, so Liquid Fund/Cash/Gold never appear inflated by
+   * absorbing a share of new savings. Withdrawals (retirement spending,
+   * education, marriage) still draw proportionally across the whole
+   * portfolio — the
+   * same constant-mix assumption the rest of the model already makes via
+   * muSigma(). OMR is converted to INR (using the same drifting rate as
+   * fxAt) from returnAge onward, since that's when spending actually
+   * switches to INR per the Retirement page's own "before/after return"
+   * framing.
+   */
+  lifetimeTimeline(a: Assumptions) {
+    const GROWTH_KEYS: AssetClass[] = ['Indian Equity', 'US Equity', 'Crypto'];
+    const FD_RATE = a.rLQ / 100; // same assumption as Liquid Fund — an Indian FD-style rate
+    const edu = this.eduPlan(a);
+    const mar = this.marPlan(a);
+    const R = a.retireAge;
+    const rates = [a.rIN, a.rUS, a.rCR, a.rLQ, a.rCA, a.rGO].map(x => x / 100);
+    const byClass: Record<string, number> = {};
+    this.KEYS.forEach(k => { byClass[k] = this.byClass(k); });
+    let fdFromSale = 0; // proceeds of the return-to-India US Equity/Crypto liquidation — tracked separately from Liquid Fund
+    let permanentlyDepleted = false;
+
+    const rows: any[] = [];
+    for (let age = a.currentAge; age <= a.planAge; age++) {
+      const yr = age - a.currentAge;
+
+      // One-time liquidation on return to India: US Equity and Crypto are sold
+      // and the proceeds parked in a separate Indian FD-style bucket (same
+      // 4%-class assumption as Liquid Fund, but tracked on its own line) rather
+      // than remaining exposed to US stocks/crypto and future remittance tax.
+      // No capital-gains tax or remittance cost is modelled on the sale itself
+      // — none was specified.
+      let liquidated = 0;
+      if (!permanentlyDepleted && age === a.returnAge) {
+        liquidated = byClass['US Equity'] + byClass['Crypto'];
+        fdFromSale += liquidated;
+        byClass['US Equity'] = 0;
+        byClass['Crypto'] = 0;
+      }
+
+      let flow = 0, living = 0, travel = 0, health = 0, eduOut = 0, marOut = 0, contrib = 0;
+      if (age < R) {
+        contrib = a.contribution * 12 * Math.pow(1 + a.salaryGrowth / 100, yr);
+        flow += contrib;
+      } else {
+        const b = this.retSpendBreakdown(a, yr, age, 0);
+        living = b.living; travel = b.travel; health = b.health;
+        flow -= b.total;
+      }
+      if (edu.flows[age]) { eduOut = edu.flows[age]; flow -= eduOut; }
+      if (mar.flow.age === age) { marOut = mar.flow.omr; flow -= marOut; }
+
+      const startByClass = { ...byClass };
+      const startFd = fdFromSale;
+      const startTotal = this.KEYS.reduce((s, k) => s + byClass[k], 0) + fdFromSale;
+
+      if (permanentlyDepleted) {
+        this.KEYS.forEach(k => { byClass[k] = 0; });
+        fdFromSale = 0;
+      } else {
+        this.KEYS.forEach((k, i) => { byClass[k] = byClass[k] * (1 + rates[i]); });
+        fdFromSale = fdFromSale * (1 + FD_RATE);
+        // New contributions flow into growth investments (equity/crypto) only —
+        // otherwise Liquid Fund/Cash/Gold/the FD sleeve would appear to grow
+        // faster than their own assumed rate just from absorbing new savings.
+        // Withdrawals (flow <= 0, i.e. retirement spending) draw proportionally
+        // across the WHOLE portfolio including the FD sleeve, since that's what
+        // funds retirement spending.
+        const allocKeys = flow > 0 ? GROWTH_KEYS : this.KEYS;
+        let allocPool = allocKeys.reduce((s, k) => s + byClass[k], 0);
+        if (flow <= 0) allocPool += fdFromSale;
+        if (allocPool > 0) {
+          allocKeys.forEach(k => { byClass[k] += flow * (byClass[k] / allocPool); });
+          if (flow <= 0) fdFromSale += flow * (fdFromSale / allocPool);
+        } else if (flow > 0) {
+          byClass['Liquid Fund'] += flow; // no growth-sleeve weight to allocate against yet — park new money in cash-like sleeve
+        }
+        const endTotalRaw = this.KEYS.reduce((s, k) => s + byClass[k], 0) + fdFromSale;
+        if (endTotalRaw <= 0) { this.KEYS.forEach(k => { byClass[k] = 0; }); fdFromSale = 0; permanentlyDepleted = true; }
+      }
+
+      const endTotal = this.KEYS.reduce((s, k) => s + byClass[k], 0) + fdFromSale;
+      const growth = endTotal - startTotal - flow;
+      const fx = this.fxAt(a, yr);
+      rows.push({
+        age, yearsToRetire: R - age, phase: age < R ? 'Working' : 'Retired',
+        contrib, living, travel, health, eduOut, marOut, liquidated,
+        inflow: contrib, outflow: living + travel + health + eduOut + marOut,
+        startTotal, endTotal, growth,
+        byClassStart: startByClass, byClassEnd: { ...byClass },
+        fdStart: startFd, fdEnd: fdFromSale,
+        depleted: endTotal <= 0,
+        inINR: age >= a.returnAge, fxRate: fx,
+      });
+    }
+    return rows;
   }
 
   simPath(a: Assumptions, o: any) {
@@ -146,7 +302,7 @@ export class Model {
       if (o.rnd) { r = (age < R ? ms.mu : ms.mu - 0.012) + ms.sig * this.gauss(o.rnd); if (r < -0.9) r = -0.9; }
       else r = age < R ? ms.mu : ms.mu - 0.012;
       if (o.shockAge === age) r = o.shockMag;
-      corpus = (corpus + flow) * (1 + r);
+      corpus = corpus * (1 + r) + flow;
       if (corpus < 0) { corpus = 0; if (dep === null) dep = age; }
       if (s) s[i] = corpus;
       if (age === R) atR = corpus;
@@ -193,7 +349,7 @@ export class Model {
 
   /* ---------- derive ---------- */
   core(a: Assumptions, mc10k: any, mc10kKey: string | null) {
-    const k = JSON.stringify(a);
+    const k = JSON.stringify(a) + '|H:' + this.holdKey();
     if (this._memo.has(k)) return this._memo.get(k);
     const ms = this.muSigma(a), edu = this.eduPlan(a), mar = this.marPlan(a);
     const det = this.simPath(a, { ms, edu: edu.flows, mar: mar.flow, series: true });
@@ -231,7 +387,11 @@ export class Model {
   }
   risk(a: Assumptions, ms: { mu: number; sig: number }) {
     const w = this.weights(), t = this.total();
-    const maxHold = t ? Math.max(...this.HOLD.map(x => x.cur)) / t : 0;
+    // Concentration risk is about a single volatile bet dominating the plan —
+    // a large Liquid Fund or Cash position is capital-stable, not a
+    // concentration hazard the way a single large equity/crypto holding is.
+    const volatileHold = this.HOLD.filter(x => x.c !== 'Liquid Fund' && x.c !== 'Cash');
+    const maxHold = t && volatileHold.length ? Math.max(...volatileHold.map(x => x.cur)) / t : 0;
     const inr = t ? (this.byClass('Indian Equity') + this.byClass('Gold')) / t : 0;
     const liq = t ? (this.byClass('Cash') + this.byClass('Liquid Fund')) / t : 0;
     const emg = this.emergency(a);
@@ -265,7 +425,7 @@ export class Model {
     return { score, parts };
   }
   stress(a: Assumptions) {
-    const k = 'S' + JSON.stringify(a);
+    const k = 'S' + JSON.stringify(a) + '|H:' + this.holdKey();
     if (this._memo2.has(k)) return this._memo2.get(k);
     const t = this.total();
     const eq = (this.byClass('Indian Equity') + this.byClass('US Equity'));

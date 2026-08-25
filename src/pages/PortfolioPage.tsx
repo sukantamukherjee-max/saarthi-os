@@ -1,12 +1,52 @@
+import { useMemo, useState } from 'react';
 import { sx } from '../components/sx';
 import PortfolioHistoryChart from '../components/PortfolioHistoryChart';
+import HoldingRow from '../components/HoldingRow';
+import { useAuth } from '../hooks/useAuth';
+import { usePriceRefresh } from '../hooks/usePriceRefresh';
+import { useBenchmarks } from '../hooks/useBenchmarks';
 
 export default function PortfolioPage({ vm }: { vm: any }) {
   const pf = vm.pf;
+  const [tab, setTab] = useState('All');
+  const classes = useMemo(() => ['All', ...Array.from(new Set(pf.rows.map((r: any) => r.c)))] as string[], [pf.rows]);
+  const visibleRows = tab === 'All' ? pf.rows : pf.rows.filter((r: any) => r.c === tab);
+  const lowConfCount = pf.rows.filter((r: any) => r.conf === 'Low').length;
+
+  const { user } = useAuth();
+  const { refreshing, result, refreshAll } = usePriceRefresh(user?.id ?? null);
+  const { quotes: benchQuotes } = useBenchmarks();
+
+  async function handleRefresh() {
+    const holdings = pf.rows.map((r: any) => ({ id: r.id, n: r.n, c: r.c, q: r.q, ticker: r.ticker, isDemo: r.isDemo }));
+    const outcome = await refreshAll(holdings);
+    // Only reload (which discards the result banner) when something actually
+    // changed — otherwise the user needs to see the skip reasons in place.
+    if (outcome && outcome.updated > 0) window.location.reload();
+  }
+
   return (
     <div style={sx('animation:pwFade .35s ease both')}>
-      <h1 style={sx('font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0 0 4px')}>Portfolio</h1>
-      <p style={sx("font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)")}>{pf.rows.length} holdings · valued 24 Aug 2026 from a manual snapshot · 2 holdings require verification</p>
+      <div style={sx('display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:4px')}>
+        <h1 style={sx('font-size:34px;font-weight:400;letter-spacing:-.02em;margin:0')}>Portfolio</h1>
+        <button className="btn btn-secondary" style={sx('font-size:12.5px;padding:8px 16px;min-height:0')} disabled={refreshing} onClick={handleRefresh}>
+          {refreshing ? 'Refreshing…' : '↻ Refresh live prices'}
+        </button>
+      </div>
+      <p style={sx("font-size:13px;font-style:italic;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 8px;padding-bottom:14px;border-bottom:1px solid var(--color-divider)")}>{pf.rows.length} holdings · valued 24 Aug 2026 from a manual snapshot{lowConfCount > 0 ? ` · ${lowConfCount} holding${lowConfCount > 1 ? 's' : ''} require verification` : ''}</p>
+      {result && (
+        <div style={sx('font-size:12px;padding:10px 14px;border:1px dashed var(--color-divider);border-radius:var(--radius-md);margin-bottom:20px')}>
+          <div style={sx(`opacity:.75;margin-bottom:${result.skipped.length ? 4 : 0}px`)}>Updated {result.updated} holding(s) with a live price{result.updated > 0 ? ' — reloading…' : '.'}</div>
+          {result.skipped.length > 0 && (
+            <details>
+              <summary style={sx('cursor:pointer;opacity:.6')}>{result.skipped.length} holding(s) couldn't be refreshed — why</summary>
+              <ul style={sx('margin:6px 0 0;padding-left:18px;opacity:.65')}>
+                {result.skipped.map((s, i) => (<li key={i}>{s.name}: {s.reason}</li>))}
+              </ul>
+            </details>
+          )}
+        </div>
+      )}
 
       <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-bottom:28px')}>
         <div className="card" style={sx('padding:22px;align-items:center;gap:16px')}>
@@ -57,23 +97,24 @@ export default function PortfolioPage({ vm }: { vm: any }) {
       )}
 
       <h4 style={sx('font-size:18px;font-weight:600;margin:0 0 10px')}>Holdings</h4>
+      <div style={sx('display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px')}>
+        {classes.map((c) => (
+          <button
+            key={c}
+            onClick={() => setTab(c)}
+            className={tab === c ? 'btn btn-primary' : 'btn btn-secondary'}
+            style={sx('font-size:12px;padding:6px 14px;min-height:0')}
+          >
+            {c}{c !== 'All' && ' (' + pf.rows.filter((r: any) => r.c === c).length + ')'}
+          </button>
+        ))}
+      </div>
       <div className="card" style={sx('padding:4px 16px;overflow-x:auto;margin-bottom:28px')}>
         <table className="table">
-          <thead><tr><th>Asset</th><th>Quantity</th><th style={sx('text-align:right')}>Current</th><th style={sx('text-align:right')}>P/L</th><th style={sx('text-align:right')}>Alloc.</th><th>Risk</th><th>Recommendation</th></tr></thead>
+          <thead><tr><th>Asset</th><th>Quantity</th><th style={sx('text-align:right')}>Current</th><th style={sx('text-align:right')}>P/L</th><th></th></tr></thead>
           <tbody>
-            {pf.rows.map((r: any, i: number) => (
-              <tr key={i}>
-                <td><div style={sx('font-size:13.5px')}>{r.n}</div><div style={sx('font-size:10.5px;opacity:.5')}>{r.c} · {r.fresh}</div></td>
-                <td style={sx('font-size:12.5px;font-variant-numeric:tabular-nums')}>{r.q}</td>
-                <td style={sx('text-align:right;font-variant-numeric:tabular-nums;font-size:13px')}>{r.cur}</td>
-                <td style={sx('text-align:right;font-variant-numeric:tabular-nums;font-size:13px;' + r.plCss)}>{r.pl}</td>
-                <td style={sx('text-align:right;font-variant-numeric:tabular-nums;font-size:13px')}>{r.w}</td>
-                <td style={sx('font-size:12px;opacity:.7')}>{r.risk}</td>
-                <td>
-                  <div style={sx('display:flex;align-items:center;gap:7px;flex-wrap:wrap')}><span style={sx(r.recStyle)}>{r.rec}</span><span style={sx('font-size:10.5px;opacity:.55')}>{r.conf} confidence</span></div>
-                  <div style={sx('font-size:11px;opacity:.6;max-width:34ch;margin-top:3px')}>{r.why}</div>
-                </td>
-              </tr>
+            {visibleRows.map((r: any, i: number) => (
+              <HoldingRow key={r.id || i} r={r} />
             ))}
           </tbody>
         </table>
@@ -91,13 +132,20 @@ export default function PortfolioPage({ vm }: { vm: any }) {
         </div>
         <div className="card" style={sx('padding:20px 22px;gap:10px')}>
           <h4 style={sx('margin:0;font-size:18px;font-weight:600')}>Benchmarks</h4>
-          {pf.bench.map((b: any, i: number) => (
-            <div key={i} style={sx('display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)')}>
-              <div style={sx('font-size:13px')}>{b.name}</div>
-              <div style={sx('font-size:12px;opacity:.6;font-style:italic')}>{b.value}</div>
-            </div>
-          ))}
-          <p style={sx('font-size:11.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:6px 0 0')}>Benchmark and price series are not fabricated. Connect a market-data source or enter closing levels manually to activate relative performance and the custom allocation benchmark.</p>
+          {pf.bench.map((b: any, i: number) => {
+            const live = benchQuotes[b.name];
+            return (
+              <div key={i} style={sx('display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--color-divider)')}>
+                <div style={sx('font-size:13px')}>{b.name}</div>
+                {live ? (
+                  <div style={sx('font-size:13px;font-variant-numeric:tabular-nums')}>${live.price.toFixed(2)} <span style={sx('font-size:10.5px;opacity:.5')}>{b.name === 'S&P 500' ? 'SPY proxy' : 'QQQ proxy'}</span></div>
+                ) : (
+                  <div style={sx('font-size:12px;opacity:.6;font-style:italic')}>{b.value}</div>
+                )}
+              </div>
+            );
+          })}
+          <p style={sx('font-size:11.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:6px 0 0')}>S&amp;P 500 / Nasdaq 100 shown via SPY/QQQ ETF proxy prices. Nifty benchmarks and the custom allocation benchmark have no free live source wired in yet — nothing here is fabricated.</p>
         </div>
       </div>
 

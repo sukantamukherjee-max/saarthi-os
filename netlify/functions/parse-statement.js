@@ -21,10 +21,12 @@ export async function handler(event) {
 
   const prompt = `You are extracting holdings from a financial statement or portfolio screenshot named "${filename || 'upload'}".
 Return ONLY JSON, no prose, matching this exact shape:
-{"holdings":[{"name":string,"assetClass":"Indian Equity"|"US Equity"|"Crypto"|"Liquid Fund"|"Cash"|"Gold"|"Other","quantityLabel":string,"currentValueOMR":number|null,"currency":string,"confidence":"High"|"Medium"|"Low","note":string}],"needsReview":[{"field":string,"why":string}]}
+{"holdings":[{"name":string,"assetClass":"Indian Equity"|"US Equity"|"Crypto"|"Liquid Fund"|"Cash"|"Gold"|"Other","quantityLabel":string,"currentValueOMR":number|null,"investedValueOMR":number|null,"currency":string,"confidence":"High"|"Medium"|"Low","note":string,"ticker":string|null}],"needsReview":[{"field":string,"why":string}]}
 Rules:
 - Never invent a number you cannot actually read in the document. If a value is unclear or ambiguous, set it to null and explain why in "needsReview".
 - currentValueOMR should be your best-effort conversion to Omani Rial if the source currency is stated in the document; otherwise null.
+- investedValueOMR is the cost basis (amount originally invested / buy value), converted to Omani Rial the same way, ONLY if the document actually states a cost basis figure; otherwise null. Never estimate it from the current value.
+- ticker is the stock/ETF/crypto ticker symbol ONLY if the document states one explicitly; otherwise null. Never guess a ticker from the company name.
 - If the document has no readable holdings at all, return {"holdings":[],"needsReview":[{"field":"document","why":"<reason>"}]}.`;
 
   try {

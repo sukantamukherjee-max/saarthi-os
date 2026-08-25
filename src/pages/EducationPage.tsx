@@ -29,22 +29,42 @@ export default function EducationPage({ vm }: { vm: any }) {
             <div style={sx('font-size:11px;opacity:.5;margin-top:4px')}>PG is not assumed by default — it depends on the path chosen later.</div>
           </div>
         </div>
-        <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;border-top:1px solid var(--color-divider);padding-top:16px')}>
-          {ed.countries.map((c: any, i: number) => (
-            <div key={i} onClick={c.onClick} style={sx(c.style)}>
-              <div style={sx('font-size:15px;font-family:var(--font-heading);font-weight:600')}>{c.name}</div>
-              <div style={sx('font-size:11px;opacity:.55')}>{c.years} · {c.annual}/yr today</div>
-              <div style={sx('font-size:15px;font-variant-numeric:tabular-nums;margin-top:6px')}>{c.total}</div>
-              <div style={sx('font-size:11px;opacity:.5;font-variant-numeric:tabular-nums')}>{c.totalINR}</div>
-            </div>
-          ))}
+        <div style={sx('border-top:1px solid var(--color-divider);padding-top:16px')}>
+          <div style={sx('font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;margin-bottom:10px')}>Undergraduate country</div>
+          <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px')}>
+            {ed.countries.map((c: any, i: number) => (
+              <div key={i} onClick={c.onClick} style={sx(c.style)}>
+                <div style={sx('font-size:15px;font-family:var(--font-heading);font-weight:600')}>{c.name}</div>
+                <div style={sx('font-size:11px;opacity:.55')}>{c.years} · {c.annual}/yr today</div>
+                <div style={sx('font-size:15px;font-variant-numeric:tabular-nums;margin-top:6px')}>{c.total}</div>
+                <div style={sx('font-size:11px;opacity:.5;font-variant-numeric:tabular-nums')}>{c.totalINR}</div>
+              </div>
+            ))}
+          </div>
         </div>
+
+        {ed.pg && (
+          <div style={sx('border-top:1px solid var(--color-divider);padding-top:16px')}>
+            <div style={sx('font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.55;margin-bottom:2px')}>Postgraduate country</div>
+            <div style={sx('font-size:11px;opacity:.5;margin-bottom:10px')}>Can be different from undergraduate — e.g. India for UG, abroad for PG.</div>
+            <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px')}>
+              {ed.pgCountries.map((c: any, i: number) => (
+                <div key={i} onClick={c.onClick} style={sx(c.style)}>
+                  <div style={sx('font-size:15px;font-family:var(--font-heading);font-weight:600')}>{c.name}</div>
+                  <div style={sx('font-size:11px;opacity:.55')}>{c.years} · {c.annual}/yr today</div>
+                  <div style={sx('font-size:15px;font-variant-numeric:tabular-nums;margin-top:6px')}>{c.total}</div>
+                  <div style={sx('font-size:11px;opacity:.5;font-variant-numeric:tabular-nums')}>{c.totalINR}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:22px;margin-bottom:22px')}>
         <div className="card" style={sx('padding:20px 22px;gap:8px')}>
-          <h4 style={sx('margin:0;font-size:18px;font-weight:600')}>Annual cost breakdown</h4>
-          <div style={sx('font-size:12px;opacity:.6')}>{ed.country} · {ed.tier} · today's money, {ed.ccy}</div>
+          <h4 style={sx('margin:0;font-size:18px;font-weight:600')}>Annual cost breakdown{ed.mixedCountries ? ' (Undergraduate)' : ''}</h4>
+          <div style={sx('font-size:12px;opacity:.6')}>{ed.country} · {ed.tier} · today's money, {ed.ccy}{ed.mixedCountries ? ' · PG in ' + ed.pgCountry + ' (' + ed.pgCcy + ') shown in Year by year below' : ''}</div>
           <div style={sx('overflow-x:auto')}>
             <table className="table" style={sx('font-size:13px')}>
               <thead><tr><th>Component</th><th style={sx('text-align:right')}>{ed.ccy}</th><th style={sx('text-align:right')}>OMR</th><th style={sx('text-align:right')}>INR</th></tr></thead>

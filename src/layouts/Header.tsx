@@ -1,9 +1,21 @@
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 import SaarthiMark from '../components/SaarthiMark';
-import NavMenu from './NavMenu';
 import { useAuth } from '../hooks/useAuth';
 import { supabaseConfigured } from '../lib/supabaseClient';
+
+const NAV_ITEMS = [
+  { key: 'overview', label: 'Overview', path: '<circle cx="12" cy="12" r="9"></circle><path d="m15.5 8.5-2 5-5 2 2-5z"></path>' },
+  { key: 'portfolio', label: 'Portfolio', path: '<path d="M21.2 15.9A9 9 0 1 1 8.1 2.8"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path>' },
+  { key: 'retirement', label: 'Retirement', path: '<path d="M6 2h12M6 22h12M17 22v-4.2L12 13l-5 4.8V22M7 2v4.2l5 4.8 5-4.8V2"></path>' },
+  { key: 'timeline', label: 'Timeline', path: '<path d="M3 3v18h18"></path><path d="M7 15l4-6 3 3 5-8"></path>' },
+  { key: 'education', label: 'Education', path: '<path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5"></path>' },
+  { key: 'marriage', label: 'Marriage', path: '<path d="M12 21s-7-4.5-7-9.5A3.8 3.8 0 0 1 12 8a3.8 3.8 0 0 1 7 3.5C19 16.5 12 21 12 21z"></path>' },
+  { key: 'risk', label: 'Risk', path: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8.5v4M12 16h.01"></path>' },
+  { key: 'recommendations', label: 'Advice', path: '<path d="M10 6h11M10 12h11M10 18h11"></path><path d="m3 6 1.5 1.5L7 5M3 12l1.5 1.5L7 11M3 18l1.5 1.5L7 17"></path>' },
+  { key: 'assumptions', label: 'Assumptions', path: '<path d="M4 6h16M4 12h16M4 18h16"></path><circle cx="9" cy="6" r="2"></circle><circle cx="15" cy="12" r="2"></circle><circle cx="8" cy="18" r="2"></circle>' },
+  { key: 'upload', label: 'Upload', path: '<path d="M12 16V4M8 8l4-4 4 4"></path><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path>' },
+];
 
 export default function Header({ vm }: { vm: any }) {
   const { user, signOut } = useAuth();
@@ -72,23 +84,18 @@ export default function Header({ vm }: { vm: any }) {
           </div>
         </div>
         <div style={sx('height:2px;background:var(--pw-head-line)')}></div>
-        <div style={sx('display:flex;align-items:center;justify-content:space-between;gap:16px;padding:6px 0;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--pw-head-dim);flex-wrap:wrap')}>
-          <div style={sx('position:relative')}>
-            <Hoverable
-              onClick={vm.h.toggleNav}
-              aria-label="Open navigation"
-              style="display:flex;align-items:center;gap:6px;padding:5px 12px 5px 8px;margin:2px 0;border:0;border-radius:999px;background:transparent;cursor:pointer;color:var(--pw-o);font-family:var(--font-body);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase"
-              hoverStyle="background:color-mix(in srgb,var(--pw-o) 16%,transparent)"
+        <div style={sx('display:flex;align-items:center;gap:22px;padding:8px 0;overflow-x:auto;color:var(--pw-o)')}>
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.key}
+              onClick={vm.h.go[item.key]}
+              title={item.label}
+              style={sx('display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;padding:2px 0;cursor:pointer;color:var(--pw-o);font-size:10px;letter-spacing:.04em;text-transform:uppercase;white-space:nowrap;flex-shrink:0')}
             >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
-              {vm.navLabel}
-            </Hoverable>
-            <div style={sx('position:absolute;top:calc(100% + 8px);left:0;z-index:70')}>
-              <NavMenu vm={vm} />
-            </div>
-          </div>
-          <span>Decision support · not advice</span>
-          <span style={sx('font-variant-numeric:tabular-nums')}>Fact · Assumption · Estimate · Scenario</span>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" dangerouslySetInnerHTML={{ __html: item.path }}></svg>
+              {item.label}
+            </button>
+          ))}
         </div>
       </div>
     </div>

@@ -1,9 +1,12 @@
+import { Fragment } from 'react';
 import { sx } from '../components/sx';
 
 export default function WhatIfDrawer({ vm }: { vm: any }) {
   if (!vm.whatIf) return null;
   return (
-    <div style={sx('position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);z-index:70;background:var(--color-bg);border-left:1px solid var(--color-divider);box-shadow:var(--shadow-lg);overflow-y:auto;animation:pwSlide .3s cubic-bezier(.2,.85,.3,1) both')}>
+    <Fragment>
+      <div style={sx('position:fixed;inset:0;z-index:69;background:transparent')} onClick={vm.h.closeWhatIf}></div>
+      <div style={sx('position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);z-index:70;background:var(--color-bg);border-left:1px solid var(--color-divider);box-shadow:var(--shadow-lg);overflow-y:auto;animation:pwSlide .3s cubic-bezier(.2,.85,.3,1) both')}>
       <div style={sx('padding:22px 24px 120px;display:flex;flex-direction:column;gap:18px')}>
         <div style={sx('display:flex;align-items:baseline;justify-content:space-between')}>
           <h3 style={sx('margin:0;font-size:24px;font-weight:400')}>What if?</h3>
@@ -28,5 +31,6 @@ export default function WhatIfDrawer({ vm }: { vm: any }) {
         <p style={sx('font-size:11px;opacity:.5;margin:0')}>Scenario outputs are hypothetical. They do not change your holdings and are never presented as forecasts.</p>
       </div>
     </div>
+    </Fragment>
   );
 }
