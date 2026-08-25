@@ -1,14 +1,24 @@
+import { useState } from 'react';
 import { sx } from '../components/sx';
 import Hoverable from '../components/Hoverable';
 import { useAuth } from '../hooks/useAuth';
-import { useUploads } from '../hooks/useUploads';
+import { useUploads, type MergeDiff, type UploadRow } from '../hooks/useUploads';
 
 export default function UploadPage({ vm }: { vm: any }) {
   const up = vm.up;
   const { user } = useAuth();
-  const { enabled, rows, busy, processFiles, mergeUpload } = useUploads(user?.id ?? null);
+  const { enabled, rows, busy, processFiles, previewMerge, commitMerge } = useUploads(user?.id ?? null);
+  const [preview, setPreview] = useState<{ row: UploadRow; diff: MergeDiff } | null>(null);
+  const [previewing, setPreviewing] = useState<string | null>(null);
 
   const pending = rows.filter((r) => r.status !== 'merged');
+
+  async function startPreview(row: UploadRow) {
+    setPreviewing(row.id);
+    const diff = await previewMerge(row);
+    setPreviewing(null);
+    setPreview({ row, diff });
+  }
 
   return (
     <div style={sx('animation:pwFade .35s ease both')}>
@@ -44,6 +54,43 @@ export default function UploadPage({ vm }: { vm: any }) {
       {busy && (
         <div style={sx('font-size:12.5px;color:var(--color-accent);margin:-14px 0 20px')}>Processing "{busy}"…</div>
       )}
+
+      {preview && (
+        <div className="card elev-md" style={sx('padding:20px 22px;margin-bottom:22px;gap:12px;border:1px solid var(--color-accent)')}>
+          <h4 style={sx('margin:0;font-size:17px;font-weight:600')}>Review before merging "{preview.row.filename}"</h4>
+          {preview.diff.toInsert.length > 0 && (
+            <div>
+              <div style={sx('font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--pw-pos);margin-bottom:4px')}>New — {preview.diff.toInsert.length}</div>
+              {preview.diff.toInsert.map((h, i) => (<div key={i} style={sx('font-size:13px;padding:3px 0')}>{h.name} <span style={sx('opacity:.5')}>({h.assetClass})</span></div>))}
+            </div>
+          )}
+          {preview.diff.toUpdate.length > 0 && (
+            <div>
+              <div style={sx('font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--color-accent);margin-bottom:4px')}>Updated — {preview.diff.toUpdate.length}</div>
+              {preview.diff.toUpdate.map((u, i) => (
+                <div key={i} style={sx('font-size:13px;padding:3px 0;display:flex;justify-content:space-between;gap:10px')}>
+                  <span>{u.incoming.name}</span>
+                  <span style={sx('font-variant-numeric:tabular-nums;opacity:.7')}>OMR {Math.round(u.existing.current_value_omr).toLocaleString()} → {Math.round(u.incoming.currentValueOMR ?? 0).toLocaleString()}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {preview.diff.toDelete.length > 0 && (
+            <div>
+              <div style={sx('font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--pw-neg);margin-bottom:4px')}>Not in this file — treated as sold, will be removed ({preview.diff.toDelete.length})</div>
+              {preview.diff.toDelete.map((h, i) => (<div key={i} style={sx('font-size:13px;padding:3px 0')}>{h.name} <span style={sx('opacity:.5')}>({h.asset_class})</span></div>))}
+            </div>
+          )}
+          {!preview.diff.toInsert.length && !preview.diff.toUpdate.length && !preview.diff.toDelete.length && (
+            <div style={sx('font-size:13px;opacity:.6')}>No changes detected.</div>
+          )}
+          <div style={sx('display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid var(--color-divider);padding-top:12px')}>
+            <button className="btn btn-primary" onClick={() => { commitMerge(preview.row, preview.diff); setPreview(null); }}>Confirm merge</button>
+            <button className="btn btn-secondary" onClick={() => setPreview(null)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
       <div style={sx('display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px')}>
         <div className="card" style={sx('padding:20px 22px;gap:8px')}>
           <h4 style={sx('margin:0;font-size:18px;font-weight:600')}>Ingestion pipeline</h4>
@@ -70,8 +117,8 @@ export default function UploadPage({ vm }: { vm: any }) {
                 <div key={i} style={sx('font-size:11.5px;opacity:.6')}>⚠ {n.field}: {n.why}</div>
               ))}
               {row.parsed_json.holdings.length > 0 && (
-                <button className="btn btn-primary btn-block" onClick={() => mergeUpload(row)}>
-                  Merge {row.parsed_json.holdings.length} holding(s) into portfolio
+                <button className="btn btn-primary btn-block" disabled={previewing === row.id} onClick={() => startPreview(row)}>
+                  {previewing === row.id ? 'Comparing to your current portfolio…' : `Review ${row.parsed_json.holdings.length} holding(s) to merge`}
                 </button>
               )}
             </div>

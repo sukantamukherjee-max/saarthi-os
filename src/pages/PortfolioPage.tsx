@@ -1,4 +1,5 @@
 import { sx } from '../components/sx';
+import PortfolioHistoryChart from '../components/PortfolioHistoryChart';
 
 export default function PortfolioPage({ vm }: { vm: any }) {
   const pf = vm.pf;
@@ -99,6 +100,8 @@ export default function PortfolioPage({ vm }: { vm: any }) {
           <p style={sx('font-size:11.5px;color:color-mix(in srgb,var(--color-text) 55%,transparent);margin:6px 0 0')}>Benchmark and price series are not fabricated. Connect a market-data source or enter closing levels manually to activate relative performance and the custom allocation benchmark.</p>
         </div>
       </div>
+
+      <PortfolioHistoryChart />
     </div>
   );
 }

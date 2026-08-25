@@ -55,10 +55,12 @@ export function useCloudPlan(userId: string | null, model: Model) {
     setLoading(true);
     (async () => {
       const { data: aRow } = await supabase.from('assumptions').select('data').eq('user_id', userId).maybeSingle();
-      let a = aRow?.data as Assumptions | undefined;
-      const isFirstEverLogin = !a;
-      if (!a) {
-        a = model.defaults();
+      const isFirstEverLogin = !aRow?.data;
+      // Merge over defaults so a field added to the model after this account's
+      // assumptions were first saved (e.g. fxOMRUSD) still has a value instead
+      // of undefined — otherwise inputs flip from uncontrolled to controlled.
+      let a: Assumptions = { ...model.defaults(), ...(aRow?.data as Partial<Assumptions> | undefined) };
+      if (isFirstEverLogin) {
         await supabase.from('assumptions').insert({ user_id: userId, data: a });
       }
 

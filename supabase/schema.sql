@@ -28,6 +28,17 @@ create table if not exists holdings (
   updated_at timestamptz not null default now()
 );
 
+-- One row per asset class, recorded each time holdings are reconciled from an
+-- upload — the basis for the "value over time" history chart.
+create table if not exists portfolio_snapshots (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  asset_class text not null,
+  invested_omr numeric not null default 0,
+  current_value_omr numeric not null default 0,
+  recorded_at timestamptz not null default now()
+);
+
 create table if not exists uploads (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -57,6 +68,7 @@ create table if not exists fx_cache (
 
 alter table assumptions enable row level security;
 alter table holdings enable row level security;
+alter table portfolio_snapshots enable row level security;
 alter table uploads enable row level security;
 alter table price_cache enable row level security;
 alter table fx_cache enable row level security;
@@ -67,6 +79,10 @@ create policy "own assumptions" on assumptions
 
 drop policy if exists "own holdings" on holdings;
 create policy "own holdings" on holdings
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+
+drop policy if exists "own snapshots" on portfolio_snapshots;
+create policy "own snapshots" on portfolio_snapshots
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 
 drop policy if exists "own uploads" on uploads;
