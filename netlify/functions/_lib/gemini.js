@@ -17,11 +17,24 @@ export async function callGemini(parts, { jsonMode = false, retries = 2 } = {}) 
 
   let lastError;
   for (let attempt = 0; attempt <= retries; attempt++) {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
+    let res;
+    try {
+      // Gemini has occasionally hung with no response at all (observed
+      // directly, outside this app) rather than failing fast — without a
+      // timeout that leaves the caller waiting indefinitely instead of
+      // falling back to the non-AI wording.
+      res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(20000),
+      });
+    } catch (e) {
+      lastError = e.name === 'TimeoutError' ? new Error('Gemini API timed out after 20s') : e;
+      if (attempt === retries) throw lastError;
+      await new Promise((r) => setTimeout(r, 400 * (attempt + 1)));
+      continue;
+    }
     if (res.ok) {
       const data = await res.json();
       const text = (data?.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('');
