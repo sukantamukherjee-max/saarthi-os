@@ -10,6 +10,18 @@
   publish = "dist"
   functions = "netlify/functions"
 
+# Serve Saarthi at /saarthi
+[[redirects]]
+  from = "/saarthi"
+  to = "/saarthi.html"
+  status = 200
+
+[[redirects]]
+  from = "/saarthi/*"
+  to = "/saarthi.html"
+  status = 200
+
+# SPA fallback for main app
 [[redirects]]
   from = "/*"
   to = "/index.html"
